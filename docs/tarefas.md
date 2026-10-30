@@ -37,8 +37,8 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 **Fase 3 · Catálogo** · branch `feat/catalogo`
 
 - [x] T-14 · Schema do produto — commit: 8b5c532
-- [x] T-15 · Cadastro dos 15 produtos — commit: —
-- [ ] T-16 · Combinações e data dos preços — commit: —
+- [x] T-15 · Cadastro dos 15 produtos — commit: e218926
+- [x] T-16 · Combinações e data dos preços — commit: —
 
 **Fase 4 · Ferramentas** · branch `feat/ferramentas`
 

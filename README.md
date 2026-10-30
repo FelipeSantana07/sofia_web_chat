@@ -51,11 +51,26 @@ Justificativa da stack (incluindo o Svelte): a preencher na T-34.
 
 ## Preços do catálogo
 
-Data em que os preços foram copiados de lojaprohall.com.br: a preencher na T-15.
+Preços copiados de lojaprohall.com.br em **29/10/2026**. Os 15 preços (cheio e promocional) foram conferidos nas páginas dos produtos nessa data. Preço vigente = promocional quando existe.
 
 ## Combinações (`combina_com`)
 
-Uma linha de justificativa por par de produtos: a preencher na T-16.
+Cada par aparece nos dois sentidos em `data/produtos.json` (14 pares). A justificativa vem da ficha dos produtos:
+
+- PH-001 + PH-002 · O tônico Force Hair cuida do couro cabeludo (queda, fios fracos) e o kit Encorpax repõe massa no comprimento de fios finos e ralos: raiz e fio no mesmo problema.
+- PH-001 + PH-012 · O shampoo Aura Radiante limpa e dá corpo a fios finos, e o tônico Force Hair entra depois, como leave-in no couro cabeludo, contra queda e quebra.
+- PH-002 + PH-012 · Os dois são para fios finos e sem corpo: o Encorpax é o cronograma em 4 etapas e o shampoo Aura Radiante serve para as lavagens do dia a dia.
+- PH-003 + PH-005 · Rotina de segundo dia sem lavar: o ativador Day After reativa a definição dos cachos entre as lavagens e o Doce Mistério renova o perfume entre as lavagens.
+- PH-004 + PH-013 · Mesma linha Secar Sem Frizz: o sérum sela as cutículas antes de secar e o óleo de blindagem é a última etapa do protocolo, contra a umidade.
+- PH-004 + PH-014 · Mesma linha Secar Sem Frizz: a máscara hidrata e alinha na lavagem e o óleo de blindagem finaliza, protegendo contra a umidade.
+- PH-013 + PH-014 · Mesma linha Secar Sem Frizz: a máscara trata os fios porosos na lavagem e o sérum sela as cutículas para secar sem frizz.
+- PH-006 + PH-008 · O fluido Pro.R reconstrói fios fragilizados e o óleo Ambar finaliza selando a cutícula e dando brilho.
+- PH-007 + PH-015 · O modo de uso do pó descolorante pede a mistura com Água Oxigenada Prohall; a OX 30 volumes é essa loção.
+- PH-007 + PH-008 · A descoloração fragiliza o fio, e o Pro.R é indicado para danos severos por química e fios elásticos.
+- PH-008 + PH-015 · Clareamento com OX também sensibiliza o fio, e o Pro.R é indicado para danos por química.
+- PH-008 + PH-010 · Depois da reconstrução com o Pro.R, o condicionador Bruma Ametista mantém o fortalecimento e a elasticidade no uso diário.
+- PH-009 + PH-010 · Mesma linha Bruma Ametista: a ficha do shampoo indica usar o condicionador da linha em seguida.
+- PH-011 + PH-012 · Mesma linha Aura Radiante: a ficha do shampoo indica usar o condicionador da linha em seguida.
 
 ## Limitações conhecidas
 
@@ -99,3 +114,4 @@ A preencher na T-34.
 - T-15 · PH-005 corrigido a partir da página: modo de uso em 3 passos, Óleo de Tâmara nos ativos e rendimento "Até 10 aplicações" — o JSON inicial trazia um texto genérico no modo de uso e `null` no rendimento.
 - T-15 · `uso` segue a classificação por produto do JSON, não o bloco "USO PROFISSIONAL" das páginas — o bloco aparece até em produto de uso em casa (perfume capilar PH-003), então é genérico.
 - T-15 · Nomes mantidos exatamente como no site, inclusive "para o dia a diah" (PH-003) e "Sequei Sem Frizz" (PH-004) — conferidos na página em 29/10/2026; a regra 4.1 pede o nome exato.
+- T-16 · Preços conferidos no site em 29/10/2026 e quatro promocionais atualizados (PH-002 R$ 197,90 → R$ 139,90; PH-004 R$ 80,90 → R$ 34,90; PH-005 R$ 42,90 → R$ 44,90; PH-013 R$ 89,90 → R$ 54,90) — a regra pede os preços do dia da cópia com a data anotada, e os do JSON inicial já não batiam com o site.
