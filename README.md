@@ -32,6 +32,7 @@ pnpm gemini:ferramentas   # spike de function calling (exige chave real)
 pnpm validate:catalogo   # valida data/produtos.json contra o schema
 pnpm chat   # conversa com a Sofia no terminal, mostrando as ferramentas; /pagar simula o pagamento (exige chave real)
 pnpm estoque:repor [n]   # soma n unidades (padrão 10) ao estoque de todos os produtos
+pnpm conversas [id...] [--vezes N]   # roda as conversas-teste contra o Gemini e grava docs/conversas-teste.md (exige chave real)
 ```
 
 A interface abre em `http://localhost:5173` (com `?debug` na URL, o painel de debug das ferramentas já abre; ele também abre pelo botão `<>` do topo); o Vite encaminha `/api` para o servidor (se mudar a `PORT`, rode o web com `SERVER_PORT` igual). O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
