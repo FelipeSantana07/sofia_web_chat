@@ -83,3 +83,5 @@ A preencher na T-34.
 - T-12 · Carrinho imutável: cada operação devolve um novo carrinho ou um erro tipado (`motivo` + mensagem + `disponivel`) — as ferramentas repassam o erro à cliente sem tratar exceções, e o carrinho original nunca é alterado por uma operação que falha.
 - T-12 · `alterarQuantidade(…, 0)` remove o item, e o limite efetivo por item é o menor entre `estoque_teste` e 10 — a regra 6.3 pede os dois bloqueios; zero como remoção evita um segundo caminho para o mesmo efeito.
 - T-12 · O domínio usa o tipo mínimo `ProdutoCarrinho` (id, preço e promocional em centavos, estoque), sem depender do schema do produto — o schema completo vem na T-14 e o catálogo converte reais em centavos ao carregar.
+- T-13 · `calcularTotais` aceita `entrega: null` (CEP ainda não informado) e devolve `frete: null`, com o total sem frete — a Sofia mostra o carrinho antes do CEP sem inventar um frete.
+- T-13 · O exemplo 6.2 é teste automatizado (subtotal R$ 300,00 → cupom −R$ 30,00 → base R$ 270,00 → frete R$ 22,90 → PIX −R$ 13,50 → total exatamente R$ 279,40, faltando R$ 29,00 para o frete grátis).
