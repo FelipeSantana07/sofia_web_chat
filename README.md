@@ -27,6 +27,7 @@ cp .env.example .env
 ```bash
 pnpm dev    # sobe server e web juntos
 pnpm test   # roda os testes (Vitest)
+pnpm gemini:teste   # chamada simples ao Gemini (modo mock sem chave)
 ```
 
 ## Estrutura
@@ -65,3 +66,5 @@ A preencher na T-34.
 - T-02 · `web/` sobe só o Vite com um `index.html` vazio; plugin Svelte e tsconfig próprio entram na T-28 — a T-02 só precisa provar que o `dev` sobe os dois.
 - T-02 · `server/src/index.ts` é um stub sem Fastify (porta de `PORT`, padrão 3000) — o Fastify entra com as rotas, nas tarefas do agente.
 - T-02 · `server/tsconfig.json` declara `types: ["node"]` — o TypeScript 7 não carrega `@types/*` automaticamente.
+- T-04 · `pnpm gemini:teste` roda em modo mock quando `GEMINI_API_KEY` está ausente ou vale `mock`, sem chamar a API — a chave ainda não foi enviada. Confirmado com a chave real: `gemini-3.8-flash` responde normalmente.
+- T-04 · O `.env` é carregado com `--env-file-if-exists` do Node, sem `dotenv` — uma dependência a menos.

@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "test": "vitest run",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "gemini:teste": "pnpm --filter @sofia/server gemini:teste"
   },
   "devDependencies": {
     "typescript": "^7.0.2",
