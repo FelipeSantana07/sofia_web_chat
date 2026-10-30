@@ -1,0 +1,9 @@
+{
+  "name": "sofia-web-chat",
+  "private": true,
+  "description": "Sofia Web Chat — vendedora IA Prohall",
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=20"
+  }
+}

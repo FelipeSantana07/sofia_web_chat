@@ -14,7 +14,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 0 · Setup** · branch `chore/setup`
 
-- [ ] T-01 · Estrutura do monorepo — commit: —
+- [x] T-01 · Estrutura do monorepo — commit: —
 - [ ] T-02 · TypeScript, Vitest e scripts — commit: —
 - [ ] T-03 · Contexto, README e ambiente — commit: —
 
