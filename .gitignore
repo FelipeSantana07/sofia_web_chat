@@ -1,0 +1,53 @@
+# Dependências (pnpm / npm)
+node_modules/
+.pnpm-store/
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Builds
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Svelte / Vite
+.svelte-kit/
+.vite/
+vite.config.*.timestamp-*
+
+# Testes (Vitest / cobertura)
+coverage/
+.vitest/
+*.lcov
+
+# Variáveis de ambiente (segredos: chave do LLM etc.)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Dados gerados em tempo de execução (pedidos, sessões, logs de ferramentas)
+*.sqlite
+*.sqlite3
+*.db
+tmp/
+.cache/
+
+# Editores e sistema operacional
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Claude Code (configurações pessoais locais)
+.claude/settings.local.json
+CLAUDE.local.md
