@@ -14,18 +14,18 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 0 · Setup** · branch `chore/setup`
 
-- [x] T-01 · Estrutura do monorepo — commit: —
-- [x] T-02 · TypeScript, Vitest e scripts — commit: —
-- [x] T-03 · Contexto, README e ambiente — commit: —
+- [x] T-01 · Estrutura do monorepo — commit: 8029c4e
+- [x] T-02 · TypeScript, Vitest e scripts — commit: cdb6af2
+- [x] T-03 · Contexto, README e ambiente — commit: 3298e88
 
 **Fase 1 · Teste do Gemini** · branch `spike/gemini`
 
-- [x] T-04 · Teste simples do Gemini — commit: —
-- [x] T-05 · Teste de function calling — commit: —
+- [x] T-04 · Teste simples do Gemini — commit: c7768f1
+- [x] T-05 · Teste de function calling — commit: 5fdadd6
 
 **Fase 2 · Domínio** · branch `feat/dominio`
 
-- [ ] T-06 · Dinheiro em centavos — commit: —
+- [x] T-06 · Dinheiro em centavos — commit: —
 - [ ] T-07 · CEP e zona — commit: —
 - [ ] T-08 · Peso cobrado e faixa — commit: —
 - [ ] T-09 · Frete Econômica e Expressa — commit: —

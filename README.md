@@ -71,3 +71,6 @@ A preencher na T-34.
 - T-04 · O `.env` é carregado com `--env-file-if-exists` do Node, sem `dotenv` — uma dependência a menos.
 - T-05 · Formato de ferramentas validado com `gemini-3.8-flash`: declarações em `config.tools[].functionDeclarations` (parâmetros via `parametersJsonSchema`); a chamada vem em `response.functionCalls[0]` (`name` e `args`); o turno do modelo (`candidates[0].content`) vai ao histórico como veio; o resultado volta em `role: "user"` com `parts: [{ functionResponse: { name, response } }]` — confirmado por execução real em `pnpm gemini:ferramentas`.
 - T-05 · O spike faz uma única rodada de ferramenta, com a função fictícia `consultar_clima` — o loop com limite de iterações e a conversão de zod para declaração ficam para T-19 e T-21.
+- T-06 · Meio centavo arredonda para cima (arredondamento comercial) e o percentual é calculado em inteiros (pontos-base) — evita erro de ponto flutuante nas etapas de cupom e desconto PIX.
+- T-06 · `formatarBRL` monta a string à mão, sem `Intl` — o `Intl` insere espaço não separável após "R$", e a saída precisa ser exatamente `R$ 279,40`.
+- T-06 · Valores negativos ou não inteiros em centavos lançam `RangeError` — dinheiro inválido deve falhar alto, e as ferramentas convertem o erro em mensagem amigável.
