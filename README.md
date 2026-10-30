@@ -124,3 +124,6 @@ A preencher na T-34.
 - T-18 · O peso do produto não é exposto ao modelo — é dado interno do cálculo de frete, e a Sofia não deve falar em peso estimado.
 - T-18/T-19 · Valores monetários voltam como `{ centavos, texto }` (ex.: `R$ 279,40`) — o modelo copia o texto pronto e não formata nem soma.
 - T-18/T-19 · Erros de validação dos argumentos voltam como `{ ok: false, erro, campos }` em português, com mensagens próprias em vez do locale `pt` do zod ("Demasiado pequeno" é português de Portugal) — a Sofia se corrige na chamada seguinte.
+- T-19 · `ver_carrinho` e `calcular_frete` mostram as duas modalidades, cada uma com frete, quanto falta para o grátis e total no PIX — a ferramenta não recebe a modalidade e a escolha só acontece no `finalizar_pedido`; o CEP e a zona ficam na sessão e o frete é recalculado a cada mudança no carrinho.
+- T-19 · Quando uma remoção derruba o subtotal abaixo de R$ 150,00, o cupom sai do carrinho e a resposta traz `aviso_cupom` — regra 6.1; reaplicar exige chamar `aplicar_cupom` de novo.
+- T-19 · Adicionar ao carrinho não baixa o `estoque_teste`: ele só limita a quantidade. Se o pedido deve descontar do estoque, a decisão é da T-25.
