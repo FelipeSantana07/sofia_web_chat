@@ -1,5 +1,14 @@
 {
   "name": "@sofia/shared",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
 }

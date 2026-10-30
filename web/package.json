@@ -1,5 +1,12 @@
 {
   "name": "@sofia/web",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
 }
