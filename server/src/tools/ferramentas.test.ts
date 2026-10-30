@@ -12,6 +12,7 @@ describe("conjunto de ferramentas", () => {
       "buscar_produtos",
       "detalhar_produto",
       "produtos_complementares",
+      "mostrar_produtos",
       "atualizar_perfil",
       "adicionar_ao_carrinho",
       "remover_do_carrinho",

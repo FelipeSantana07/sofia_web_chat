@@ -87,6 +87,36 @@ describe("agente: resposta simples", () => {
   });
 });
 
+describe("agente: avisos de ações na tela", () => {
+  it("leva os avisos pendentes junto da próxima mensagem e os consome", async () => {
+    const { agente, ctx, pedidos } = montar([[[texto("Anotado!")]], [[texto("Ok.")]]]);
+    ctx.sessao.avisosPendentes.push("[aviso do sistema] Ela adicionou 1x Shampoo ao carrinho pelo botão da tela.");
+    await coletar(agente.responder(ctx.sessao, "e agora?"));
+
+    expect(pedidos[0]?.historico[0]?.parts?.[0]?.text).toBe(
+      "[aviso do sistema] Ela adicionou 1x Shampoo ao carrinho pelo botão da tela.\n\ne agora?",
+    );
+    expect(ctx.sessao.avisosPendentes).toEqual([]);
+
+    await coletar(agente.responder(ctx.sessao, "obrigada"));
+    expect(pedidos[1]?.historico.at(-1)?.parts?.[0]?.text).toBe("obrigada");
+  });
+
+  it("devolve os avisos à fila se o turno falhar, para a próxima tentativa", async () => {
+    const modelo: ModeloChat = {
+      // eslint-disable-next-line require-yield
+      async *gerar() {
+        throw new Error("503");
+      },
+    };
+    const ctx = contextoDeTeste();
+    ctx.sessao.avisosPendentes.push("[aviso do sistema] x");
+    const agente = criarAgente({ modelo, despachante: criarDespachante(), catalogo: ctx.catalogo, promptSistema: "x" });
+    await coletar(agente.responder(ctx.sessao, "oi"));
+    expect(ctx.sessao.avisosPendentes).toEqual(["[aviso do sistema] x"]);
+  });
+});
+
 describe("agente: ferramentas", () => {
   it("executa a ferramenta pedida, devolve o resultado ao modelo e segue até a resposta final", async () => {
     const { agente, ctx, pedidos } = montar([

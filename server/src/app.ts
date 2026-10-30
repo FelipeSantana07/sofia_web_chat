@@ -7,7 +7,9 @@ import { emitirPix, fecharPedido, localizarPedido, pagarPedido, type Falha } fro
 import { gerarQrSvg } from "./pedidos/qr.js";
 import { visaoDoPedido } from "./pedidos/visao.js";
 import type { EstadoSessao, StoreSessoes } from "./sessao/store.js";
-import { erroDeValidacao } from "./tools/base.js";
+import { erroDeValidacao, type ResultadoFerramenta } from "./tools/base.js";
+import { adicionarAoCarrinho, removerDoCarrinho } from "./tools/carrinho-frete.js";
+import { montarResumoCarrinho } from "./tools/resumo-carrinho.js";
 
 export const LIMITE_MENSAGEM = 2000;
 
@@ -173,6 +175,54 @@ export function criarApp({
       const r = pagarPedido({ catalogo, sessao: contexto.sessao }, request.params.pedidoId, agora());
       if (!r.ok) return recusar(reply, r);
       return { pedido: visaoDoPedido(r.pedido, agora()), mensagem: r.mensagem, ja_estava_pago: r.jaEstavaPago };
+    },
+  );
+
+  // --- Carrinho pela tela: Adicionar, + e − usam as mesmas regras das ferramentas da Sofia. ---
+
+  const statusDaFerramenta = (r: ResultadoFerramenta): number =>
+    r.campos ? 400 : r.motivo === "produto_nao_encontrado" || r.motivo === "item_ausente" ? 404 : 422;
+  const corpoItem = z.object({ id: z.string().min(1), quantidade: z.number().int().positive().default(1) });
+
+  /** GET /api/sessoes/:sessaoId/carrinho → { carrinho } com itens, subtotal, cupom e frete já calculados pelo servidor. */
+  app.get<{ Params: { sessaoId: string } }>("/api/sessoes/:sessaoId/carrinho", async (request, reply) => {
+    const sessao = store.obter(request.params.sessaoId);
+    if (!sessao) return reply.code(404).send({ erro: "Conversa não encontrada.", motivo: "sessao_nao_encontrada" });
+    return { carrinho: montarResumoCarrinho({ catalogo, sessao }) };
+  });
+
+  /** POST /api/sessoes/:sessaoId/carrinho/itens { id, quantidade? = 1 } → { mensagem, carrinho, aviso_cupom? } */
+  app.post<{ Params: { sessaoId: string } }>("/api/sessoes/:sessaoId/carrinho/itens", async (request, reply) => {
+    const contexto = comSessao(request.params.sessaoId, reply);
+    if (!contexto) return reply;
+    const corpo = corpoItem.safeParse(request.body);
+    if (!corpo.success) return reply.code(400).send(erroDeValidacao(corpo.error, request.body));
+
+    const ctx = { catalogo, sessao: contexto.sessao };
+    const r = adicionarAoCarrinho.executar(corpo.data, ctx);
+    if (!r.ok) return reply.code(statusDaFerramenta(r)).send(r);
+    const nome = catalogo.obter(corpo.data.id.trim().toUpperCase())?.nome ?? corpo.data.id;
+    contexto.sessao.avisosPendentes.push(
+      `[aviso do sistema, não é fala da cliente] Ela adicionou ${corpo.data.quantidade}x ${nome} ao carrinho pelo botão da tela.`,
+    );
+    return r;
+  });
+
+  /** DELETE /api/sessoes/:sessaoId/carrinho/itens/:produtoId?quantidade=n → remove n unidades (sem n, o item inteiro). */
+  app.delete<{ Params: { sessaoId: string; produtoId: string }; Querystring: { quantidade?: string } }>(
+    "/api/sessoes/:sessaoId/carrinho/itens/:produtoId",
+    async (request, reply) => {
+      const contexto = comSessao(request.params.sessaoId, reply);
+      if (!contexto) return reply;
+      const quantidade = request.query.quantidade === undefined ? undefined : Number(request.query.quantidade);
+      const ctx = { catalogo, sessao: contexto.sessao };
+      const r = removerDoCarrinho.executar({ id: request.params.produtoId, quantidade }, ctx);
+      if (!r.ok) return reply.code(statusDaFerramenta(r)).send(r);
+      const nome = catalogo.obter(request.params.produtoId.trim().toUpperCase())?.nome ?? request.params.produtoId;
+      contexto.sessao.avisosPendentes.push(
+        `[aviso do sistema, não é fala da cliente] Ela removeu ${quantidade ?? "todas as unidades de"}${quantidade ? "x" : ""} ${nome} do carrinho pela tela.`,
+      );
+      return r;
     },
   );
 

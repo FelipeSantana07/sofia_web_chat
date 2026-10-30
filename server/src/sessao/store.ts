@@ -15,6 +15,8 @@ export interface EstadoSessao {
   entrega: { cep: string; zona: Zona } | null;
   /** Pedidos fechados nesta conversa, do mais antigo ao mais novo. */
   pedidos: Pedido[];
+  /** Ações da cliente na tela (ex.: botão Adicionar) que a Sofia ainda não viu; vão junto da próxima mensagem. */
+  avisosPendentes: string[];
   /** Conversa no formato do Gemini (mensagens, chamadas e respostas de ferramentas), mantida pelo agente. */
   historico: Content[];
   criadoEm: number;
@@ -50,6 +52,7 @@ export function criarStoreSessoes({ gerarId = randomUUID, agora = Date.now }: Op
       cupom: null,
       entrega: null,
       pedidos: [],
+      avisosPendentes: [],
       historico: [],
       criadoEm: t,
       atualizadoEm: t,

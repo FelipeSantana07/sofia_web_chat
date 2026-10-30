@@ -217,6 +217,29 @@ export const produtosComplementares = definirFerramenta({
   },
 });
 
+export const mostrarProdutos = definirFerramenta({
+  nome: "mostrar_produtos",
+  descricao:
+    "Mostra na tela da cliente os cards (foto, nome, preço e botão Adicionar) dos produtos que você está recomendando. " +
+    "Chame junto com a recomendação, com os ids de 1 a 3 produtos que você citou no texto; a explicação de cada um continua sendo sua, em texto. " +
+    "Não repita preço, nome ou foto na mensagem além do que fizer sentido na conversa.",
+  parametros: z.object({
+    ids: z.array(idProduto).min(1).max(3).describe("Ids dos produtos recomendados, de 1 a 3"),
+  }),
+  executar({ ids }, { catalogo }) {
+    const unicos = [...new Set(ids.map((id) => id.trim().toUpperCase()))];
+    const desconhecidos = unicos.filter((id) => !catalogo.obter(id));
+    if (desconhecidos.length > 0) {
+      return falha(`Produto(s) não encontrado(s) no catálogo: ${desconhecidos.join(", ")}. Use buscar_produtos para ver os ids válidos.`);
+    }
+    const produtos = unicos.map((id) => {
+      const p = catalogo.obter(id)!;
+      return { ...resumirProduto(p, catalogo), ...(p.estoque_teste <= 0 ? { esgotado: true } : {}) };
+    });
+    return { ok: true, mensagem: "Cards exibidos na tela da cliente.", produtos };
+  },
+});
+
 const textoPerfil = (descricao: string) => z.string().optional().describe(descricao);
 
 export const atualizarPerfil = definirFerramenta({
@@ -255,5 +278,6 @@ export const ferramentasCatalogoPerfil: Ferramenta[] = [
   buscarProdutos,
   detalharProduto,
   produtosComplementares,
+  mostrarProdutos,
   atualizarPerfil,
 ];

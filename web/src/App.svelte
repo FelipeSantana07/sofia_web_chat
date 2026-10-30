@@ -1,11 +1,20 @@
 <script lang="ts">
   import { tick } from "svelte";
+  import { get } from "svelte/store";
   import Composer from "./components/Composer.svelte";
   import Digitando from "./components/Digitando.svelte";
   import Mensagem from "./components/Mensagem.svelte";
+  import PainelCarrinho from "./components/PainelCarrinho.svelte";
+  import { criarCarrinho } from "./lib/carrinho.js";
   import { criarChat } from "./lib/chat.js";
 
-  const chat = criarChat();
+  // O carrinho precisa do id da conversa e o chat avisa o carrinho do que a Sofia fez: um aponta para o outro.
+  const carrinho = criarCarrinho({ obterSessaoId: () => get(chat).sessaoId });
+  const chat = criarChat({ aoEvento: carrinho.aoEvento, aoTerminar: () => void carrinho.atualizar() });
+
+  const quantidadesNoCarrinho = $derived(
+    Object.fromEntries(($carrinho.carrinho?.itens ?? []).map((i) => [i.id, i.quantidade])),
+  );
 
   let lista: HTMLElement;
   // Só acompanha o fim da conversa se a cliente não tiver rolado para cima para reler algo.
@@ -35,11 +44,17 @@
       <h1>Sofia</h1>
       <p>Assistente virtual da Prohall · IA</p>
     </div>
+    <button type="button" class="botao-carrinho" onclick={carrinho.abrir} aria-label={`Abrir carrinho, ${$carrinho.quantidade} item(ns)`}>
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+        <path fill="currentColor" d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM1 2v2h2l3.6 7.6-1.4 2.4A2 2 0 0 0 7 17h12v-2H7.4l1.1-2h7.5a2 2 0 0 0 1.7-1l3.6-6.5A1 1 0 0 0 20.4 4H5.2l-.9-2H1Z" />
+      </svg>
+      {#if $carrinho.quantidade > 0}<span class="contador">{$carrinho.quantidade}</span>{/if}
+    </button>
   </header>
 
   <main bind:this={lista} onscroll={aoRolar} class="conversa" role="log" aria-live="polite" aria-label="Conversa com a Sofia">
     {#each $chat.mensagens as mensagem (mensagem.id)}
-      <Mensagem {mensagem} />
+      <Mensagem {mensagem} {quantidadesNoCarrinho} bloqueado={$chat.enviando} aoAdicionar={(id) => carrinho.adicionar(id)} />
     {/each}
     {#if $chat.digitando}
       <Digitando />
@@ -53,6 +68,8 @@
 
   <Composer enviando={$chat.enviando} {aoEnviar} />
 </div>
+
+<PainelCarrinho estado={$carrinho} controle={carrinho} bloqueado={$chat.enviando} />
 
 <style>
   .app {
@@ -81,6 +98,36 @@
     background: rgba(255, 255, 255, 0.2);
     font-weight: 700;
     font-size: 1.1rem;
+  }
+  .topo > div:nth-child(2) {
+    flex: 1;
+  }
+  .botao-carrinho {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    cursor: pointer;
+  }
+  .contador {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #ffd166;
+    color: #3b2400;
+    font-size: 0.75rem;
+    font-weight: 700;
   }
   h1 {
     margin: 0;

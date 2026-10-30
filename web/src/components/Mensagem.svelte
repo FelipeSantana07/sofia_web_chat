@@ -1,8 +1,21 @@
 <script lang="ts">
   import type { MensagemChat } from "../lib/chat.js";
+  import type { ResultadoAcao } from "../lib/carrinho.js";
   import { markdownParaHtml } from "../lib/markdown.js";
+  import CardProduto from "./CardProduto.svelte";
 
-  let { mensagem }: { mensagem: MensagemChat } = $props();
+  let {
+    mensagem,
+    quantidadesNoCarrinho,
+    bloqueado,
+    aoAdicionar,
+  }: {
+    mensagem: MensagemChat;
+    /** Unidades no carrinho por id de produto, para os cards. */
+    quantidadesNoCarrinho: Record<string, number>;
+    bloqueado: boolean;
+    aoAdicionar: (id: string) => Promise<ResultadoAcao>;
+  } = $props();
 </script>
 
 {#if mensagem.autor === "aviso"}
@@ -12,6 +25,14 @@
 {:else if mensagem.autor === "cliente"}
   <div class="linha cliente">
     <div class="bolha texto-puro">{mensagem.texto}</div>
+  </div>
+{:else if mensagem.autor === "cards"}
+  <div class="cards" role="list" aria-label="Produtos recomendados">
+    {#each mensagem.produtos as produto (produto.id)}
+      <div role="listitem">
+        <CardProduto {produto} noCarrinho={quantidadesNoCarrinho[produto.id] ?? 0} {bloqueado} {aoAdicionar} />
+      </div>
+    {/each}
   </div>
 {:else}
   <div class="linha sofia">
@@ -36,6 +57,16 @@
   }
   .aviso {
     justify-content: center;
+  }
+  .cards {
+    flex: none; /* com overflow o flex encolheria os cards a quase nada */
+    display: flex;
+    gap: 10px;
+    margin-left: 40px; /* alinha com a bolha da Sofia, depois do avatar */
+    padding: 2px 2px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
   }
   .avatar {
     flex: none;

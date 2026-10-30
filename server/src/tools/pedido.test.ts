@@ -120,8 +120,8 @@ describe("consultar_pedido", () => {
 describe("registro das ferramentas de pedido", () => {
   it("as três entram no despachante com declaração para o Gemini", () => {
     const nomes = criarDespachante().declaracoes.map((d) => d.name);
-    expect(nomes).toEqual(expect.arrayContaining(["finalizar_pedido", "gerar_pix", "consultar_pedido"]));
-    expect(nomes).toHaveLength(12);
+    expect(nomes).toEqual(expect.arrayContaining(["finalizar_pedido", "gerar_pix", "consultar_pedido", "mostrar_produtos"]));
+    expect(nomes).toHaveLength(13);
   });
 
   it("a declaração de finalizar_pedido exige os campos do enunciado e limita a modalidade", () => {

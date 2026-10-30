@@ -1,11 +1,15 @@
 import { lerEventos, type EventoChat } from "./sse.js";
+import type { CardProduto } from "./tipos.js";
 
-export interface MensagemChat {
-  id: number;
-  /** `aviso` é uma observação do sistema (erro de rede, resposta recusada), fora da fala da Sofia. */
-  autor: "cliente" | "sofia" | "aviso";
-  texto: string;
-}
+export type MensagemChat =
+  | {
+      id: number;
+      /** `aviso` é uma observação do sistema (erro de rede, resposta recusada), fora da fala da Sofia. */
+      autor: "cliente" | "sofia" | "aviso";
+      texto: string;
+    }
+  /** Cards dos produtos que a Sofia recomendou (ferramenta mostrar_produtos), logo depois do texto dela. */
+  | { id: number; autor: "cards"; produtos: CardProduto[] };
 
 export interface EstadoChat {
   mensagens: MensagemChat[];
@@ -28,6 +32,10 @@ export interface OpcoesChat {
   /** Trocado nos testes. */
   fetch?: typeof fetch;
   url?: string;
+  /** Chamado com cada evento que chega do servidor (o carrinho acompanha as ferramentas por aqui). */
+  aoEvento?: (evento: EventoChat) => void;
+  /** Chamado quando uma resposta termina, com sucesso ou não. */
+  aoTerminar?: () => void;
 }
 
 export interface Chat {
@@ -37,7 +45,12 @@ export interface Chat {
   tentarDeNovo(): Promise<void>;
 }
 
-export function criarChat({ fetch: buscar = globalThis.fetch.bind(globalThis), url = "/api/chat" }: OpcoesChat = {}): Chat {
+export function criarChat({
+  fetch: buscar = globalThis.fetch.bind(globalThis),
+  url = "/api/chat",
+  aoEvento,
+  aoTerminar,
+}: OpcoesChat = {}): Chat {
   let proximoId = 1;
   let ultimaDaCliente: string | null = null;
   let estado: EstadoChat = {
@@ -53,13 +66,13 @@ export function criarChat({ fetch: buscar = globalThis.fetch.bind(globalThis), u
     estado = { ...estado, ...parcial };
     for (const ouvinte of ouvintes) ouvinte(estado);
   }
-  const adicionar = (autor: MensagemChat["autor"], texto: string): number => {
+  const adicionar = (autor: "cliente" | "sofia" | "aviso", texto: string): number => {
     const id = proximoId++;
     mudar({ mensagens: [...estado.mensagens, { id, autor, texto }] });
     return id;
   };
   const alterarTexto = (id: number, fazer: (atual: string) => string): void =>
-    mudar({ mensagens: estado.mensagens.map((m) => (m.id === id ? { ...m, texto: fazer(m.texto) } : m)) });
+    mudar({ mensagens: estado.mensagens.map((m) => (m.id === id && "texto" in m ? { ...m, texto: fazer(m.texto) } : m)) });
 
   async function motivoDaRecusa(resposta: Response): Promise<string> {
     try {
@@ -76,8 +89,10 @@ export function criarChat({ fetch: buscar = globalThis.fetch.bind(globalThis), u
     let idDaSofia: number | null = null;
     let recebeuFim = false;
     let falhou = false;
+    const cardsDoTurno = new Map<string, CardProduto>();
 
     const tratar = (evento: EventoChat): void => {
+      aoEvento?.(evento);
       if (evento.tipo === "sessao") {
         mudar({ sessaoId: evento.sessaoId });
       } else if (evento.tipo === "texto") {
@@ -86,11 +101,19 @@ export function criarChat({ fetch: buscar = globalThis.fetch.bind(globalThis), u
         mudar({ digitando: false });
       } else if (evento.tipo === "ferramenta") {
         mudar({ digitando: true }); // o texto fica parado enquanto a ferramenta roda
+        if (evento.nome === "mostrar_produtos" && evento.resultado.ok === true && Array.isArray(evento.resultado.produtos)) {
+          for (const p of evento.resultado.produtos as CardProduto[]) cardsDoTurno.set(p.id, p);
+        }
       } else if (evento.tipo === "fim") {
         recebeuFim = true;
         // O texto completo vem no fim: garante que a bolha fique igual ao que o servidor guardou.
         if (idDaSofia === null && evento.texto) idDaSofia = adicionar("sofia", evento.texto);
         else if (idDaSofia !== null) alterarTexto(idDaSofia, () => evento.texto);
+        // Os cards entram depois do texto, que é quem explica a recomendação.
+        if (cardsDoTurno.size > 0) {
+          const id = proximoId++;
+          mudar({ mensagens: [...estado.mensagens, { id, autor: "cards", produtos: [...cardsDoTurno.values()] }] });
+        }
       } else {
         falhou = true;
         adicionar("aviso", evento.mensagem);
@@ -118,6 +141,7 @@ export function criarChat({ fetch: buscar = globalThis.fetch.bind(globalThis), u
       adicionar("aviso", MENSAGEM_REDE);
     } finally {
       mudar({ enviando: false, digitando: false, podeTentarDeNovo: falhou });
+      aoTerminar?.();
     }
   }
 

@@ -45,8 +45,11 @@ export function criarAgente({
   return {
     async *responder(sessao, mensagem) {
       const ctx = { catalogo, sessao };
+      // Ações feitas na tela desde a última mensagem (botão Adicionar etc.) entram junto desta, como avisos do sistema.
+      const avisos = sessao.avisosPendentes.splice(0);
+      const textoDoTurno = avisos.length > 0 ? `${avisos.join("\n")}\n\n${mensagem}` : mensagem;
       // O turno só entra no histórico da sessão quando termina: um erro no meio não deixa o histórico pela metade.
-      const turno: Content[] = [{ role: "user", parts: [{ text: mensagem }] }];
+      const turno: Content[] = [{ role: "user", parts: [{ text: textoDoTurno }] }];
       registro.registrar({ sessao: sessao.id, tipo: "mensagem_cliente", texto: mensagem });
 
       let resposta = "";
@@ -115,6 +118,7 @@ export function criarAgente({
         registro.registrar({ sessao: sessao.id, tipo: "resposta_sofia", texto: resposta, rodadas: maxRodadas });
         yield { tipo: "fim", texto: resposta };
       } catch (erro) {
+        sessao.avisosPendentes.unshift(...avisos); // o turno foi descartado: os avisos ficam para a próxima tentativa
         registro.registrar({
           sessao: sessao.id,
           tipo: "erro",

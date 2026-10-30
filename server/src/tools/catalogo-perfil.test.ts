@@ -3,6 +3,7 @@ import {
   atualizarPerfil,
   buscarProdutos,
   detalharProduto,
+  mostrarProdutos,
   produtosComplementares,
   SEM_INFORMACAO,
 } from "./catalogo-perfil.js";
@@ -245,5 +246,39 @@ describe("atualizar_perfil", () => {
     const b = contextoDeTeste();
     chamar(atualizarPerfil, { nome: "Ana" }, a);
     expect(b.sessao.perfil.nome).toBeNull();
+  });
+});
+
+describe("mostrar_produtos", () => {
+  it("devolve os dados dos cards: id, nome, preço vigente, foto e estoque baixo", () => {
+    const ctx = contextoDeTeste();
+    const r = chamar(mostrarProdutos, { ids: ["PH-002", "ph-001"] }, ctx);
+    expect(r.ok).toBe(true);
+    expect(ids(r)).toEqual(["PH-002", "PH-001"]);
+    expect(r.produtos[0]).toMatchObject({
+      nome: "Kit Cronograma Fios Finos",
+      preco: { centavos: 15000, texto: "R$ 150,00" },
+      preco_cheio: { texto: "R$ 200,00" },
+      em_promocao: true,
+      estoque_baixo: true,
+    });
+    expect(r.produtos[0].imagem_url).toMatch(/^https:/);
+    expect(r.produtos[1].estoque_baixo).toBeUndefined();
+  });
+
+  it("marca como esgotado o produto sem estoque", () => {
+    const ctx = contextoDeTeste();
+    ctx.catalogo.baixarEstoque("PH-002", 2);
+    expect(chamar(mostrarProdutos, { ids: ["PH-002"] }, ctx).produtos[0].esgotado).toBe(true);
+  });
+
+  it("não repete ids e recusa mais de 3, lista vazia e id que não existe", () => {
+    const ctx = contextoDeTeste();
+    expect(ids(chamar(mostrarProdutos, { ids: ["PH-001", "PH-001"] }, ctx))).toEqual(["PH-001"]);
+    expect(chamar(mostrarProdutos, { ids: ["PH-001", "PH-002", "PH-003", "PH-004"] }, ctx).ok).toBe(false);
+    expect(chamar(mostrarProdutos, { ids: [] }, ctx).ok).toBe(false);
+    const r = chamar(mostrarProdutos, { ids: ["PH-001", "PH-999"] }, ctx);
+    expect(r.ok).toBe(false);
+    expect(r.erro).toContain("PH-999");
   });
 });

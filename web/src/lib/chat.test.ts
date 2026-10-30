@@ -69,7 +69,7 @@ describe("criarChat", () => {
 
     r.enviar("texto", { delta: "Tudo bem?" });
     await aguardar();
-    expect(atual().mensagens.at(-1)?.texto).toBe("Oi! Tudo bem?");
+    expect(atual().mensagens.at(-1)).toMatchObject({ texto: "Oi! Tudo bem?" });
 
     r.enviar("fim", { texto: "Oi! Tudo bem?" });
     r.fechar();
@@ -95,7 +95,7 @@ describe("criarChat", () => {
     r.enviar("texto", { delta: "\n\nAchei!" });
     await aguardar();
     expect(atual().digitando).toBe(false);
-    expect(atual().mensagens.at(-1)?.texto).toBe("Vou ver. \n\nAchei!");
+    expect(atual().mensagens.at(-1)).toMatchObject({ texto: "Vou ver. \n\nAchei!" });
 
     r.enviar("fim", { texto: "Vou ver. \n\nAchei!" });
     r.fechar();
@@ -144,7 +144,7 @@ describe("criarChat", () => {
     expect(pedidos.map((p) => p.corpo.mensagem)).toEqual(["Oi", "Oi"]);
     expect(atual().mensagens.filter((m) => m.autor === "cliente")).toHaveLength(1);
     expect(atual().mensagens.some((m) => m.autor === "aviso")).toBe(false);
-    expect(atual().mensagens.at(-1)?.texto).toBe("Agora foi!");
+    expect(atual().mensagens.at(-1)).toMatchObject({ texto: "Agora foi!" });
     expect(atual().podeTentarDeNovo).toBe(false);
   });
 
@@ -183,5 +183,62 @@ describe("criarChat", () => {
     await chat.enviar("Oi");
     await chat.tentarDeNovo();
     expect(pedidos).toHaveLength(1);
+  });
+});
+
+describe("cards de produto", () => {
+  const card = (id: string) => ({
+    id,
+    nome: `Produto ${id}`,
+    categoria: "shampoo",
+    preco: { centavos: 10000, texto: "R$ 100,00" },
+    em_promocao: false,
+    descricao_curta: "x",
+    imagem_url: "https://exemplo.com/x.jpg",
+    url: "https://exemplo.com/x",
+  });
+
+  it("mostra os cards depois do texto da Sofia, sem repetir produto", async () => {
+    const { buscar } = fetchFalso(
+      respostaCompleta(
+        ["ferramenta", { nome: "buscar_produtos", argumentos: {}, resultado: { ok: true, produtos: [card("PH-009")] }, duracaoMs: 1 }],
+        ["ferramenta", { nome: "mostrar_produtos", argumentos: {}, resultado: { ok: true, produtos: [card("PH-001"), card("PH-002")] }, duracaoMs: 1 }],
+        ["ferramenta", { nome: "mostrar_produtos", argumentos: {}, resultado: { ok: true, produtos: [card("PH-001")] }, duracaoMs: 1 }],
+        ["texto", { delta: "Indico estes dois." }],
+        ["fim", { texto: "Indico estes dois." }],
+      ),
+    );
+    const chat = criarChat({ fetch: buscar });
+    const { atual } = observar(chat);
+    await chat.enviar("o que você indica?");
+
+    const ultimas = atual().mensagens.slice(-2);
+    expect(ultimas[0]).toMatchObject({ autor: "sofia", texto: "Indico estes dois." });
+    expect(ultimas[1]).toMatchObject({ autor: "cards" });
+    expect((ultimas[1] as { produtos: { id: string }[] }).produtos.map((p) => p.id)).toEqual(["PH-001", "PH-002"]);
+  });
+
+  it("não cria cards quando a Sofia não chamou mostrar_produtos ou a chamada falhou", async () => {
+    const { buscar } = fetchFalso(
+      respostaCompleta(
+        ["ferramenta", { nome: "buscar_produtos", argumentos: {}, resultado: { ok: true, produtos: [card("PH-001")] }, duracaoMs: 1 }],
+        ["ferramenta", { nome: "mostrar_produtos", argumentos: {}, resultado: { ok: false, erro: "id inválido" }, duracaoMs: 1 }],
+        ["fim", { texto: "ok" }],
+      ),
+    );
+    const chat = criarChat({ fetch: buscar });
+    const { atual } = observar(chat);
+    await chat.enviar("oi");
+    expect(atual().mensagens.some((m) => m.autor === "cards")).toBe(false);
+  });
+
+  it("repassa cada evento e o fim da resposta a quem acompanha (carrinho)", async () => {
+    const eventos: string[] = [];
+    let terminou = 0;
+    const { buscar } = fetchFalso(respostaCompleta(["texto", { delta: "a" }], ["fim", { texto: "a" }]));
+    const chat = criarChat({ fetch: buscar, aoEvento: (e) => eventos.push(e.tipo), aoTerminar: () => terminou++ });
+    await chat.enviar("oi");
+    expect(eventos).toEqual(["texto", "fim"]);
+    expect(terminou).toBe(1);
   });
 });

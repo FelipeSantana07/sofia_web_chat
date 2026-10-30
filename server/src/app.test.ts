@@ -324,3 +324,75 @@ describe("checkout, PIX e pagamento pelo formulário", () => {
     expect([outroPix.statusCode, outroPix.json().motivo]).toEqual([409, "pedido_ja_pago"]);
   });
 });
+
+describe("carrinho pela tela", () => {
+  function montar() {
+    const catalogo = criarCatalogo(PRODUTOS_DE_TESTE);
+    const store = criarStoreSessoes();
+    const app = criarApp({ catalogo, agente: agenteFalso([]).agente, store });
+    const sessao = store.obterOuCriar("s1");
+    const post = (url: string, payload?: unknown) => app.inject({ method: "POST", url, payload: payload as never });
+    return { app, sessao, post, catalogo };
+  }
+
+  it("adiciona, soma e mostra o carrinho calculado pelo servidor", async () => {
+    const { app, post } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001" });
+    const r = await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001", quantidade: 2 });
+
+    expect(r.statusCode).toBe(200);
+    expect(r.json().carrinho.itens).toMatchObject([{ id: "PH-001", quantidade: 3 }]);
+    expect(r.json().carrinho.subtotal.texto).toBe("R$ 300,00");
+
+    const get = (await app.inject({ method: "GET", url: "/api/sessoes/s1/carrinho" })).json();
+    expect(get.carrinho.itens[0].quantidade).toBe(3);
+  });
+
+  it("aplica as regras de estoque e limite e devolve o motivo", async () => {
+    const { post } = montar();
+    const sobra = await post("/api/sessoes/s1/carrinho/itens", { id: "PH-002", quantidade: 3 }); // estoque 2
+    expect([sobra.statusCode, sobra.json().motivo]).toEqual([422, "estoque_insuficiente"]);
+    expect(sobra.json().pode_adicionar_ate).toBe(2);
+
+    const inexistente = await post("/api/sessoes/s1/carrinho/itens", { id: "PH-999" });
+    expect(inexistente.statusCode).toBe(404);
+    expect((await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001", quantidade: 0 })).statusCode).toBe(400);
+  });
+
+  it("remove parte ou tudo, e 404 para item que não está no carrinho", async () => {
+    const { app, post, sessao } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001", quantidade: 3 });
+
+    const parte = await app.inject({ method: "DELETE", url: "/api/sessoes/s1/carrinho/itens/PH-001?quantidade=1" });
+    expect(parte.json().carrinho.itens[0].quantidade).toBe(2);
+    const tudo = await app.inject({ method: "DELETE", url: "/api/sessoes/s1/carrinho/itens/PH-001" });
+    expect(tudo.json().carrinho.vazio).toBe(true);
+    expect(sessao.carrinho.itens).toEqual([]);
+
+    const ausente = await app.inject({ method: "DELETE", url: "/api/sessoes/s1/carrinho/itens/PH-001" });
+    expect(ausente.statusCode).toBe(404);
+  });
+
+  it("recusa conversa inexistente", async () => {
+    const { app, post } = montar();
+    expect((await post("/api/sessoes/x/carrinho/itens", { id: "PH-001" })).statusCode).toBe(404);
+    expect((await app.inject({ method: "GET", url: "/api/sessoes/x/carrinho" })).statusCode).toBe(404);
+  });
+
+  it("deixa avisos para a Sofia saber o que a cliente fez na tela", async () => {
+    const { app, post, sessao } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001", quantidade: 2 });
+    await app.inject({ method: "DELETE", url: "/api/sessoes/s1/carrinho/itens/PH-001?quantidade=1" });
+    expect(sessao.avisosPendentes).toHaveLength(2);
+    expect(sessao.avisosPendentes[0]).toMatch(/adicionou 2x Shampoo Antifrizz/);
+    expect(sessao.avisosPendentes[1]).toMatch(/removeu 1x Shampoo Antifrizz/);
+  });
+
+  it("mostra o frete no carrinho depois que o CEP é informado na conversa", async () => {
+    const { app, post, sessao, catalogo } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001" });
+    calcularFrete.executar({ cep: "01310-100" }, { catalogo, sessao });
+    const get = (await app.inject({ method: "GET", url: "/api/sessoes/s1/carrinho" })).json();
+    expect(get.carrinho.entrega.opcoes.map((o: { modalidade: string }) => o.modalidade)).toEqual(["economica", "expressa"]);
+  });
+});

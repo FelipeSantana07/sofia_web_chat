@@ -13,6 +13,7 @@ describe("criarStoreSessoes", () => {
       cupom: null,
       entrega: null,
       pedidos: [],
+      avisosPendentes: [],
       historico: [],
       criadoEm: 1000,
       atualizadoEm: 1000,
