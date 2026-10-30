@@ -5,7 +5,10 @@ import type { ModeloChat } from "./agent/modelo.js";
 import { criarApp } from "./app.js";
 import { criarStoreSessoes } from "./sessao/store.js";
 import { criarDespachante } from "./tools/registro.js";
-import { contextoDeTeste } from "./tools/teste-util.js";
+import { criarCatalogo } from "./catalogo/catalogo.js";
+import { adicionarAoCarrinho, aplicarCupom, calcularFrete } from "./tools/carrinho-frete.js";
+import { finalizarPedido } from "./tools/pedido.js";
+import { PRODUTOS_DE_TESTE, contextoDeTeste } from "./tools/teste-util.js";
 
 /** Lê um corpo text/event-stream e devolve [{ evento, dados }]. */
 function lerSSE(corpo: string): { evento: string; dados: any }[] {
@@ -41,7 +44,7 @@ const RESPOSTA: EventoAgente[] = [
 describe("POST /api/chat", () => {
   it("transmite a resposta em Server-Sent Events, começando pela sessão", async () => {
     const { agente } = agenteFalso(RESPOSTA);
-    const app = criarApp({ agente, store: criarStoreSessoes({ gerarId: () => "s-1" }) });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes({ gerarId: () => "s-1" }) });
     const r = await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi" } });
 
     expect(r.statusCode).toBe(200);
@@ -57,7 +60,7 @@ describe("POST /api/chat", () => {
   it("reaproveita a sessão quando o cliente manda o sessaoId", async () => {
     const { agente, chamadas } = agenteFalso(RESPOSTA);
     const store = criarStoreSessoes();
-    const app = criarApp({ agente, store });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store });
     const primeira = lerSSE((await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi" } })).body);
     const sessaoId = primeira[0]!.dados.sessaoId as string;
     await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "de novo", sessaoId } });
@@ -80,7 +83,7 @@ describe("POST /api/chat", () => {
     };
     const { catalogo } = contextoDeTeste();
     const agente = criarAgente({ modelo, despachante: criarDespachante(), catalogo, promptSistema: "teste" });
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
 
     const eventos = lerSSE((await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "quero 1" } })).body);
     expect(eventos.map((e) => e.evento)).toEqual(["sessao", "ferramenta", "texto", "fim"]);
@@ -94,7 +97,7 @@ describe("POST /api/chat", () => {
 
   it("repassa o evento de erro do agente", async () => {
     const { agente } = agenteFalso([{ tipo: "erro", mensagem: "Tive um problema." }]);
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
     const eventos = lerSSE((await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi" } })).body);
     expect(eventos.at(-1)).toEqual({ evento: "erro", dados: { mensagem: "Tive um problema." } });
   });
@@ -106,7 +109,7 @@ describe("POST /api/chat", () => {
         throw new Error("bug");
       },
     };
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
     const r = await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi" } });
     expect(lerSSE(r.body).at(-1)?.evento).toBe("erro");
   });
@@ -118,7 +121,7 @@ describe("POST /api/chat", () => {
     [{ mensagem: "x".repeat(2001) }, "mensagem longa demais"],
   ])("recusa corpo inválido (%s: %s) com 400", async (payload) => {
     const { agente, chamadas } = agenteFalso(RESPOSTA);
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
     const r = await app.inject({ method: "POST", url: "/api/chat", payload });
     expect(r.statusCode).toBe(400);
     expect(r.json().erro).toMatch(/mensagem/);
@@ -127,7 +130,7 @@ describe("POST /api/chat", () => {
 
   it("recusa sessaoId com caracteres inválidos", async () => {
     const { agente } = agenteFalso(RESPOSTA);
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
     const r = await app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi", sessaoId: "../x" } });
     expect(r.statusCode).toBe(400);
   });
@@ -136,7 +139,7 @@ describe("POST /api/chat", () => {
     let liberar!: () => void;
     const espera = new Promise<void>((resolve) => (liberar = resolve));
     const { agente } = agenteFalso(RESPOSTA, espera);
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
 
     const primeira = app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi", sessaoId: "s-1" } });
     await new Promise((r) => setTimeout(r, 20));
@@ -155,7 +158,7 @@ describe("POST /api/chat", () => {
     let liberar!: () => void;
     const espera = new Promise<void>((resolve) => (liberar = resolve));
     const { agente } = agenteFalso(RESPOSTA, espera);
-    const app = criarApp({ agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente, store: criarStoreSessoes() });
     const a = app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi", sessaoId: "a" } });
     await new Promise((r) => setTimeout(r, 20));
     const b = app.inject({ method: "POST", url: "/api/chat", payload: { mensagem: "oi", sessaoId: "b" } });
@@ -167,7 +170,157 @@ describe("POST /api/chat", () => {
 
 describe("GET /api/saude", () => {
   it("responde ok", async () => {
-    const app = criarApp({ agente: agenteFalso([]).agente, store: criarStoreSessoes() });
+    const app = criarApp({ catalogo: criarCatalogo(PRODUTOS_DE_TESTE), agente: agenteFalso([]).agente, store: criarStoreSessoes() });
     expect((await app.inject({ method: "GET", url: "/api/saude" })).json()).toEqual({ ok: true });
+  });
+});
+
+describe("checkout, PIX e pagamento pelo formulário", () => {
+  const DADOS = {
+    nome: "Ana Souza",
+    email: "ana@teste.com",
+    cep: "01310-100",
+    endereco: "Av. Teste",
+    numero: "100",
+    modalidade_frete: "economica",
+  };
+
+  function montar() {
+    let agora = 1_700_000_000_000;
+    const catalogo = criarCatalogo(PRODUTOS_DE_TESTE, undefined, () => agora);
+    const store = criarStoreSessoes();
+    const app = criarApp({ catalogo, agente: agenteFalso([]).agente, store, agora: () => agora });
+    const comCarrinho = (id: string) => {
+      const sessao = store.obterOuCriar(id);
+      const ctx = { catalogo, sessao };
+      adicionarAoCarrinho.executar({ id: "PH-001", quantidade: 3 }, ctx);
+      aplicarCupom.executar({ codigo: "PROHALL10" }, ctx);
+      calcularFrete.executar({ cep: "01310-100" }, ctx);
+      return ctx;
+    };
+    const post = (url: string, payload?: unknown) => app.inject({ method: "POST", url, payload: payload as never });
+    return { app, store, catalogo, comCarrinho, post, avancar: (ms: number) => (agora += ms) };
+  }
+
+  it("cria o pedido pelo formulário e esvazia o carrinho", async () => {
+    const { comCarrinho, post } = montar();
+    const ctx = comCarrinho("s1");
+    const r = await post("/api/sessoes/s1/checkout", DADOS);
+
+    expect(r.statusCode).toBe(201);
+    expect(r.json().pedido).toMatchObject({ id: "PH-TESTE-000001", status: "aguardando_pagamento", cupom: "PROHALL10" });
+    expect(ctx.sessao.carrinho.itens).toEqual([]);
+    expect(ctx.catalogo.obter("PH-001")?.estoque_teste).toBe(9);
+  });
+
+  it("formulário e conversa chegam ao mesmo pedido", async () => {
+    const { comCarrinho, post, store } = montar();
+    comCarrinho("form");
+    const ctxConversa = comCarrinho("chat");
+    const pelaRota = (await post("/api/sessoes/form/checkout", DADOS)).json().pedido;
+    const peloTool = finalizarPedido.executar(DADOS, ctxConversa) as unknown as { pedido: typeof pelaRota };
+
+    const { id: _a, criado_em: _b, ...rota } = pelaRota;
+    const { id: _c, criado_em: _d, ...conversa } = peloTool.pedido;
+    expect(rota).toEqual(conversa);
+    expect(store.obter("form")?.pedidos).toHaveLength(1);
+  });
+
+  it("recusa conversa inexistente, dados inválidos, carrinho vazio e CEP inválido", async () => {
+    const { comCarrinho, post, store } = montar();
+    expect((await post("/api/sessoes/nao-existe/checkout", DADOS)).statusCode).toBe(404);
+
+    comCarrinho("s1");
+    const invalido = await post("/api/sessoes/s1/checkout", { ...DADOS, email: "x", modalidade_frete: "sedex" });
+    expect(invalido.statusCode).toBe(400);
+    expect(invalido.json().campos.map((c: { campo: string }) => c.campo).sort()).toEqual(["email", "modalidade_frete"]);
+
+    expect((await post("/api/sessoes/s1/checkout", { ...DADOS, cep: "1" })).json().motivo).toBe("cep_invalido");
+    store.obterOuCriar("vazia");
+    const vazio = await post("/api/sessoes/vazia/checkout", DADOS);
+    expect(vazio.statusCode).toBe(422);
+    expect(vazio.json().motivo).toBe("carrinho_vazio");
+  });
+
+  it("gera o PIX com QR Code no servidor, reaproveita enquanto vale e gera outro depois de expirar", async () => {
+    const { app, comCarrinho, post, avancar } = montar();
+    comCarrinho("s1");
+    await post("/api/sessoes/s1/checkout", DADOS);
+
+    const primeiro = (await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix")).json();
+    expect(primeiro.qr_svg).toContain("<svg");
+    expect(primeiro.reaproveitado).toBe(false);
+    expect(primeiro.pedido.pix).toMatchObject({ status: "ativo", segundos_restantes: 900 });
+    expect(primeiro.pedido.pix.copia_e_cola).toMatch(/^PIX-TESTE\|PROHALL\|PH-TESTE-000001\|.+\|NAO-PAGAVEL$/);
+
+    avancar(5 * 60_000);
+    const mesmo = (await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix")).json();
+    expect(mesmo.reaproveitado).toBe(true);
+    expect(mesmo.pedido.pix.segundos_restantes).toBe(600);
+
+    avancar(10 * 60_000); // completa 15 minutos
+    const get = (await app.inject({ method: "GET", url: "/api/sessoes/s1/pedidos/PH-TESTE-000001" })).json();
+    expect(get.pedido.pix.status).toBe("expirado");
+    expect(get.qr_svg).toContain("<svg"); // o QR continua disponível para a tela
+
+    const novo = (await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix")).json();
+    expect(novo.reaproveitado).toBe(false);
+    expect(novo.pedido.pix).toMatchObject({ status: "ativo", segundos_restantes: 900 });
+  });
+
+  it("devolve o estoque do pedido que não foi pago até o PIX expirar", async () => {
+    const { comCarrinho, post, catalogo, avancar } = montar();
+    comCarrinho("s1");
+    await post("/api/sessoes/s1/checkout", DADOS);
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+    expect(catalogo.obter("PH-001")?.estoque_teste).toBe(9);
+
+    avancar(15 * 60_000);
+    expect(catalogo.obter("PH-001")?.estoque_teste).toBe(12);
+  });
+
+  it("simula o pagamento e devolve a confirmação da Sofia; pagar de novo não repete", async () => {
+    const { comCarrinho, post, store } = montar();
+    comCarrinho("s1");
+    await post("/api/sessoes/s1/checkout", DADOS);
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+
+    const r = await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pagar");
+    expect(r.statusCode).toBe(200);
+    expect(r.json().pedido.status).toBe("pago");
+    expect(r.json().pedido.pix.status).toBe("pago");
+    expect(r.json().mensagem).toContain("PH-TESTE-000001");
+    expect(r.json().ja_estava_pago).toBe(false);
+    expect(store.obter("s1")?.historico).toHaveLength(2);
+
+    const de_novo = (await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pagar")).json();
+    expect(de_novo.ja_estava_pago).toBe(true);
+    expect(store.obter("s1")?.historico).toHaveLength(2);
+  });
+
+  it("recusa pagar sem PIX ou com PIX expirado", async () => {
+    const { comCarrinho, post, avancar } = montar();
+    comCarrinho("s1");
+    await post("/api/sessoes/s1/checkout", DADOS);
+
+    const semPix = await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pagar");
+    expect([semPix.statusCode, semPix.json().motivo]).toEqual([409, "sem_pix"]);
+
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+    avancar(15 * 60_000);
+    const expirado = await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pagar");
+    expect([expirado.statusCode, expirado.json().motivo]).toEqual([409, "pix_expirado"]);
+  });
+
+  it("responde 404 para pedido inexistente e 409 para PIX de pedido pago", async () => {
+    const { comCarrinho, post } = montar();
+    comCarrinho("s1");
+    await post("/api/sessoes/s1/checkout", DADOS);
+    expect((await post("/api/sessoes/s1/pedidos/PH-TESTE-000099/pix")).statusCode).toBe(404);
+
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pagar");
+    const outroPix = await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+    expect([outroPix.statusCode, outroPix.json().motivo]).toEqual([409, "pedido_ja_pago"]);
   });
 });

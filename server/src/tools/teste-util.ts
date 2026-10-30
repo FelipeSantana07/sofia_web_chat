@@ -77,8 +77,8 @@ export const PRODUTOS_DE_TESTE: Produto[] = [
   }),
 ];
 
-export function contextoDeTeste(produtos: Produto[] = PRODUTOS_DE_TESTE): ContextoFerramenta {
-  return { catalogo: criarCatalogo(produtos), sessao: criarStoreSessoes().obterOuCriar("teste") };
+export function contextoDeTeste(produtos: Produto[] = PRODUTOS_DE_TESTE, agora?: () => number): ContextoFerramenta {
+  return { catalogo: criarCatalogo(produtos, undefined, agora), sessao: criarStoreSessoes().obterOuCriar("teste") };
 }
 
 export function chamar(

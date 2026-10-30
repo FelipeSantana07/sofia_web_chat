@@ -3,9 +3,14 @@ import { z } from "zod";
 import type { ContextoFerramenta, Ferramenta, ResultadoFerramenta } from "./base.js";
 import { ferramentasCarrinhoFrete } from "./carrinho-frete.js";
 import { ferramentasCatalogoPerfil } from "./catalogo-perfil.js";
+import { ferramentasPedido } from "./pedido.js";
 
-/** Todas as ferramentas que a Sofia pode chamar. As de pedido e PIX entram nas T-25 a T-27. */
-export const todasAsFerramentas: readonly Ferramenta[] = [...ferramentasCatalogoPerfil, ...ferramentasCarrinhoFrete];
+/** Todas as ferramentas que a Sofia pode chamar. */
+export const todasAsFerramentas: readonly Ferramenta[] = [
+  ...ferramentasCatalogoPerfil,
+  ...ferramentasCarrinhoFrete,
+  ...ferramentasPedido,
+];
 
 /** Converte o schema zod dos argumentos em JSON Schema, no formato validado na T-05 (`parametersJsonSchema`). */
 export function paraDeclaracaoGemini(ferramenta: Ferramenta): FunctionDeclaration {

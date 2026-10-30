@@ -56,9 +56,9 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 6 · Checkout e PIX** · branch `feat/checkout-pix`
 
-- [ ] T-25 · Pedido pela conversa e pelo formulário — commit: —
-- [ ] T-26 · PIX falso — commit: —
-- [ ] T-27 · Simular pagamento — commit: —
+- [x] T-25 · Pedido pela conversa e pelo formulário — commit: —
+- [x] T-26 · PIX falso — commit: —
+- [x] T-27 · Simular pagamento — commit: —
 
 **Fase 7 · Interface** · branch `feat/web`
 

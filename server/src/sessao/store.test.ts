@@ -12,7 +12,7 @@ describe("criarStoreSessoes", () => {
       carrinho: { itens: [] },
       cupom: null,
       entrega: null,
-      pedido: null,
+      pedidos: [],
       historico: [],
       criadoEm: 1000,
       atualizadoEm: 1000,

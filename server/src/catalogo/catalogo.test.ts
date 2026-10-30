@@ -31,13 +31,13 @@ describe("criarCatalogo", () => {
 
 describe("carregarCatalogo", () => {
   it("carrega e valida o data/produtos.json do projeto", () => {
-    const catalogo = carregarCatalogo();
+    const catalogo = carregarCatalogo(undefined, null);
     expect(catalogo.produtos).toHaveLength(15);
     expect(catalogo.obter("PH-001")?.nome).toMatch(/Tônico/);
   });
 
   it("as ferramentas funcionam sobre o catálogo real", () => {
-    const ctx = { ...contextoDeTeste(), catalogo: carregarCatalogo() };
+    const ctx = { ...contextoDeTeste(), catalogo: carregarCatalogo(undefined, null) };
     const r = buscarProdutos.executar({ termo: "queda de cabelo" }, ctx) as { ok: boolean; produtos: { id: string }[] };
     expect(r.ok).toBe(true);
     expect(r.produtos.map((p) => p.id)).toContain("PH-001");

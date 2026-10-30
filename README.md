@@ -30,13 +30,16 @@ pnpm test   # roda os testes (Vitest)
 pnpm gemini:teste   # chamada simples ao Gemini (modo mock sem chave)
 pnpm gemini:ferramentas   # spike de function calling (exige chave real)
 pnpm validate:catalogo   # valida data/produtos.json contra o schema
-pnpm chat   # conversa com a Sofia no terminal, mostrando as ferramentas (exige chave real)
+pnpm chat   # conversa com a Sofia no terminal, mostrando as ferramentas; /pagar simula o pagamento (exige chave real)
+pnpm estoque:repor [n]   # soma n unidades (padrão 10) ao estoque de todos os produtos
 ```
 
 O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
 
 - `POST /api/chat` com `{ "mensagem": "...", "sessaoId": "opcional" }` responde em Server-Sent Events: `sessao` (id da conversa, reenviado nas mensagens seguintes), `texto` (pedaços da resposta), `ferramenta` (nome, argumentos e resultado de cada chamada), `fim` (texto completo) e `erro`.
 - `GET /api/saude` responde `{ "ok": true }`.
+- Checkout pelo formulário, o mesmo pedido que a Sofia fecha pela conversa: `POST /api/sessoes/:sessaoId/checkout` (nome, e-mail, CEP, endereço, número, complemento opcional e `modalidade_frete`), `POST /api/sessoes/:sessaoId/pedidos/:pedidoId/pix` (PIX falso com QR Code em SVG, válido por 15 minutos; só gera outro depois de expirar), `POST …/pagar` (simula o pagamento e devolve a confirmação da Sofia) e `GET …/pedidos/:pedidoId`.
+- O pedido reserva o estoque de teste enquanto o PIX vale; se não for pago em 15 minutos, as unidades voltam sozinhas. O estoque alterado fica em `data/estoque.json` (fora do Git) e `pnpm estoque:repor` repõe; o servidor no ar enxerga a reposição sem reiniciar.
 - Cada mensagem e cada chamada de ferramenta ficam registradas em `logs/conversas.jsonl`.
 
 ## Estrutura

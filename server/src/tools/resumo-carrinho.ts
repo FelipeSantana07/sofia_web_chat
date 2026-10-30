@@ -39,7 +39,7 @@ export function sincronizarCupom(ctx: ContextoFerramenta): string | undefined {
   return "O cupom deixou de valer porque o subtotal ficou abaixo do mínimo de R$ 150,00 e foi removido do carrinho. Avise a cliente.";
 }
 
-function textoPrazo(min: number, max: number): string {
+export function textoPrazo(min: number, max: number): string {
   return min === max ? `${min} dia(s) úteis` : `${min} a ${max} dias úteis`;
 }
 

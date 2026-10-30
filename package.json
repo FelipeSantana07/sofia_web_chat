@@ -13,7 +13,8 @@
     "gemini:teste": "pnpm --filter @sofia/server gemini:teste",
     "gemini:ferramentas": "pnpm --filter @sofia/server gemini:ferramentas",
     "validate:catalogo": "pnpm --filter @sofia/server validate:catalogo",
-    "chat": "pnpm --filter @sofia/server chat"
+    "chat": "pnpm --filter @sofia/server chat",
+    "estoque:repor": "pnpm --filter @sofia/server estoque:repor"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

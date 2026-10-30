@@ -31,7 +31,7 @@ describe("resumirCatalogoParaPrompt", () => {
 });
 
 describe("montarPromptSistema", () => {
-  const catalogo = carregarCatalogo();
+  const catalogo = carregarCatalogo(undefined, null);
   const prompt = montarPromptSistema(catalogo.produtos);
 
   it("injeta os 15 produtos no lugar do marcador", () => {

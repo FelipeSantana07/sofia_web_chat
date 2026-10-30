@@ -9,10 +9,12 @@
     "gemini:teste": "tsx --env-file-if-exists=../.env scripts/teste-gemini.ts",
     "gemini:ferramentas": "tsx --env-file-if-exists=../.env scripts/teste-function-calling.ts",
     "validate:catalogo": "tsx scripts/validar-catalogo.ts",
-    "chat": "tsx --env-file-if-exists=../.env scripts/chat.ts"
+    "chat": "tsx --env-file-if-exists=../.env scripts/chat.ts",
+    "estoque:repor": "tsx scripts/repor-estoque.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",
+    "@types/qrcode": "^1.5.6",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },
@@ -20,6 +22,7 @@
     "@google/genai": "^2.32.0",
     "@sofia/shared": "workspace:*",
     "fastify": "^5.12.7",
+    "qrcode": "^1.5.4",
     "zod": "^4.6.7"
   }
 }

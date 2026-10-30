@@ -6,6 +6,7 @@ import { montarSofia } from "../src/agent/montar.js";
 import { criarRegistroArquivo } from "../src/agent/registro-log.js";
 import { carregarCatalogo } from "../src/catalogo/catalogo.js";
 import { lerConfigGemini, ouEncerrar } from "../src/config.js";
+import { pagarPedido } from "../src/pedidos/servico.js";
 import { criarStoreSessoes } from "../src/sessao/store.js";
 import { criarDespachante } from "../src/tools/registro.js";
 
@@ -47,7 +48,7 @@ function mostrarCarrinho(): void {
 }
 
 console.log(negrito(`Sofia · ${modelo} · ${catalogo.produtos.length} produtos`));
-console.log(cinza("Comandos: /carrinho mostra o carrinho · /nova começa outra conversa · /sair encerra\n"));
+console.log(cinza("Comandos: /carrinho mostra o carrinho · /pagar simula o pagamento do último pedido · /nova começa outra conversa · /sair encerra\n"));
 
 const rl = createInterface({ input: process.stdin, output: process.stdout, terminal: interativo });
 rl.setPrompt(rosa("você › "));
@@ -68,6 +69,14 @@ for await (const linha of rl) {
   if (mensagem === "/nova") {
     sessao = store.obterOuCriar();
     console.log(cinza("  (nova conversa)\n"));
+    perguntar();
+    continue;
+  }
+  if (mensagem === "/pagar") {
+    const r = pagarPedido({ catalogo, sessao }, undefined, Date.now());
+    console.log(r.ok ? `${rosa("sofia ›")} ${r.mensagem}
+` : vermelho(`  ${r.erro}
+`));
     perguntar();
     continue;
   }

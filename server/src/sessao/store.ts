@@ -13,7 +13,8 @@ export interface EstadoSessao {
   cupom: string | null;
   /** Último CEP válido consultado (8 dígitos) e sua zona, ou null. */
   entrega: { cep: string; zona: Zona } | null;
-  pedido: Pedido | null;
+  /** Pedidos fechados nesta conversa, do mais antigo ao mais novo. */
+  pedidos: Pedido[];
   /** Conversa no formato do Gemini (mensagens, chamadas e respostas de ferramentas), mantida pelo agente. */
   historico: Content[];
   criadoEm: number;
@@ -48,7 +49,7 @@ export function criarStoreSessoes({ gerarId = randomUUID, agora = Date.now }: Op
       carrinho: carrinhoVazio(),
       cupom: null,
       entrega: null,
-      pedido: null,
+      pedidos: [],
       historico: [],
       criadoEm: t,
       atualizadoEm: t,

@@ -86,7 +86,7 @@ function descreverProblema(issue: z.core.$ZodIssue, entrada: unknown): string {
   return issue.message;
 }
 
-function erroDeValidacao(erro: z.ZodError, entrada: unknown): ResultadoFerramenta {
+export function erroDeValidacao(erro: z.ZodError, entrada: unknown): ResultadoFerramenta {
   const campos = erro.issues.map((i) => ({
     campo: i.path.length > 0 ? i.path.join(".") : "(argumentos)",
     problema: descreverProblema(i, entrada),
