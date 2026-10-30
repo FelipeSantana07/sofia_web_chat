@@ -97,6 +97,24 @@ describe("criarCarrinho", () => {
     expect(estado().quantidade).toBe(0);
   });
 
+  it("aplica o cupom pelo servidor e mostra a recusa quando ele não vale", async () => {
+    const comCupom = { ...carrinhoCom(["PH-001", 2]), cupom: { codigo: "PROHALL10", desconto: dinheiro(2000) } };
+    const { buscar, pedidos } = fetchFalso(
+      json({ ok: true, carrinho: comCupom }),
+      json({ ok: false, motivo: "invalido", erro: "Esse cupom não é válido." }, 422),
+    );
+    const c = criarCarrinho({ obterSessaoId: () => "s-1", fetch: buscar });
+    const estado = observar(c);
+
+    expect(await c.aplicarCupom("prohall10")).toEqual({ ok: true });
+    expect(pedidos[0]).toEqual({ url: "/api/sessoes/s-1/cupom", metodo: "POST", corpo: { codigo: "prohall10" } });
+    expect(estado().carrinho?.cupom?.codigo).toBe("PROHALL10");
+
+    expect(await c.aplicarCupom("XPTO")).toEqual({ ok: false, erro: "Esse cupom não é válido." });
+    expect(estado().erro).toBe("Esse cupom não é válido.");
+    expect(estado().carrinho?.cupom?.codigo).toBe("PROHALL10"); // a recusa não mexe no que já valia
+  });
+
   it("trata falha de rede com um aviso", async () => {
     const c = criarCarrinho({ obterSessaoId: () => "s-1", fetch: fetchFalso(new TypeError("Failed to fetch")).buscar });
     const estado = observar(c);

@@ -213,6 +213,18 @@ describe("checkout, PIX e pagamento pelo formulário", () => {
     expect(ctx.catalogo.obter("PH-001")?.estoque_teste).toBe(9);
   });
 
+  it("avisa a Sofia quando a cliente fecha o pedido e gera o PIX pela tela, sem repetir o aviso do PIX que já vale", async () => {
+    const { comCarrinho, post, store } = montar();
+    comCarrinho("s1");
+    await post("/api/sessoes/s1/checkout", DADOS);
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+    await post("/api/sessoes/s1/pedidos/PH-TESTE-000001/pix");
+    const avisos = store.obter("s1")!.avisosPendentes;
+    expect(avisos).toHaveLength(2);
+    expect(avisos[0]).toMatch(/fechou o pedido PH-TESTE-000001 pelo formulário/);
+    expect(avisos[1]).toMatch(/PIX do pedido PH-TESTE-000001/);
+  });
+
   it("formulário e conversa chegam ao mesmo pedido", async () => {
     const { comCarrinho, post, store } = montar();
     comCarrinho("form");
@@ -386,6 +398,45 @@ describe("carrinho pela tela", () => {
     expect(sessao.avisosPendentes).toHaveLength(2);
     expect(sessao.avisosPendentes[0]).toMatch(/adicionou 2x Shampoo Antifrizz/);
     expect(sessao.avisosPendentes[1]).toMatch(/removeu 1x Shampoo Antifrizz/);
+  });
+
+  it("calcula o frete de um CEP pela tela e guarda o CEP na conversa", async () => {
+    const { app, post } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001" });
+    const r = await post("/api/sessoes/s1/frete", { cep: "01310-100" });
+    expect(r.statusCode).toBe(200);
+    expect(r.json().opcoes.map((o: { modalidade: string }) => o.modalidade)).toEqual(["economica", "expressa"]);
+
+    const carrinho = (await app.inject({ method: "GET", url: "/api/sessoes/s1/carrinho" })).json().carrinho;
+    expect(carrinho.entrega.cep).toBe("01310100");
+    expect((await post("/api/sessoes/s1/frete", { cep: "12" })).json().motivo).toBe("cep_invalido");
+    expect((await post("/api/sessoes/s1/frete", {})).statusCode).toBe(400);
+  });
+
+  it("aplica o cupom pela tela, em qualquer caixa, e avisa a Sofia", async () => {
+    const { post, sessao } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-001", quantidade: 2 }); // R$ 200,00
+
+    const r = await post("/api/sessoes/s1/cupom", { codigo: " prohall10 " });
+    expect(r.statusCode).toBe(200);
+    expect(r.json().carrinho.cupom).toMatchObject({ codigo: "PROHALL10", desconto: { texto: "R$ 20,00" } });
+    expect(sessao.cupom).toBe("PROHALL10");
+    expect(sessao.avisosPendentes.at(-1)).toMatch(/aplicou o cupom PROHALL10 pela tela/);
+  });
+
+  it("recusa cupom inválido ou abaixo do mínimo com o motivo", async () => {
+    const { post, sessao } = montar();
+    await post("/api/sessoes/s1/carrinho/itens", { id: "PH-004" }); // R$ 60,00
+
+    const abaixo = await post("/api/sessoes/s1/cupom", { codigo: "PROHALL10" });
+    expect([abaixo.statusCode, abaixo.json().motivo]).toEqual([422, "abaixo_do_minimo"]);
+    expect(abaixo.json().erro).toContain("R$ 150,00");
+
+    const invalido = await post("/api/sessoes/s1/cupom", { codigo: "DESCONTO50" });
+    expect([invalido.statusCode, invalido.json().motivo]).toEqual([422, "invalido"]);
+    expect(sessao.cupom).toBeNull();
+    expect((await post("/api/sessoes/s1/cupom", {})).statusCode).toBe(400);
+    expect((await post("/api/sessoes/x/cupom", { codigo: "PROHALL10" })).statusCode).toBe(404);
   });
 
   it("mostra o frete no carrinho depois que o CEP é informado na conversa", async () => {

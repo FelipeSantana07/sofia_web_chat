@@ -5,11 +5,14 @@
     estado,
     controle,
     bloqueado,
+    aoFinalizar,
   }: {
     estado: EstadoCarrinho;
     controle: ControleCarrinho;
     /** A Sofia está respondendo: o servidor recusaria a alteração. */
     bloqueado: boolean;
+    /** Abre o checkout. */
+    aoFinalizar: () => void;
   } = $props();
 
   const carrinho = $derived(estado.carrinho);
@@ -88,6 +91,10 @@
             <p class="dica">Informe o CEP à Sofia para calcular o frete.</p>
           {/if}
         </section>
+      {/if}
+
+      {#if carrinho && !carrinho.vazio}
+        <button type="button" class="finalizar" onclick={aoFinalizar} disabled={desabilitado}>Finalizar compra</button>
       {/if}
 
       {#if estado.erro}<p class="erro" role="alert">{estado.erro}</p>{/if}
@@ -248,6 +255,18 @@
   .vazio {
     padding: 24px 0;
     text-align: center;
+  }
+  .finalizar {
+    width: 100%;
+    min-height: 50px;
+    margin-top: 14px;
+    border: 0;
+    border-radius: 25px;
+    background: var(--marca);
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
   }
   .erro {
     margin: 10px 0 0;

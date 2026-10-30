@@ -186,6 +186,17 @@ describe("criarChat", () => {
   });
 });
 
+describe("anunciar", () => {
+  it("mostra uma fala da Sofia sem enviar nada ao servidor", () => {
+    const { buscar, pedidos } = fetchFalso();
+    const chat = criarChat({ fetch: buscar });
+    const { atual } = observar(chat);
+    chat.anunciar("Pagamento confirmado!");
+    expect(atual().mensagens.at(-1)).toMatchObject({ autor: "sofia", texto: "Pagamento confirmado!" });
+    expect(pedidos).toHaveLength(0);
+  });
+});
+
 describe("cards de produto", () => {
   const card = (id: string) => ({
     id,

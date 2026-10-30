@@ -5,12 +5,32 @@
   import Digitando from "./components/Digitando.svelte";
   import Mensagem from "./components/Mensagem.svelte";
   import PainelCarrinho from "./components/PainelCarrinho.svelte";
+  import TelaCheckout from "./components/TelaCheckout.svelte";
+  import TelaPix from "./components/TelaPix.svelte";
   import { criarCarrinho } from "./lib/carrinho.js";
   import { criarChat } from "./lib/chat.js";
+  import { criarPedido } from "./lib/pedido.js";
 
-  // O carrinho precisa do id da conversa e o chat avisa o carrinho do que a Sofia fez: um aponta para o outro.
-  const carrinho = criarCarrinho({ obterSessaoId: () => get(chat).sessaoId });
-  const chat = criarChat({ aoEvento: carrinho.aoEvento, aoTerminar: () => void carrinho.atualizar() });
+  // Carrinho e pedido precisam do id da conversa, e o chat avisa os dois do que a Sofia fez: apontam uns para os outros.
+  const obterSessaoId = () => get(chat).sessaoId;
+  const carrinho = criarCarrinho({ obterSessaoId });
+  const pedido = criarPedido({
+    obterSessaoId,
+    aoMudarCarrinho: () => void carrinho.atualizar(),
+    aoPagar: (fala) => chat.anunciar(fala),
+  });
+  const chat = criarChat({
+    aoEvento: (evento) => {
+      carrinho.aoEvento(evento);
+      pedido.aoEvento(evento);
+    },
+    aoTerminar: () => void carrinho.atualizar(),
+  });
+
+  function finalizarCompra() {
+    carrinho.fechar();
+    pedido.abrirCheckout();
+  }
 
   const quantidadesNoCarrinho = $derived(
     Object.fromEntries(($carrinho.carrinho?.itens ?? []).map((i) => [i.id, i.quantidade])),
@@ -52,6 +72,13 @@
     </button>
   </header>
 
+  {#if $pedido.pedido && $pedido.pedido.status === "aguardando_pagamento" && $pedido.tela === "nenhuma"}
+    <div class="faixa-pedido" role="status">
+      <span>Pedido <strong>{$pedido.pedido.id}</strong> aguardando pagamento</span>
+      <button type="button" onclick={pedido.abrirPix}>{$pedido.pedido.pix ? "Ver PIX" : "Gerar PIX"}</button>
+    </div>
+  {/if}
+
   <main bind:this={lista} onscroll={aoRolar} class="conversa" role="log" aria-live="polite" aria-label="Conversa com a Sofia">
     {#each $chat.mensagens as mensagem (mensagem.id)}
       <Mensagem {mensagem} {quantidadesNoCarrinho} bloqueado={$chat.enviando} aoAdicionar={(id) => carrinho.adicionar(id)} />
@@ -69,7 +96,13 @@
   <Composer enviando={$chat.enviando} {aoEnviar} />
 </div>
 
-<PainelCarrinho estado={$carrinho} controle={carrinho} bloqueado={$chat.enviando} />
+<PainelCarrinho estado={$carrinho} controle={carrinho} bloqueado={$chat.enviando} aoFinalizar={finalizarCompra} />
+
+{#if $pedido.tela === "checkout"}
+  <TelaCheckout {pedido} estadoPedido={$pedido} {carrinho} estadoCarrinho={$carrinho} />
+{:else if $pedido.tela === "pix"}
+  <TelaPix {pedido} estado={$pedido} />
+{/if}
 
 <style>
   .app {
@@ -137,6 +170,27 @@
     margin: 0;
     font-size: 0.8rem;
     opacity: 0.85;
+  }
+  .faixa-pedido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 16px;
+    background: #fff4d6;
+    color: #5c4300;
+    font-size: 0.85rem;
+  }
+  .faixa-pedido button {
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid #5c4300;
+    border-radius: 18px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
   }
   .conversa {
     flex: 1;

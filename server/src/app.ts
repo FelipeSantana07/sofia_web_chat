@@ -8,7 +8,7 @@ import { gerarQrSvg } from "./pedidos/qr.js";
 import { visaoDoPedido } from "./pedidos/visao.js";
 import type { EstadoSessao, StoreSessoes } from "./sessao/store.js";
 import { erroDeValidacao, type ResultadoFerramenta } from "./tools/base.js";
-import { adicionarAoCarrinho, removerDoCarrinho } from "./tools/carrinho-frete.js";
+import { adicionarAoCarrinho, aplicarCupom, calcularFrete, removerDoCarrinho } from "./tools/carrinho-frete.js";
 import { montarResumoCarrinho } from "./tools/resumo-carrinho.js";
 
 export const LIMITE_MENSAGEM = 2000;
@@ -113,7 +113,7 @@ export function criarApp({
   ): Contexto | null {
     const sessao = store.obter(sessaoId);
     if (!sessao) {
-      reply.code(404).send({ erro: "Conversa não encontrada.", motivo: "sessao_nao_encontrada" });
+      reply.code(404).send({ erro: "Conversa não encontrada (o servidor pode ter reiniciado). Recarregue a página para começar de novo.", motivo: "sessao_nao_encontrada" });
       return null;
     }
     if (ocupadas.has(sessao.id)) {
@@ -134,7 +134,11 @@ export function criarApp({
 
     const r = fecharPedido({ catalogo, sessao: contexto.sessao }, dados.data, agora());
     if (!r.ok) return recusar(reply, r);
-    return reply.code(201).send({ pedido: visaoDoPedido(r.pedido, agora()) });
+    const visao = visaoDoPedido(r.pedido, agora());
+    contexto.sessao.avisosPendentes.push(
+      `[aviso do sistema, não é fala da cliente] Ela fechou o pedido ${r.pedido.id} pelo formulário da tela (total ${visao.totais.total_no_pix.texto} no PIX).`,
+    );
+    return reply.code(201).send({ pedido: visao });
   });
 
   /** GET /api/sessoes/:sessaoId/pedidos/:pedidoId → { pedido, qr_svg? } */
@@ -142,7 +146,7 @@ export function criarApp({
     "/api/sessoes/:sessaoId/pedidos/:pedidoId",
     async (request, reply) => {
       const sessao = store.obter(request.params.sessaoId);
-      if (!sessao) return reply.code(404).send({ erro: "Conversa não encontrada.", motivo: "sessao_nao_encontrada" });
+      if (!sessao) return reply.code(404).send({ erro: "Conversa não encontrada (o servidor pode ter reiniciado). Recarregue a página para começar de novo.", motivo: "sessao_nao_encontrada" });
       const r = localizarPedido({ catalogo, sessao }, request.params.pedidoId, agora());
       if (!r.ok) return recusar(reply, r);
       const qr = r.pedido.pix ? { qr_svg: await gerarQrSvg(r.pedido.pix.texto) } : {};
@@ -158,6 +162,11 @@ export function criarApp({
       if (!contexto) return reply;
       const r = emitirPix({ catalogo, sessao: contexto.sessao }, request.params.pedidoId, agora());
       if (!r.ok) return recusar(reply, r);
+      if (!r.reaproveitado) {
+        contexto.sessao.avisosPendentes.push(
+          `[aviso do sistema, não é fala da cliente] Foi gerado na tela o PIX do pedido ${r.pedido.id}; ela pode pagar por lá.`,
+        );
+      }
       return {
         pedido: visaoDoPedido(r.pedido, agora()),
         qr_svg: await gerarQrSvg(r.pedido.pix!.texto),
@@ -187,8 +196,33 @@ export function criarApp({
   /** GET /api/sessoes/:sessaoId/carrinho → { carrinho } com itens, subtotal, cupom e frete já calculados pelo servidor. */
   app.get<{ Params: { sessaoId: string } }>("/api/sessoes/:sessaoId/carrinho", async (request, reply) => {
     const sessao = store.obter(request.params.sessaoId);
-    if (!sessao) return reply.code(404).send({ erro: "Conversa não encontrada.", motivo: "sessao_nao_encontrada" });
+    if (!sessao) return reply.code(404).send({ erro: "Conversa não encontrada (o servidor pode ter reiniciado). Recarregue a página para começar de novo.", motivo: "sessao_nao_encontrada" });
     return { carrinho: montarResumoCarrinho({ catalogo, sessao }) };
+  });
+
+  /** POST /api/sessoes/:sessaoId/frete { cep } → zona e as duas modalidades para o carrinho atual (e guarda o CEP na conversa). */
+  app.post<{ Params: { sessaoId: string } }>("/api/sessoes/:sessaoId/frete", async (request, reply) => {
+    const contexto = comSessao(request.params.sessaoId, reply);
+    if (!contexto) return reply;
+    const corpo = z.object({ cep: z.string().min(1) }).safeParse(request.body);
+    if (!corpo.success) return reply.code(400).send(erroDeValidacao(corpo.error, request.body));
+    const r = calcularFrete.executar(corpo.data, { catalogo, sessao: contexto.sessao });
+    return r.ok ? r : reply.code(422).send(r);
+  });
+
+  /** POST /api/sessoes/:sessaoId/cupom { codigo } → { mensagem, cupom, carrinho }. As mesmas regras da ferramenta aplicar_cupom. */
+  app.post<{ Params: { sessaoId: string } }>("/api/sessoes/:sessaoId/cupom", async (request, reply) => {
+    const contexto = comSessao(request.params.sessaoId, reply);
+    if (!contexto) return reply;
+    const corpo = z.object({ codigo: z.string().min(1) }).safeParse(request.body);
+    if (!corpo.success) return reply.code(400).send(erroDeValidacao(corpo.error, request.body));
+
+    const r = aplicarCupom.executar(corpo.data, { catalogo, sessao: contexto.sessao });
+    if (!r.ok) return reply.code(statusDaFerramenta(r)).send(r);
+    contexto.sessao.avisosPendentes.push(
+      `[aviso do sistema, não é fala da cliente] Ela aplicou o cupom ${contexto.sessao.cupom} pela tela.`,
+    );
+    return r;
   });
 
   /** POST /api/sessoes/:sessaoId/carrinho/itens { id, quantidade? = 1 } → { mensagem, carrinho, aviso_cupom? } */

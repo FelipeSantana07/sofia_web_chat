@@ -77,8 +77,15 @@ function descreverProblema(issue: z.core.$ZodIssue, entrada: unknown): string {
     };
     return esperado[issue.expected] ?? "tipo inválido";
   }
-  if (issue.code === "too_small") return "valor pequeno demais (quantidades devem ser inteiros maiores que zero)";
-  if (issue.code === "too_big") return "valor grande demais";
+  if (issue.code === "too_small" || issue.code === "too_big") {
+    const pequeno = issue.code === "too_small";
+    // Texto: usa a mensagem do próprio schema (ex.: "informe o nome") ou, se for a padrão em inglês, uma genérica.
+    if (issue.origin === "string") {
+      if (!/^Too /.test(issue.message)) return issue.message;
+      return pequeno ? `texto curto demais (mínimo ${String(issue.minimum)} caracteres)` : `texto longo demais (máximo ${String(issue.maximum)} caracteres)`;
+    }
+    return pequeno ? "valor pequeno demais (quantidades devem ser inteiros maiores que zero)" : "valor grande demais";
+  }
   if (issue.code === "invalid_value") {
     const opcoes = issue.values.map((v) => JSON.stringify(v)).join(", ");
     return `valor inválido; use um destes: ${opcoes}`;

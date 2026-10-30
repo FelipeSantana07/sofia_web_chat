@@ -56,15 +56,15 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 6 · Checkout e PIX** · branch `feat/checkout-pix`
 
-- [x] T-25 · Pedido pela conversa e pelo formulário — commit: —
-- [x] T-26 · PIX falso — commit: —
-- [x] T-27 · Simular pagamento — commit: —
+- [x] T-25 · Pedido pela conversa e pelo formulário — commit: 2fe152b
+- [x] T-26 · PIX falso — commit: 2fe152b
+- [x] T-27 · Simular pagamento — commit: 2fe152b
 
 **Fase 7 · Interface** · branch `feat/web`
 
-- [x] T-28 · Chat com streaming — commit: —
-- [x] T-29 · Cards de produto e carrinho — commit: —
-- [ ] T-30 · Checkout e tela do PIX — commit: —
+- [x] T-28 · Chat com streaming — commit: aacb687
+- [x] T-29 · Cards de produto e carrinho — commit: eb2bc83
+- [x] T-30 · Checkout e tela do PIX — commit: —
 - [ ] T-31 · Painel de debug — commit: —
 
 **Fase 8 · Avaliação** · branch `test/conversas`

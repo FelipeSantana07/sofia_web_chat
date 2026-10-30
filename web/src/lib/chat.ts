@@ -43,6 +43,8 @@ export interface Chat {
   subscribe(ouvinte: (estado: EstadoChat) => void): () => void;
   enviar(texto: string): Promise<void>;
   tentarDeNovo(): Promise<void>;
+  /** Põe uma fala da Sofia no chat sem passar pelo modelo (ex.: confirmação do pagamento). */
+  anunciar(texto: string): void;
 }
 
 export function criarChat({
@@ -157,6 +159,9 @@ export function criarChat({
       ultimaDaCliente = limpo;
       adicionar("cliente", limpo);
       await responder(limpo);
+    },
+    anunciar(texto) {
+      adicionar("sofia", texto);
     },
     async tentarDeNovo() {
       if (!ultimaDaCliente || estado.enviando || !estado.podeTentarDeNovo) return;

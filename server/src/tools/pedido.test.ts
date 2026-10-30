@@ -46,6 +46,13 @@ describe("finalizar_pedido", () => {
     expect(r.erro).toMatch(/e-mail inválido/);
   });
 
+  it("explica campo de texto vazio ou longo demais em português", () => {
+    const r = chamar(finalizarPedido, { ...ARGS, nome: "", endereco: "x".repeat(200) }, conversa());
+    const problemas = Object.fromEntries((r.campos as { campo: string; problema: string }[]).map((c) => [c.campo, c.problema]));
+    expect(problemas.nome).toBe("informe o nome");
+    expect(problemas.endereco).toMatch(/texto longo demais \(máximo 150 caracteres\)/);
+  });
+
   it("recusa carrinho vazio, CEP inválido e estoque insuficiente com o motivo", () => {
     expect(chamar(finalizarPedido, ARGS, contextoDeTeste())).toMatchObject({ ok: false, motivo: "carrinho_vazio" });
     expect(chamar(finalizarPedido, { ...ARGS, cep: "12" }, conversa())).toMatchObject({ ok: false, motivo: "cep_invalido" });

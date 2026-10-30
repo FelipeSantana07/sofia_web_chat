@@ -31,6 +31,8 @@ export interface ControleCarrinho {
   adicionar(id: string, quantidade?: number): Promise<ResultadoAcao>;
   /** Sem `quantidade`, tira o item inteiro. */
   remover(id: string, quantidade?: number): Promise<ResultadoAcao>;
+  /** Aplica o cupom digitado pela cliente; o servidor valida (código e pedido mínimo) e recalcula tudo. */
+  aplicarCupom(codigo: string): Promise<ResultadoAcao>;
   /** Busca o carrinho no servidor (fonte da verdade). */
   atualizar(): Promise<void>;
   /** Acompanha as ferramentas da Sofia: se a resposta trouxe o carrinho, já mostra. */
@@ -95,6 +97,14 @@ export function criarCarrinho({ obterSessaoId, fetch: buscar = globalThis.fetch.
       alterar((sessaoId) =>
         buscar(`${urlBase(sessaoId)}/itens/${encodeURIComponent(id)}${quantidade ? `?quantidade=${quantidade}` : ""}`, {
           method: "DELETE",
+        }),
+      ),
+    aplicarCupom: (codigo) =>
+      alterar((sessaoId) =>
+        buscar(`/api/sessoes/${encodeURIComponent(sessaoId)}/cupom`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo }),
         }),
       ),
     async atualizar() {
