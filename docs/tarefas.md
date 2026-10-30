@@ -45,11 +45,11 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 - [x] T-17 · Estado da sessão — commit: f8a4d69
 - [x] T-18 · Ferramentas de catálogo e perfil — commit: 8e0db42
 - [x] T-19 · Ferramentas de carrinho, cupom e frete — commit: 1add308
-- [x] T-20 · Registro e despacho das ferramentas — commit: —
+- [x] T-20 · Registro e despacho das ferramentas — commit: e5a081b
 
 **Fase 5 · Agente** · branch `feat/agente`
 
-- [ ] T-21 · Prompt da Sofia — commit: —
+- [x] T-21 · Prompt da Sofia — commit: —
 - [ ] T-22 · Loop de function calling — commit: —
 - [ ] T-23 · Rota /chat com streaming — commit: —
 - [ ] T-24 · CLI de conversa — commit: —
