@@ -26,8 +26,8 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 **Fase 2 · Domínio** · branch `feat/dominio`
 
 - [x] T-06 · Dinheiro em centavos — commit: e9b0d88
-- [x] T-07 · CEP e zona — commit: —
-- [ ] T-08 · Peso cobrado e faixa — commit: —
+- [x] T-07 · CEP e zona — commit: 3374a3f
+- [x] T-08 · Peso cobrado e faixa — commit: —
 - [ ] T-09 · Frete Econômica e Expressa — commit: —
 - [ ] T-10 · Frete grátis — commit: —
 - [ ] T-11 · Cupom PROHALL10 — commit: —
