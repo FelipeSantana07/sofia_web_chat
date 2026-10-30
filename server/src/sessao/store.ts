@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import type { Content } from "@google/genai";
 import { perfilVazio, type Pedido, type PerfilCliente } from "@sofia/shared";
 import type { Zona } from "../domain/cep.js";
 import { carrinhoVazio, type Carrinho } from "../domain/carrinho.js";
@@ -13,6 +14,8 @@ export interface EstadoSessao {
   /** Último CEP válido consultado (8 dígitos) e sua zona, ou null. */
   entrega: { cep: string; zona: Zona } | null;
   pedido: Pedido | null;
+  /** Conversa no formato do Gemini (mensagens, chamadas e respostas de ferramentas), mantida pelo agente. */
+  historico: Content[];
   criadoEm: number;
   atualizadoEm: number;
 }
@@ -46,6 +49,7 @@ export function criarStoreSessoes({ gerarId = randomUUID, agora = Date.now }: Op
       cupom: null,
       entrega: null,
       pedido: null,
+      historico: [],
       criadoEm: t,
       atualizadoEm: t,
     };
