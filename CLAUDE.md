@@ -37,7 +37,7 @@ Monorepo pnpm · Node + TypeScript + Fastify (`server/`) · Svelte + Vite (`web/
 
 ## Registro de decisões
 
-Quando algo estiver ambíguo, decida, siga em frente e **registre a decisão na seção "Decisões" do README** (uma linha: o que foi decidido e por quê). O registro faz parte da entrega.
+Quando algo estiver ambíguo, decida e siga em frente. A seção "Decisões" do README guarda só decisões sobre a forma de trabalhar (organização, processo, configuração), em poucas linhas; o que é regra do enunciado ou detalhe de uma tarefa não entra lá (fica no commit).
 
 ## Entrega
 

@@ -51,7 +51,7 @@
     ],
     "duracao_resultado": "Primeiros efeitos de fortalecimento e redução de quebra nas primeiras semanas; para aceleração perceptível do crescimento, uso contínuo por pelo menos 30 dias.",
     "rendimento": "Até 80 aplicações",
-    "combina_com": ["PH-002", "PH-012"],
+    "combina_com": ["PH-002"],
     "perguntas_frequentes": [
       { "pergunta": "Para que serve?", "resposta": "Estimula a circulação no couro cabeludo e fortalece a estrutura capilar, combatendo enfraquecimento, queda e quebra." },
       { "pergunta": "Precisa enxaguar?", "resposta": "Não, é um leave-in." },
@@ -109,7 +109,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": null,
-    "combina_com": ["PH-001", "PH-012"],
+    "combina_com": ["PH-001"],
     "perguntas_frequentes": []
   },
   {
@@ -164,7 +164,7 @@
     ],
     "duracao_resultado": "Fragrância que dura horas (o site não informa tempo exato).",
     "rendimento": "Até 200 aplicações",
-    "combina_com": ["PH-005"],
+    "combina_com": [],
     "perguntas_frequentes": [
       { "pergunta": "Para que serve?", "resposta": "É um perfume capilar que deixa os cabelos com aroma ao longo do dia e renova a fragrância entre as lavagens." },
       { "pergunta": "Para quais cabelos?", "resposta": "Todos os tipos, em fios secos ou úmidos." },
@@ -229,7 +229,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": null,
-    "combina_com": ["PH-013", "PH-014"],
+    "combina_com": ["PH-013"],
     "perguntas_frequentes": []
   },
   {
@@ -286,7 +286,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Até 10 aplicações",
-    "combina_com": ["PH-003"],
+    "combina_com": [],
     "perguntas_frequentes": []
   },
   {
@@ -395,7 +395,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": null,
-    "combina_com": ["PH-015", "PH-008"],
+    "combina_com": ["PH-015"],
     "perguntas_frequentes": []
   },
   {
@@ -448,7 +448,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Até 20 aplicações",
-    "combina_com": ["PH-007", "PH-015", "PH-010", "PH-006"],
+    "combina_com": ["PH-006"],
     "perguntas_frequentes": [
       { "pergunta": "Para que serve?", "resposta": "Tratamento de reparação intensiva para cabelos danificados, porosos e fragilizados." },
       { "pergunta": "Quanto tempo deixar agir?", "resposta": "De 5 a 10 minutos, depois enxaguar." },
@@ -569,7 +569,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Até 25 aplicações",
-    "combina_com": ["PH-009", "PH-008"],
+    "combina_com": ["PH-009"],
     "perguntas_frequentes": [
       { "pergunta": "Para que serve?", "resposta": "Auxilia na integridade da fibra, facilita o desembaraço e contribui para maciez, brilho e redução do frizz." },
       { "pergunta": "Pode usar todos os dias?", "resposta": "Sim, diariamente ou conforme a necessidade." },
@@ -693,7 +693,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Até 25 aplicações",
-    "combina_com": ["PH-011", "PH-001", "PH-002"],
+    "combina_com": ["PH-011"],
     "perguntas_frequentes": [
       { "pergunta": "Para que serve?", "resposta": "Limpeza suave, sensação de mais corpo, hidratação e preparo da fibra para o tratamento seguinte." },
       { "pergunta": "Pode usar todos os dias?", "resposta": "Sim, diariamente ou conforme a necessidade." },
@@ -757,7 +757,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Até 100 usos",
-    "combina_com": ["PH-014", "PH-004"],
+    "combina_com": ["PH-004"],
     "perguntas_frequentes": []
   },
   {
@@ -819,7 +819,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Até 60 usos",
-    "combina_com": ["PH-013", "PH-004"],
+    "combina_com": [],
     "perguntas_frequentes": []
   },
   {
@@ -878,7 +878,7 @@
     ],
     "duracao_resultado": null,
     "rendimento": "Cerca de 3 meses para cabelos médios e longos (especificações da página); a tabela comparativa indica até 15 aplicações.",
-    "combina_com": ["PH-007", "PH-008"],
+    "combina_com": ["PH-007"],
     "perguntas_frequentes": [
       { "pergunta": "Para que serve?", "resposta": "Loção estabilizadora para descoloração e coloração, com clareamento seguro e uniforme." },
       { "pergunta": "Até que tom clareia?", "resposta": "De loiro escuro a loiro claríssimo." },

@@ -45,7 +45,7 @@ Espere o usuário aprovar ou ajustar o plano.
 ## 6. Fechar a tarefa
 
 1. Marque a tarefa como `[x]` no índice de `docs/tarefas.md`.
-2. Se alguma decisão foi tomada (ambiguidade resolvida, estimativa, escolha de biblioteca, desvio da especificação), adicione uma linha na seção **"Decisões"** do `README.md`: `- T-XX · <o que foi decidido> — <por quê>`.
+2. Se a tarefa trouxe uma decisão sobre a forma de trabalhar (processo, organização, configuração), ajuste a seção **"Decisões"** do `README.md`, que é curta. Decisões de implementação ou regras do enunciado não entram lá: descreva-as no resumo ao usuário e no commit.
 3. Se a tarefa anterior tem o hash do commit vazio no índice e o usuário informou o hash, preencha-o.
 
 ## 7. Entregar ao usuário
