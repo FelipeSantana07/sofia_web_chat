@@ -30,8 +30,8 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 - [x] T-08 · Peso cobrado e faixa — commit: c62d230
 - [x] T-09 · Frete Econômica e Expressa — commit: 8e2605d
 - [x] T-10 · Frete grátis — commit: f22302c
-- [x] T-11 · Cupom PROHALL10 — commit: —
-- [ ] T-12 · Carrinho e estoque — commit: —
+- [x] T-11 · Cupom PROHALL10 — commit: a65b04f
+- [x] T-12 · Carrinho e estoque — commit: —
 - [ ] T-13 · Totais e desconto PIX — commit: —
 
 **Fase 3 · Catálogo** · branch `feat/catalogo`

@@ -80,3 +80,6 @@ A preencher na T-34.
 - T-10 · `faltaParaGratisCentavos` é `null` na Expressa e `0` quando o frete já é grátis — a Expressa nunca é grátis, então não existe "quanto falta"; assim a IA não oferece um gatilho que não existe.
 - T-11 · O código do cupom aceita qualquer caixa e espaços nas pontas (`prohall10` vale) — a regra diz "PROHALL10" e a cliente digita no chat; qualquer outro código segue inválido.
 - T-11 · "Um cupom por pedido" é garantido por o carrinho guardar um único código (`CupomAplicado`); `reavaliarCupom` é chamada a cada mudança no carrinho e sinaliza `perdeuValidade` para a IA avisar.
+- T-12 · Carrinho imutável: cada operação devolve um novo carrinho ou um erro tipado (`motivo` + mensagem + `disponivel`) — as ferramentas repassam o erro à cliente sem tratar exceções, e o carrinho original nunca é alterado por uma operação que falha.
+- T-12 · `alterarQuantidade(…, 0)` remove o item, e o limite efetivo por item é o menor entre `estoque_teste` e 10 — a regra 6.3 pede os dois bloqueios; zero como remoção evita um segundo caminho para o mesmo efeito.
+- T-12 · O domínio usa o tipo mínimo `ProdutoCarrinho` (id, preço e promocional em centavos, estoque), sem depender do schema do produto — o schema completo vem na T-14 e o catálogo converte reais em centavos ao carregar.
