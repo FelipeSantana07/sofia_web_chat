@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "gemini:teste": "tsx --env-file-if-exists=../.env scripts/teste-gemini.ts"
+    "gemini:teste": "tsx --env-file-if-exists=../.env scripts/teste-gemini.ts",
+    "gemini:ferramentas": "tsx --env-file-if-exists=../.env scripts/teste-function-calling.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

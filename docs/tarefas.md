@@ -21,7 +21,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 **Fase 1 · Teste do Gemini** · branch `spike/gemini`
 
 - [x] T-04 · Teste simples do Gemini — commit: —
-- [ ] T-05 · Teste de function calling — commit: —
+- [x] T-05 · Teste de function calling — commit: —
 
 **Fase 2 · Domínio** · branch `feat/dominio`
 

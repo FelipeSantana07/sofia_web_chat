@@ -28,6 +28,7 @@ cp .env.example .env
 pnpm dev    # sobe server e web juntos
 pnpm test   # roda os testes (Vitest)
 pnpm gemini:teste   # chamada simples ao Gemini (modo mock sem chave)
+pnpm gemini:ferramentas   # spike de function calling (exige chave real)
 ```
 
 ## Estrutura
@@ -68,3 +69,5 @@ A preencher na T-34.
 - T-02 · `server/tsconfig.json` declara `types: ["node"]` — o TypeScript 7 não carrega `@types/*` automaticamente.
 - T-04 · `pnpm gemini:teste` roda em modo mock quando `GEMINI_API_KEY` está ausente ou vale `mock`, sem chamar a API — a chave ainda não foi enviada. Confirmado com a chave real: `gemini-3.8-flash` responde normalmente.
 - T-04 · O `.env` é carregado com `--env-file-if-exists` do Node, sem `dotenv` — uma dependência a menos.
+- T-05 · Formato de ferramentas validado com `gemini-3.8-flash`: declarações em `config.tools[].functionDeclarations` (parâmetros via `parametersJsonSchema`); a chamada vem em `response.functionCalls[0]` (`name` e `args`); o turno do modelo (`candidates[0].content`) vai ao histórico como veio; o resultado volta em `role: "user"` com `parts: [{ functionResponse: { name, response } }]` — confirmado por execução real em `pnpm gemini:ferramentas`.
+- T-05 · O spike faz uma única rodada de ferramenta, com a função fictícia `consultar_clima` — o loop com limite de iterações e a conversão de zod para declaração ficam para T-19 e T-21.
