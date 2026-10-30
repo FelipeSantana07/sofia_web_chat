@@ -29,6 +29,7 @@ pnpm dev    # sobe server e web juntos
 pnpm test   # roda os testes (Vitest)
 pnpm gemini:teste   # chamada simples ao Gemini (modo mock sem chave)
 pnpm gemini:ferramentas   # spike de function calling (exige chave real)
+pnpm validate:catalogo   # valida data/produtos.json contra o schema
 ```
 
 ## Estrutura
@@ -85,3 +86,6 @@ A preencher na T-34.
 - T-12 · O domínio usa o tipo mínimo `ProdutoCarrinho` (id, preço e promocional em centavos, estoque), sem depender do schema do produto — o schema completo vem na T-14 e o catálogo converte reais em centavos ao carregar.
 - T-13 · `calcularTotais` aceita `entrega: null` (CEP ainda não informado) e devolve `frete: null`, com o total sem frete — a Sofia mostra o carrinho antes do CEP sem inventar um frete.
 - T-13 · O exemplo 6.2 é teste automatizado (subtotal R$ 300,00 → cupom −R$ 30,00 → base R$ 270,00 → frete R$ 22,90 → PIX −R$ 13,50 → total exatamente R$ 279,40, faltando R$ 29,00 para o frete grátis).
+- T-14 · O schema (`packages/shared/src/produto.ts`) é estrito: campo desconhecido é erro, e texto vazio deve ser `null` — a regra 4.2 diz "ausente = `null` ou lista vazia", e aceitar `""` esconderia o que a Sofia precisa saber dizer que não tem.
+- T-14 · O schema também valida coerência: ids únicos, `combina_com` só para ids existentes (sem repetição nem o próprio produto), promocional menor que o preço e preço com até 2 casas — são erros de digitação comuns ao copiar 15 produtos à mão.
+- T-14 · A variedade mínima (≥ 4 categorias, ≥ 1 kit, ≥ 3 pares, estoque ≤ 3 etc.) fica fora do schema e é conferida na T-15 — ela depende do conjunto dos 15 produtos, não de cada produto; `pnpm validate:catalogo [caminho]` falha com erro claro enquanto `data/produtos.json` não existir.

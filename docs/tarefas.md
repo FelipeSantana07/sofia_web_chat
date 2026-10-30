@@ -32,11 +32,11 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 - [x] T-10 · Frete grátis — commit: f22302c
 - [x] T-11 · Cupom PROHALL10 — commit: a65b04f
 - [x] T-12 · Carrinho e estoque — commit: 7445706
-- [x] T-13 · Totais e desconto PIX — commit: —
+- [x] T-13 · Totais e desconto PIX — commit: 6b3fe7b
 
 **Fase 3 · Catálogo** · branch `feat/catalogo`
 
-- [ ] T-14 · Schema do produto — commit: —
+- [x] T-14 · Schema do produto — commit: —
 - [ ] T-15 · Cadastro dos 15 produtos — commit: —
 - [ ] T-16 · Combinações e data dos preços — commit: —
 
