@@ -4,6 +4,8 @@ Vendedora virtual em chat web (estilo Sofia) para o teste técnico da Prohall. E
 
 O foco do projeto é IA aplicada a vendas: prompt, function calling, dados e limites. Frete, totais, cupom, estoque e PIX são calculados sempre no código; a IA só chama ferramentas e comunica os resultados.
 
+**Vídeo de demonstração:** [assistir no Google Drive](https://drive.google.com/file/d/1sZBKFCYMAEAVcSK-jhNt5JIkPI4E7TEe/view?usp=sharing) — uma venda completa, da descoberta ao PIX pago, com um caso de limite e o painel de debug.
+
 | Os quatro pontos que o enunciado prioriza | Onde ver |
 | --- | --- |
 | Estrutura do prompt | [`prompts/sofia.md`](prompts/sofia.md) · [Prompt e limites](#prompt-e-limites) |

@@ -75,7 +75,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 **Fase 9 · Entrega** · branch `docs/entrega`
 
 - [x] T-34 · README final — commit: 74bb35f
-- [ ] T-35 · Vídeo de demonstração — commit: —
+- [x] T-35 · Vídeo de demonstração — commit: —
 
 ## Fases
 
