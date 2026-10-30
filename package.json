@@ -15,7 +15,8 @@
     "validate:catalogo": "pnpm --filter @sofia/server validate:catalogo",
     "chat": "pnpm --filter @sofia/server chat",
     "estoque:repor": "pnpm --filter @sofia/server estoque:repor",
-    "conversas": "pnpm --filter @sofia/server conversas"
+    "conversas": "pnpm --filter @sofia/server conversas",
+    "conversas:exportar": "pnpm --filter @sofia/server conversas:exportar"
   },
   "devDependencies": {
     "typescript": "^7.0.2",

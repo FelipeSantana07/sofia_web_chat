@@ -35,10 +35,11 @@ Outros comandos:
 
 | Comando | O que faz |
 | --- | --- |
-| `pnpm test` | Roda os 487 testes (Vitest); não chama o Gemini |
+| `pnpm test` | Roda os 495 testes (Vitest); não chama o Gemini |
 | `pnpm typecheck` | Confere os tipos do servidor, da interface e do pacote compartilhado |
 | `pnpm chat` | Conversa com a Sofia no terminal, mostrando cada ferramenta; `/pagar` simula o pagamento (exige chave real) |
 | `pnpm conversas [id…] [--vezes N]` | Roda as conversas-teste contra o Gemini e grava [`docs/conversas-teste.md`](docs/conversas-teste.md) (exige chave real) |
+| `pnpm conversas:exportar [perfil…] [--tentativas N]` | Roda 3 vendas completas (perfis `ana`, `carla` e `juliana`), simula o pagamento e exporta cada conversa em [`docs/conversas/`](docs/conversas) (exige chave real) |
 | `pnpm estoque:repor [n]` | Soma `n` unidades (padrão 10) ao estoque de todos os produtos |
 | `pnpm validate:catalogo` | Valida `data/produtos.json` contra o schema e a variedade mínima do enunciado |
 | `pnpm gemini:teste` · `pnpm gemini:ferramentas` | Chamada simples e chamada com function calling, para conferir a chave e o modelo |
@@ -101,6 +102,8 @@ O prompt de sistema fica em [`prompts/sofia.md`](prompts/sofia.md), em oito bloc
 Os limites do enunciado estão no prompt e são conferidos por **10 roteiros** (`pnpm conversas`): fluxo completo, cliente indecisa, produto fora do catálogo, pedido de 50%, CEP inválido, prompt injection, cartão/boleto, problema de saúde, estoque baixo e produto profissional para uso em casa. Cada conversa também passa por verificações gerais: nenhum valor em R$ que não tenha vindo de uma ferramenta, nenhum pedido de CPF ou cartão, nenhuma urgência falsa, nenhum trecho do prompt, no máximo uma pergunta por mensagem e nenhum id interno de produto.
 
 Última validação, com 3 execuções por roteiro (30 conversas): **29 passaram**; a falha foi uma mensagem com duas perguntas. O tempo até o primeiro texto ficou com mediana de **4,5 s** (antes dos ajustes de prompt, temperatura e pensamento, era de 8,5 s). O relatório completo, com as falas, as ferramentas e cada verificação, está em [`docs/conversas-teste.md`](docs/conversas-teste.md).
+
+**Três vendas completas, da descoberta ao PIX pago, com perfis diferentes**, estão exportadas em texto em [`docs/conversas/`](docs/conversas): a **Ana** (fios finos com queda, cupom e quanto falta para o frete grátis), a **Carla** (cacheada com frizz, em Manaus, Expressa) e a **Juliana** (cabeleireira, produtos profissionais, frete grátis). As falas da Sofia não foram editadas.
 
 ## API
 
@@ -183,7 +186,7 @@ Seis pares, nos dois sentidos em `data/produtos.json`, escolhidos por serem os q
 
 ```
 ├── data/produtos.json        # catálogo com os 15 produtos
-├── docs/                     # enunciado, requisitos, tarefas, conversas-teste e imagens
+├── docs/                     # enunciado, requisitos, tarefas, conversas-teste, conversas exportadas e imagens
 ├── packages/shared/          # tipos e schemas zod usados pelos dois lados
 ├── prompts/sofia.md          # prompt de sistema
 ├── server/

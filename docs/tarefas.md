@@ -74,7 +74,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 9 · Entrega** · branch `docs/entrega`
 
-- [x] T-34 · README final — commit: —
+- [x] T-34 · README final — commit: 74bb35f
 - [ ] T-35 · Vídeo de demonstração — commit: —
 
 ## Fases
@@ -391,7 +391,7 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 #### T-35 · Vídeo de demonstração
 
 - **Objetivo:** Gravar a demo.
-- **Critério de aceite:** Conversa completa (descoberta → PIX pago) + 1 caso de limite + painel de debug; nenhuma chave visível; link no README.
+- **Critério de aceite:** Conversa completa (descoberta → PIX pago) + 1 caso de limite + painel de debug; nenhuma chave visível; link no README. Também: 3 conversas exportadas em texto com perfis de cliente diferentes (`docs/conversas/`) .
 - **Depende de:** T-34
 - **Branch:** `docs/entrega`
 - **Commit sugerido:** `docs: link do vídeo de demonstração`

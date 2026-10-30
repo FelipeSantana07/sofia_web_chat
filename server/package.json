@@ -11,7 +11,8 @@
     "validate:catalogo": "tsx scripts/validar-catalogo.ts",
     "chat": "tsx --env-file-if-exists=../.env scripts/chat.ts",
     "estoque:repor": "tsx scripts/repor-estoque.ts",
-    "conversas": "tsx --env-file-if-exists=../.env scripts/conversas.ts"
+    "conversas": "tsx --env-file-if-exists=../.env scripts/conversas.ts",
+    "conversas:exportar": "tsx --env-file-if-exists=../.env scripts/exportar-conversas.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

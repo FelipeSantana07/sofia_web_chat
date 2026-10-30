@@ -2,15 +2,11 @@
 // Uso: pnpm conversas [id...] [--vezes N]   (sem ids, roda todos os roteiros)
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { montarSofia } from "../src/agent/montar.js";
-import { criarRegistroArquivo } from "../src/agent/registro-log.js";
 import { avaliar } from "../src/avaliacao/avaliador.js";
+import { executarRoteiro } from "../src/avaliacao/executar.js";
 import { gerarRelatorio, type ResultadoRoteiro } from "../src/avaliacao/relatorio.js";
 import { ROTEIROS } from "../src/avaliacao/roteiros.js";
-import type { Roteiro, TurnoRegistrado } from "../src/avaliacao/tipos.js";
-import { carregarCatalogo } from "../src/catalogo/catalogo.js";
 import { descreverAjustes, lerConfigGemini, ouEncerrar } from "../src/config.js";
-import { criarStoreSessoes } from "../src/sessao/store.js";
 import { criarDespachante } from "../src/tools/registro.js";
 
 const CAMINHO_RELATORIO = fileURLToPath(new URL("../../docs/conversas-teste.md", import.meta.url));
@@ -21,7 +17,7 @@ const { modelo } = config;
 const args = process.argv.slice(2);
 const iVezes = args.indexOf("--vezes");
 const vezes = iVezes >= 0 ? Number(args[iVezes + 1]) : 1;
-const ids = args.filter((a, i) => !a.startsWith("--") && i !== iVezes + 1);
+const ids = args.filter((a, i) => !a.startsWith("--") && (iVezes < 0 || i !== iVezes + 1));
 if (!Number.isInteger(vezes) || vezes < 1) {
   console.error("Use --vezes com um inteiro maior que zero. Ex.: pnpm conversas --vezes 3");
   process.exit(1);
@@ -36,41 +32,12 @@ const regrasFixas = criarDespachante().declaracoes.map((d) => d.description ?? "
 
 const escolhidos = ids.length > 0 ? ROTEIROS.filter((r) => ids.includes(r.id)) : ROTEIROS;
 
-async function rodar(roteiro: Roteiro): Promise<TurnoRegistrado[]> {
-  // Catálogo novo e só em memória: cada roteiro parte do estoque inicial e não mexe no data/estoque.json.
-  const catalogo = carregarCatalogo(undefined, null);
-  const agente = montarSofia({ ...config, catalogo, registro: criarRegistroArquivo() });
-  const sessao = criarStoreSessoes().obterOuCriar();
-  const turnos: TurnoRegistrado[] = [];
-
-  for (const mensagem of roteiro.mensagens) {
-    const inicio = Date.now();
-    const turno: TurnoRegistrado = { cliente: mensagem, sofia: "", ferramentas: [], primeiroTextoMs: null, duracaoMs: 0 };
-    for await (const evento of agente.responder(sessao, mensagem)) {
-      if (evento.tipo === "texto") {
-        turno.primeiroTextoMs ??= Date.now() - inicio;
-      } else if (evento.tipo === "ferramenta") {
-        const { nome, argumentos, resultado, duracaoMs } = evento;
-        turno.ferramentas.push({ nome, argumentos, resultado, duracaoMs });
-      } else if (evento.tipo === "fim") {
-        turno.sofia = evento.texto;
-      } else if (evento.tipo === "erro") {
-        turno.erro = evento.mensagem;
-        turno.sofia ||= evento.mensagem;
-      }
-    }
-    turno.duracaoMs = Date.now() - inicio;
-    turnos.push(turno);
-  }
-  return turnos;
-}
-
 const resultados: ResultadoRoteiro[] = [];
 console.log(`Rodando ${escolhidos.length} roteiro(s) × ${vezes} com ${modelo}…\n`);
 for (const roteiro of escolhidos) {
   for (let execucao = 1; execucao <= vezes; execucao++) {
     process.stdout.write(`  ${roteiro.id}${vezes > 1 ? ` (${execucao})` : ""}… `);
-    const conversa = { roteiro, turnos: await rodar(roteiro) };
+    const conversa = { roteiro, turnos: (await executarRoteiro(config, roteiro)).turnos };
     const verificacoes = avaliar(conversa, regrasFixas);
     const falhas = verificacoes.filter((v) => !v.ok);
     console.log(falhas.length === 0 ? "ok" : `FALHOU: ${falhas.map((v) => v.descricao).join("; ")}`);
