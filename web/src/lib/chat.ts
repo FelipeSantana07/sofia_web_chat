@@ -20,6 +20,21 @@ export interface EstadoChat {
   digitando: boolean;
   /** A última mensagem da cliente não foi respondida e pode ser reenviada. */
   podeTentarDeNovo: boolean;
+  /** Para o painel de debug: cada mensagem da cliente com as ferramentas que a Sofia chamou para respondê-la. */
+  depuracao: TurnoDepuracao[];
+}
+
+export interface ChamadaFerramenta {
+  nome: string;
+  argumentos: unknown;
+  resultado: Record<string, unknown>;
+  duracaoMs: number;
+}
+
+export interface TurnoDepuracao {
+  id: number;
+  mensagem: string;
+  ferramentas: ChamadaFerramenta[];
 }
 
 export const BOAS_VINDAS =
@@ -61,6 +76,7 @@ export function criarChat({
     enviando: false,
     digitando: false,
     podeTentarDeNovo: false,
+    depuracao: [],
   };
   const ouvintes = new Set<(e: EstadoChat) => void>();
 
@@ -92,6 +108,8 @@ export function criarChat({
     let recebeuFim = false;
     let falhou = false;
     const cardsDoTurno = new Map<string, CardProduto>();
+    const idDoTurno = proximoId++;
+    mudar({ depuracao: [...estado.depuracao, { id: idDoTurno, mensagem: texto, ferramentas: [] }] });
 
     const tratar = (evento: EventoChat): void => {
       aoEvento?.(evento);
@@ -102,7 +120,13 @@ export function criarChat({
         else alterarTexto(idDaSofia, (atual) => atual + evento.delta);
         mudar({ digitando: false });
       } else if (evento.tipo === "ferramenta") {
-        mudar({ digitando: true }); // o texto fica parado enquanto a ferramenta roda
+        const { nome, argumentos, resultado, duracaoMs } = evento;
+        mudar({
+          digitando: true, // o texto fica parado enquanto a ferramenta roda
+          depuracao: estado.depuracao.map((t) =>
+            t.id === idDoTurno ? { ...t, ferramentas: [...t.ferramentas, { nome, argumentos, resultado, duracaoMs }] } : t,
+          ),
+        });
         if (evento.nome === "mostrar_produtos" && evento.resultado.ok === true && Array.isArray(evento.resultado.produtos)) {
           for (const p of evento.resultado.produtos as CardProduto[]) cardsDoTurno.set(p.id, p);
         }

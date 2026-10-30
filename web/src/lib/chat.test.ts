@@ -186,6 +186,36 @@ describe("criarChat", () => {
   });
 });
 
+describe("depuração", () => {
+  it("guarda, para cada mensagem da cliente, as ferramentas chamadas com argumentos, resultado e duração", async () => {
+    const { buscar } = fetchFalso(
+      respostaCompleta(
+        ["ferramenta", { nome: "buscar_produtos", argumentos: { termo: "frizz" }, resultado: { ok: true, total: 2 }, duracaoMs: 3 }],
+        ["ferramenta", { nome: "calcular_frete", argumentos: { cep: "123" }, resultado: { ok: false, erro: "CEP inválido" }, duracaoMs: 1 }],
+        ["fim", { texto: "ok" }],
+      ),
+      respostaCompleta(["fim", { texto: "oi" }]),
+    );
+    const chat = criarChat({ fetch: buscar });
+    const { atual } = observar(chat);
+    expect(atual().depuracao).toEqual([]);
+
+    await chat.enviar("tenho frizz");
+    await chat.enviar("obrigada");
+
+    const [primeiro, segundo] = atual().depuracao;
+    expect(primeiro).toMatchObject({
+      mensagem: "tenho frizz",
+      ferramentas: [
+        { nome: "buscar_produtos", argumentos: { termo: "frizz" }, resultado: { ok: true, total: 2 }, duracaoMs: 3 },
+        { nome: "calcular_frete", argumentos: { cep: "123" }, resultado: { ok: false, erro: "CEP inválido" }, duracaoMs: 1 },
+      ],
+    });
+    expect(segundo).toMatchObject({ mensagem: "obrigada", ferramentas: [] });
+    expect(primeiro?.id).not.toBe(segundo?.id);
+  });
+});
+
 describe("anunciar", () => {
   it("mostra uma fala da Sofia sem enviar nada ao servidor", () => {
     const { buscar, pedidos } = fetchFalso();

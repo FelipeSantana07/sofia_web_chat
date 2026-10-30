@@ -34,7 +34,7 @@ pnpm chat   # conversa com a Sofia no terminal, mostrando as ferramentas; /pagar
 pnpm estoque:repor [n]   # soma n unidades (padrão 10) ao estoque de todos os produtos
 ```
 
-A interface abre em `http://localhost:5173`; o Vite encaminha `/api` para o servidor (se mudar a `PORT`, rode o web com `SERVER_PORT` igual). O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
+A interface abre em `http://localhost:5173` (com `?debug` na URL, o painel de debug das ferramentas já abre; ele também abre pelo botão `<>` do topo); o Vite encaminha `/api` para o servidor (se mudar a `PORT`, rode o web com `SERVER_PORT` igual). O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
 
 - `POST /api/chat` com `{ "mensagem": "...", "sessaoId": "opcional" }` responde em Server-Sent Events: `sessao` (id da conversa, reenviado nas mensagens seguintes), `texto` (pedaços da resposta), `ferramenta` (nome, argumentos e resultado de cada chamada), `fim` (texto completo) e `erro`.
 - `GET /api/saude` responde `{ "ok": true }`.

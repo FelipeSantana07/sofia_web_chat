@@ -5,6 +5,7 @@
   import Digitando from "./components/Digitando.svelte";
   import Mensagem from "./components/Mensagem.svelte";
   import PainelCarrinho from "./components/PainelCarrinho.svelte";
+  import PainelDebug from "./components/PainelDebug.svelte";
   import TelaCheckout from "./components/TelaCheckout.svelte";
   import TelaPix from "./components/TelaPix.svelte";
   import { criarCarrinho } from "./lib/carrinho.js";
@@ -26,6 +27,9 @@
     },
     aoTerminar: () => void carrinho.atualizar(),
   });
+
+  // Painel de debug: escondido por padrão; abre pelo botão do topo ou já aberto com ?debug na URL (útil para o vídeo).
+  let debugAberto = $state(new URLSearchParams(location.search).has("debug"));
 
   function finalizarCompra() {
     carrinho.fechar();
@@ -64,6 +68,19 @@
       <h1>Sofia</h1>
       <p>Assistente virtual da Prohall · IA</p>
     </div>
+    <button
+      type="button"
+      class="botao-debug"
+      class:ativo={debugAberto}
+      onclick={() => (debugAberto = !debugAberto)}
+      aria-label={debugAberto ? "Fechar painel de debug" : "Abrir painel de debug"}
+      aria-pressed={debugAberto}
+      title="Painel de debug"
+    >
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path fill="currentColor" d="m8.6 16.6-4.6-4.6 4.6-4.6L7.2 6 1.2 12l6 6 1.4-1.4Zm6.8 0 4.6-4.6-4.6-4.6L16.8 6l6 6-6 6-1.4-1.4Z" />
+      </svg>
+    </button>
     <button type="button" class="botao-carrinho" onclick={carrinho.abrir} aria-label={`Abrir carrinho, ${$carrinho.quantidade} item(ns)`}>
       <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
         <path fill="currentColor" d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM1 2v2h2l3.6 7.6-1.4 2.4A2 2 0 0 0 7 17h12v-2H7.4l1.1-2h7.5a2 2 0 0 0 1.7-1l3.6-6.5A1 1 0 0 0 20.4 4H5.2l-.9-2H1Z" />
@@ -95,6 +112,10 @@
 
   <Composer enviando={$chat.enviando} {aoEnviar} />
 </div>
+
+{#if debugAberto}
+  <PainelDebug turnos={$chat.depuracao} aoFechar={() => (debugAberto = false)} />
+{/if}
 
 <PainelCarrinho estado={$carrinho} controle={carrinho} bloqueado={$chat.enviando} aoFinalizar={finalizarCompra} />
 
@@ -134,6 +155,22 @@
   }
   .topo > div:nth-child(2) {
     flex: 1;
+  }
+  .botao-debug {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+  }
+  .botao-debug.ativo,
+  .botao-debug:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
   }
   .botao-carrinho {
     position: relative;

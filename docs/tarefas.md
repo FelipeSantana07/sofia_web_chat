@@ -64,8 +64,8 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 - [x] T-28 · Chat com streaming — commit: aacb687
 - [x] T-29 · Cards de produto e carrinho — commit: eb2bc83
-- [x] T-30 · Checkout e tela do PIX — commit: —
-- [ ] T-31 · Painel de debug — commit: —
+- [x] T-30 · Checkout e tela do PIX — commit: 5c34547
+- [x] T-31 · Painel de debug — commit: —
 
 **Fase 8 · Avaliação** · branch `test/conversas`
 
