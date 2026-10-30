@@ -42,10 +42,10 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 4 · Ferramentas** · branch `feat/ferramentas`
 
-- [x] T-17 · Estado da sessão — commit: —
-- [x] T-18 · Ferramentas de catálogo e perfil — commit: —
-- [x] T-19 · Ferramentas de carrinho, cupom e frete — commit: —
-- [ ] T-20 · Registro e despacho das ferramentas — commit: —
+- [x] T-17 · Estado da sessão — commit: f8a4d69
+- [x] T-18 · Ferramentas de catálogo e perfil — commit: 8e0db42
+- [x] T-19 · Ferramentas de carrinho, cupom e frete — commit: 1add308
+- [x] T-20 · Registro e despacho das ferramentas — commit: —
 
 **Fase 5 · Agente** · branch `feat/agente`
 

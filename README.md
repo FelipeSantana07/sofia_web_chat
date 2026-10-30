@@ -127,3 +127,5 @@ A preencher na T-34.
 - T-19 · `ver_carrinho` e `calcular_frete` mostram as duas modalidades, cada uma com frete, quanto falta para o grátis e total no PIX — a ferramenta não recebe a modalidade e a escolha só acontece no `finalizar_pedido`; o CEP e a zona ficam na sessão e o frete é recalculado a cada mudança no carrinho.
 - T-19 · Quando uma remoção derruba o subtotal abaixo de R$ 150,00, o cupom sai do carrinho e a resposta traz `aviso_cupom` — regra 6.1; reaplicar exige chamar `aplicar_cupom` de novo.
 - T-19 · Adicionar ao carrinho não baixa o `estoque_teste`: ele só limita a quantidade. Se o pedido deve descontar do estoque, a decisão é da T-25.
+- T-20 · As declarações do Gemini saem do mesmo schema zod que valida os argumentos (`z.toJSONSchema` → `parametersJsonSchema`, sem a chave `$schema`) — uma única fonte para validação e contrato; as 9 declarações foram aceitas pela API real do `gemini-3.8-flash`.
+- T-20 · O despachante nunca lança: nome desconhecido, argumento inválido ou exceção dentro da ferramenta voltam como `{ ok: false, erro }` na resposta da função — o modelo se corrige e a conversa não cai; a exceção vai em `detalhe_interno` para o log.
