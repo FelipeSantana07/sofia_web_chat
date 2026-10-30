@@ -27,7 +27,8 @@ export const ROTEIROS: Roteiro[] = [
         "finalizar_pedido",
         "gerar_pix",
       ],
-      textoContem: [/PIX/i],
+      // Base abaixo do limite da região: ela precisa dizer quanto falta para o frete grátis.
+      textoContem: [/PIX/i, /frete gr[áa]tis/i],
     },
   },
   {

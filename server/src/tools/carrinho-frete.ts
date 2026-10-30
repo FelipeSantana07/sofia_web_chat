@@ -5,6 +5,7 @@ import { CUPOM_PERCENTUAL, validarCupom } from "../domain/cupom.js";
 import { limiteFreteGratisCentavos } from "../domain/frete-gratis.js";
 import { acharProduto, definirFerramenta, dinheiro, falha, type Ferramenta } from "./base.js";
 import {
+  gatilhoFreteGratis,
   montarOpcoesFrete,
   montarResumoCarrinho,
   pesoCobradoDoCarrinho,
@@ -147,6 +148,8 @@ export const calcularFrete = definirFerramenta({
     const limpo = normalizarCep(cep)!; // identificarZona já validou o formato
     ctx.sessao.entrega = { cep: limpo, zona: zona.zona };
     const resumo = montarResumoCarrinho(ctx);
+    const opcoes = montarOpcoesFrete(ctx, zona.zona);
+    const gatilho = gatilhoFreteGratis(opcoes);
     return {
       ok: true,
       cep: `${limpo.slice(0, 5)}-${limpo.slice(5)}`,
@@ -154,7 +157,8 @@ export const calcularFrete = definirFerramenta({
       peso_cobrado_g: pesoCobradoG,
       base_produtos: resumo.base_produtos,
       limite_frete_gratis: dinheiro(limiteFreteGratisCentavos(zona.zona)),
-      opcoes: montarOpcoesFrete(ctx, zona.zona),
+      opcoes,
+      ...(gatilho ? { gatilho_frete_gratis: gatilho } : {}),
     };
   },
 });

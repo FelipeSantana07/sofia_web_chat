@@ -70,6 +70,25 @@ export function montarOpcoesFrete(ctx: ContextoFerramenta, zona: NonNullable<Con
   });
 }
 
+/**
+ * Gatilho do frete grátis (especificação 8.3), já decidido pelo código para a Sofia não calcular:
+ * se a base passou do limite, ela pergunta se a cliente quer a Econômica grátis; se não, cita quanto falta.
+ */
+export function gatilhoFreteGratis(opcoes: ReturnType<typeof montarOpcoesFrete>): string | null {
+  const economica = opcoes.find((o) => o.modalidade === "economica");
+  if (!economica) return null;
+  if (economica.frete_gratis) {
+    return (
+      "A cliente passou do valor mínimo: a entrega Econômica sai com frete grátis. " +
+      "Conte isso a ela e pergunte se quer o frete grátis (Econômica) ou prefere a Expressa, que é paga e mais rápida."
+    );
+  }
+  return (
+    `Faltam ${economica.falta_para_frete_gratis!.texto} em produtos para o frete grátis na entrega Econômica. ` +
+    "Cite esse valor à cliente, sem pressionar; se fizer sentido, sugira algo que resolva o problema dela."
+  );
+}
+
 /** O carrinho como o modelo vê: itens, subtotal, cupom, base, peso e, com CEP informado, frete e total por modalidade. */
 export function montarResumoCarrinho(ctx: ContextoFerramenta) {
   const { catalogo, sessao } = ctx;
@@ -90,6 +109,8 @@ export function montarResumoCarrinho(ctx: ContextoFerramenta) {
   const cupom = reavaliarCupom(sessao.cupom, subtotalCentavos);
   const semFrete = calcularTotais({ subtotalCentavos, cupom: sessao.cupom, entrega: null });
   const pesoCobradoG = pesoCobradoDoCarrinho(ctx);
+  const opcoes = sessao.entrega ? montarOpcoesFrete(ctx, sessao.entrega.zona) : [];
+  const gatilho = gatilhoFreteGratis(opcoes);
 
   return {
     itens,
@@ -105,7 +126,8 @@ export function montarResumoCarrinho(ctx: ContextoFerramenta) {
             cep: sessao.entrega.cep,
             zona: sessao.entrega.zona,
             limite_frete_gratis: dinheiro(limiteFreteGratisCentavos(sessao.entrega.zona)),
-            opcoes: montarOpcoesFrete(ctx, sessao.entrega.zona),
+            opcoes,
+            ...(gatilho ? { gatilho_frete_gratis: gatilho } : {}),
           },
         }
       : { entrega: null, frete: "Ainda não calculado: peça o CEP e use calcular_frete." }),

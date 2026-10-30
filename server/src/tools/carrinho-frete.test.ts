@@ -343,3 +343,35 @@ describe("calcular_frete", () => {
     expect(chamar(calcularFrete, { cep: 1310100 }, ctx).erro).toMatch(/cep: deve ser um texto/);
   });
 });
+
+describe("gatilho do frete grátis", () => {
+  it("abaixo do limite: diz quanto falta para o frete grátis na Econômica", () => {
+    const ctx = contextoDeTeste();
+    chamar(adicionarAoCarrinho, { id: "PH-001", quantidade: 2 }, ctx); // base R$ 200,00; limite Z1 R$ 299,00
+    const r = chamar(calcularFrete, { cep: "01310-100" }, ctx);
+    expect(r.gatilho_frete_gratis).toMatch(/^Faltam R\$ 99,00 em produtos para o frete grátis/);
+    expect(chamar(verCarrinho, {}, ctx).carrinho.entrega.gatilho_frete_gratis).toBe(r.gatilho_frete_gratis);
+  });
+
+  it("acima do limite: manda perguntar se a cliente quer o frete grátis", () => {
+    const ctx = contextoDeTeste();
+    chamar(adicionarAoCarrinho, { id: "PH-001", quantidade: 3 }, ctx); // base R$ 300,00
+    const r = chamar(calcularFrete, { cep: "01310-100" }, ctx);
+    expect(r.gatilho_frete_gratis).toMatch(/frete grátis/);
+    expect(r.gatilho_frete_gratis).toMatch(/pergunte se quer o frete grátis/);
+  });
+
+  it("acompanha o carrinho: ao passar do limite, o gatilho muda", () => {
+    const ctx = contextoDeTeste();
+    chamar(adicionarAoCarrinho, { id: "PH-001", quantidade: 2 }, ctx);
+    chamar(calcularFrete, { cep: "01310-100" }, ctx);
+    const r = chamar(adicionarAoCarrinho, { id: "PH-001", quantidade: 1 }, ctx);
+    expect(r.carrinho.entrega.gatilho_frete_gratis).toMatch(/pergunte se quer o frete grátis/);
+  });
+
+  it("sem CEP não há gatilho (o limite depende da região)", () => {
+    const ctx = contextoDeTeste();
+    chamar(adicionarAoCarrinho, { id: "PH-001", quantidade: 3 }, ctx);
+    expect(chamar(verCarrinho, {}, ctx).carrinho.entrega).toBeNull();
+  });
+});
