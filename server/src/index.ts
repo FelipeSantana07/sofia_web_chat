@@ -1,10 +1,11 @@
-import { lerConfigGemini, montarSofia } from "./agent/montar.js";
+import { montarSofia } from "./agent/montar.js";
 import { criarRegistroArquivo } from "./agent/registro-log.js";
 import { criarApp } from "./app.js";
 import { carregarCatalogo } from "./catalogo/catalogo.js";
+import { lerConfigGemini, ouEncerrar } from "./config.js";
 import { criarStoreSessoes } from "./sessao/store.js";
 
-const { apiKey, modelo } = lerConfigGemini();
+const { apiKey, modelo } = ouEncerrar(() => lerConfigGemini());
 const catalogo = carregarCatalogo();
 const agente = montarSofia({ apiKey, modelo, catalogo, registro: criarRegistroArquivo() });
 const app = criarApp({ agente, store: criarStoreSessoes(), logger: true });

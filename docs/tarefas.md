@@ -52,7 +52,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 - [x] T-21 · Prompt da Sofia — commit: 36edf0e
 - [x] T-22 · Loop de function calling — commit: 9bd3aa4
 - [x] T-23 · Rota /chat com streaming — commit: e190e1e
-- [x] T-24 · CLI de conversa — commit: —
+- [x] T-24 · CLI de conversa — commit: 3a70d2d
 
 **Fase 6 · Checkout e PIX** · branch `feat/checkout-pix`
 
@@ -127,7 +127,7 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 #### T-04 · Teste simples do Gemini
 
 - **Objetivo:** Confirmar chave e modelo com @google/genai.
-- **Critério de aceite:** Script em server/scripts lê GEMINI_API_KEY e GEMINI_MODEL (padrão gemini-3.8-flash) e recebe uma resposta.
+- **Critério de aceite:** Script em server/scripts lê GEMINI_API_KEY e GEMINI_MODEL do .env (ambos obrigatórios) e recebe uma resposta.
 - **Depende de:** T-02, T-03
 - **Branch:** `spike/gemini`
 - **Commit sugerido:** `chore(agent): script de teste do Gemini`

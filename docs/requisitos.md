@@ -132,7 +132,7 @@ Stack definida: **Node + TypeScript + Fastify** no back, **Svelte + Vite** no fr
 | Testes | Vitest | Testes rápidos das regras de frete, cupom e totais |
 | Frontend | Svelte + Vite (SPA) | Pouco código, reatividade simples; o escopo pede uma interface simples e funcional. Fora das sugestões do enunciado (HTML/JS ou React), mas a stack é livre: justificar no README |
 | Repositório | Monorepo com pnpm workspaces | Um clone, um README, tipos compartilhados, mudanças atômicas |
-| LLM | Gemini `gemini-3.8-flash`, via SDK oficial `@google/genai` | Obrigatório: único modelo liberado para o teste, sem outro fornecedor na Sofia; nome configurável em `GEMINI_MODEL` (padrão `gemini-3.8-flash`) |
+| LLM | Gemini `gemini-3.8-flash`, via SDK oficial `@google/genai` | Obrigatório: único modelo liberado para o teste, sem outro fornecedor na Sofia; nome obrigatório em `GEMINI_MODEL` no `.env` |
 
 ### Alternativas consideradas
 
@@ -198,7 +198,7 @@ O enunciado fixa a IA (Gemini `gemini-3.8-flash`), exige que todo cálculo fique
 ### Modelo e chave
 
 - Usar só o `gemini-3.8-flash`, único liberado. Nenhum outro modelo do Gemini nem IA de outro fornecedor na Sofia.
-- Nome do modelo configurável em `GEMINI_MODEL` no `.env`, com `gemini-3.8-flash` como padrão.
+- Nome do modelo em `GEMINI_MODEL` no `.env`, obrigatório (sem modelo padrão no código); o `.env.example` traz `gemini-3.8-flash`.
 - SDK oficial `@google/genai` (sugestão do enunciado para Node.js).
 - A chave chega separada: vai em `GEMINI_API_KEY` no `.env`, nunca no repositório, nos logs ou no vídeo. O `.env.example` traz as duas variáveis sem valor.
 - Assim que a chave chegar, fazer um teste rápido (uma chamada simples e uma com function calling) para confirmar o nome do modelo e o formato das ferramentas antes de construir o loop.

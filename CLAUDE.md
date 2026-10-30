@@ -21,7 +21,7 @@ Em caso de conflito, `docs/especificacao.md` vale (é o enunciado do teste).
 
 Monorepo pnpm · Node + TypeScript + Fastify (`server/`) · Svelte + Vite (`web/`) · zod · Vitest · tipos compartilhados em `packages/shared/` · catálogo em `data/produtos.json` · prompt em `prompts/sofia.md`.
 
-**IA:** somente Gemini `gemini-3.8-flash` via SDK oficial `@google/genai`. Nenhum outro modelo nem outro fornecedor na Sofia. O nome do modelo vem de `GEMINI_MODEL` (padrão `gemini-3.8-flash`) e a chave de `GEMINI_API_KEY`, ambos no `.env`.
+**IA:** somente Gemini `gemini-3.8-flash` via SDK oficial `@google/genai`. Nenhum outro modelo nem outro fornecedor na Sofia. O nome do modelo vem de `GEMINI_MODEL` e a chave de `GEMINI_API_KEY`, ambos obrigatórios no `.env`: não há modelo padrão no código (o `.env.example` traz `GEMINI_MODEL=gemini-3.8-flash`).
 
 ## Regras inegociáveis
 

@@ -21,7 +21,7 @@ cp .env.example .env
 | Variável | Descrição | Padrão |
 | --- | --- | --- |
 | `GEMINI_API_KEY` | Chave da API do Gemini | — |
-| `GEMINI_MODEL` | Modelo usado pela Sofia | `gemini-3.8-flash` |
+| `GEMINI_MODEL` | Modelo usado pela Sofia (obrigatório; o `.env.example` traz `gemini-3.8-flash`) | — |
 | `PORT` | Porta do servidor | `3000` |
 
 ```bash
@@ -147,3 +147,4 @@ A preencher na T-34.
 - T-23 · Uma resposta por vez por sessão (a segunda mensagem simultânea recebe 409) e o turno vai até o fim mesmo se a cliente fechar a conexão — duas respostas paralelas embaralhariam histórico e carrinho, e um turno cortado deixaria o carrinho alterado sem registro no histórico.
 - T-23 · O servidor escuta só em `127.0.0.1` e encerra no start se `GEMINI_API_KEY` faltar — é um teste local, e falhar cedo é mais claro que falhar na primeira mensagem.
 - T-24 · `pnpm chat` usa o mesmo agente, prompt, ferramentas e log do servidor, sem HTTP, e mostra cada ferramenta com argumentos, resultado e duração; aceita mensagens por pipe (uma por linha) além do modo interativo — permite conversar com a Sofia antes da interface e rodar roteiros de teste inteiros (T-32) com um comando.
+- Config · `GEMINI_API_KEY` e `GEMINI_MODEL` são obrigatórios no `.env` e lidos num único lugar (`server/src/config.ts`); sem eles o servidor, a CLI e os scripts param com uma mensagem clara — não há modelo padrão no código, para o modelo usado ser sempre o que está configurado, sem fallback escondido. O `.env.example` traz `GEMINI_MODEL=gemini-3.8-flash`.

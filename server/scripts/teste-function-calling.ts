@@ -1,12 +1,7 @@
 import { GoogleGenAI, type Content, type FunctionDeclaration } from "@google/genai";
+import { lerConfigGemini, ouEncerrar } from "../src/config.js";
 
-const modelo = process.env.GEMINI_MODEL || "gemini-3.8-flash";
-const chave = process.env.GEMINI_API_KEY;
-
-if (!chave || chave === "mock") {
-  console.error("Defina GEMINI_API_KEY no .env para validar o function calling.");
-  process.exit(1);
-}
+const { apiKey: chave, modelo } = ouEncerrar(() => lerConfigGemini());
 
 // Ferramenta fictícia: só serve para validar o formato de ida e volta.
 const consultarClima: FunctionDeclaration = {

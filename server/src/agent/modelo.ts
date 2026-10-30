@@ -11,10 +11,8 @@ export interface ModeloChat {
   gerar(pedido: PedidoModelo): AsyncIterable<Part[]>;
 }
 
-export const MODELO_PADRAO = "gemini-3.8-flash";
-
-/** Adaptador para o Gemini via SDK oficial (formato de ferramentas validado na T-05). */
-export function criarModeloGemini({ apiKey, modelo = MODELO_PADRAO }: { apiKey: string; modelo?: string }): ModeloChat {
+/** Adaptador para o Gemini via SDK oficial (formato de ferramentas validado na T-05). O modelo vem do .env (GEMINI_MODEL). */
+export function criarModeloGemini({ apiKey, modelo }: { apiKey: string; modelo: string }): ModeloChat {
   const ai = new GoogleGenAI({ apiKey });
   return {
     async *gerar({ historico, instrucaoSistema, ferramentas }) {

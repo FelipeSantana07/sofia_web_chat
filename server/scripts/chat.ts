@@ -2,9 +2,10 @@
 // Também aceita um roteiro por pipe (uma mensagem por linha), útil para testar conversas inteiras.
 import { createInterface } from "node:readline";
 import type { EventoAgente } from "../src/agent/agente.js";
-import { lerConfigGemini, montarSofia } from "../src/agent/montar.js";
+import { montarSofia } from "../src/agent/montar.js";
 import { criarRegistroArquivo } from "../src/agent/registro-log.js";
 import { carregarCatalogo } from "../src/catalogo/catalogo.js";
+import { lerConfigGemini, ouEncerrar } from "../src/config.js";
 import { criarStoreSessoes } from "../src/sessao/store.js";
 import { criarDespachante } from "../src/tools/registro.js";
 
@@ -16,7 +17,7 @@ const rosa = pintar("35");
 const vermelho = pintar("31");
 const negrito = pintar("1");
 
-const { apiKey, modelo } = lerConfigGemini();
+const { apiKey, modelo } = ouEncerrar(() => lerConfigGemini());
 const catalogo = carregarCatalogo();
 const agente = montarSofia({ apiKey, modelo, catalogo, registro: criarRegistroArquivo() });
 const store = criarStoreSessoes();

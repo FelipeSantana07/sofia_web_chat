@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
+import { lerModeloGemini, ouEncerrar } from "../src/config.js";
 
-const modelo = process.env.GEMINI_MODEL || "gemini-3.8-flash";
+const modelo = ouEncerrar(() => lerModeloGemini());
 const chave = process.env.GEMINI_API_KEY;
 const prompt = "Responda apenas: ok";
 
