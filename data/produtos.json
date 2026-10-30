@@ -1,0 +1,890 @@
+[
+  {
+    "id": "PH-001",
+    "sku": null,
+    "nome": "Tônico Capilar de Crescimento Acelerado: Menos Queda | Force Hair 120ml",
+    "linha": "Force Hair",
+    "categoria": "tratamento",
+    "url": "https://lojaprohall.com.br/products/tonico-force-hair-crescimento-capilar-acelerado-120ml",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/tonico-force-hair-crescimento-capilar-acelerado-120ml-517706.jpg?v=1742474208",
+    "preco": 74.90,
+    "preco_promocional": 24.90,
+    "volume": "120 ml",
+    "peso_bruto_g": 160,
+    "peso_estimado": true,
+    "estoque_teste": 18,
+    "uso": "ambos",
+    "descricao_curta": "Tônico leave-in de uso diário para o couro cabeludo que estimula a circulação e fortalece os fios contra queda e quebra.",
+    "descricao_completa": "Leave-in para o couro cabeludo, de uso diário, que estimula a circulação, fortalece a estrutura dos fios e reduz os danos causados por agentes externos e radicais livres.",
+    "indicado_para": [
+      "queda de cabelo",
+      "crescimento lento ou estagnado",
+      "fios fracos e finos",
+      "couro cabeludo enfraquecido",
+      "todos os tipos de cabelo, inclusive quimicamente tratados ou em transição"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Fortalecimento dos fios (menos queda e quebra)",
+      "Estímulo aos bulbos capilares",
+      "Nutrição e brilho com vitaminas",
+      "Ação antioxidante",
+      "Melhora da circulação no couro cabeludo"
+    ],
+    "ativos_principais": [
+      "Óleo de Patauá (ômegas 3 e 6; fortalecimento e brilho)",
+      "Óleo de Rícino (estímulo à circulação e barreira contra perda de hidratação)",
+      "Biotina B7 (apoio à produção de queratina)",
+      "Blend BeauPlex (vitaminas C, E, B3, B5 e B6)"
+    ],
+    "modo_de_uso": [
+      "Com os cabelos limpos e secos ou levemente úmidos, borrife uma pequena quantidade nos cabelos e no couro cabeludo.",
+      "Massageie suavemente a região com movimentos circulares.",
+      "Finalize como preferir, sem enxaguar."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Guardar em local fresco, longe da luz e do calor.",
+      "Suspender o uso em caso de irritação.",
+      "Em contato com os olhos, enxaguar abundantemente com água."
+    ],
+    "duracao_resultado": "Primeiros efeitos de fortalecimento e redução de quebra nas primeiras semanas; para aceleração perceptível do crescimento, uso contínuo por pelo menos 30 dias.",
+    "rendimento": "Até 80 aplicações",
+    "combina_com": ["PH-002", "PH-012"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Estimula a circulação no couro cabeludo e fortalece a estrutura capilar, combatendo enfraquecimento, queda e quebra." },
+      { "pergunta": "Precisa enxaguar?", "resposta": "Não, é um leave-in." },
+      { "pergunta": "Com que frequência usar?", "resposta": "Diariamente, para melhores resultados." },
+      { "pergunta": "Pode usar em cabelo com química?", "resposta": "Sim." },
+      { "pergunta": "Pode aplicar no comprimento?", "resposta": "Não, foi formulado para o couro cabeludo." }
+    ]
+  },
+  {
+    "id": "PH-002",
+    "sku": null,
+    "nome": "Tratamento para Engrossar Fios Finos e Ralos: Reposição de Massa Capilar | Encorpax",
+    "linha": "Encorpax (Molecular Restore)",
+    "categoria": "kit",
+    "url": "https://lojaprohall.com.br/products/encorpax-molecular-restore-kit-completo",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/cronograma-para-fios-finos-e-fragilizados-encorpax-prohall-reposicao-de-massa-em-4-etapas-encorpa-restaura-e-devolve-densidade-prohall-prohall-cosmetic-3570374_1200x.jpg?v=1776744547",
+    "preco": 329.90,
+    "preco_promocional": 197.90,
+    "volume": null,
+    "peso_bruto_g": 1200,
+    "peso_estimado": true,
+    "estoque_teste": 2,
+    "uso": null,
+    "descricao_curta": "Kit cronograma capilar em 4 etapas (shampoo, máscara, sérum e leave-in) para repor massa e dar densidade a fios finos e fragilizados.",
+    "descricao_completa": "Kit Cronograma Capilar para Fios Finos e Fragilizados: cronograma de quatro etapas voltado à reposição de massa, resistência e brilho dos fios. Composto por Shampoo Molecular Restore, Mask Molecular Restore, Sérum Molecular Restore e Leave In Molecular Restore. A linha combina ativos hidratantes e nutritivos com um sistema biomolecular de suporte à fibra.",
+    "indicado_para": [
+      "cabelos finos e ralos",
+      "rabo de cavalo sem volume",
+      "fios que quebram no elástico",
+      "falta de densidade"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Ajuda a repor massa e recuperar a resistência dos fios",
+      "Melhora elasticidade e flexibilidade da fibra",
+      "Reduz a porosidade e melhora o aspecto de fios fragilizados",
+      "Deixa os fios macios, sedosos e com brilho",
+      "Limpa suavemente, respeitando a fibra",
+      "Reduz frizz, quebra e aspereza",
+      "Proteção contra danos térmicos e mecânicos na finalização"
+    ],
+    "ativos_principais": [],
+    "modo_de_uso": [
+      "Shampoo Molecular Restore: com os cabelos molhados, aplique no couro cabeludo e no comprimento, massageie até formar espuma e enxágue. Repita se necessário.",
+      "Mask Molecular Restore: retire o excesso de água, aplique do comprimento às pontas, deixe agir por 15 minutos e enxágue.",
+      "Sérum Molecular Restore: aplique nos fios úmidos após enxaguar a máscara, massageie e enxágue.",
+      "Leave In Molecular Restore: retire o excesso de água com a toalha, aplique uma pequena quantidade do comprimento às pontas e não enxágue."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, longe de luz e calor.",
+      "Suspender o uso em caso de irritação.",
+      "Evitar contato com os olhos; se ocorrer, enxaguar abundantemente com água."
+    ],
+    "duracao_resultado": null,
+    "rendimento": null,
+    "combina_com": ["PH-001", "PH-012"],
+    "perguntas_frequentes": []
+  },
+  {
+    "id": "PH-003",
+    "sku": null,
+    "nome": "Perfume Capilar para o dia a diah: Fragrância que Dura Horas | Doce Mistério",
+    "linha": "Hair Splash",
+    "categoria": "outro",
+    "url": "https://lojaprohall.com.br/products/hair-splash-doce-misterio",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/hair-splash-doce-misterio-perfume-capilar-envolvente-prohall-prohall-perfume-capilar-7453774.png?v=1783373293",
+    "preco": 52.90,
+    "preco_promocional": 26.90,
+    "volume": null,
+    "peso_bruto_g": 250,
+    "peso_estimado": true,
+    "estoque_teste": 25,
+    "uso": "ambos",
+    "descricao_curta": "Perfume capilar de fragrância adocicada e misteriosa que perfuma os fios ao longo do dia sem pesar.",
+    "descricao_completa": "Perfume capilar com fragrância adocicada e misteriosa, que deixa os fios perfumados ao longo do dia. A fórmula mantém os fios macios e leves, sem pesar, e é livre de parabenos e petrolatos e cruelty free.",
+    "indicado_para": [
+      "todos os tipos de cabelo",
+      "cabelos que absorvem odores (fumaça, fritura)",
+      "quem quer perfume que dure mais tempo",
+      "quem busca uma assinatura olfativa",
+      "quem usa perfumes comuns que ressecam os fios"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Perfumação envolvente e misteriosa",
+      "Sensação de doçura e elegância ao longo do dia",
+      "Neutraliza odores como fumaça e fritura",
+      "Fios macios e leves",
+      "Renova a fragrância entre as lavagens",
+      "Ação antioxidante (vitamina E)"
+    ],
+    "ativos_principais": [
+      "Pantenol (hidratação e condicionamento)",
+      "Vitamina E (ação antioxidante)"
+    ],
+    "modo_de_uso": [
+      "Borrife nos cabelos secos ou úmidos, a cerca de 15 a 20 cm dos fios.",
+      "Distribua uniformemente pelo comprimento e pontas, evitando a raiz.",
+      "Não enxágue.",
+      "Reaplique quando quiser intensificar a perfumação."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, longe de luz e calor.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Se atingir os olhos, enxaguar abundantemente com água."
+    ],
+    "duracao_resultado": "Fragrância que dura horas (o site não informa tempo exato).",
+    "rendimento": "Até 200 aplicações",
+    "combina_com": ["PH-005"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "É um perfume capilar que deixa os cabelos com aroma ao longo do dia e renova a fragrância entre as lavagens." },
+      { "pergunta": "Para quais cabelos?", "resposta": "Todos os tipos, em fios secos ou úmidos." },
+      { "pergunta": "Como aplicar?", "resposta": "Borrife a 15–20 cm, distribua pelo comprimento e pontas, sem enxaguar e sem aplicar na raiz." },
+      { "pergunta": "Pode reaplicar?", "resposta": "Sim, sempre que quiser intensificar a perfumação." },
+      { "pergunta": "Quais são os ativos?", "resposta": "Pantenol e vitamina E." },
+      { "pergunta": "Quanto rende?", "resposta": "Até 200 aplicações." }
+    ]
+  },
+  {
+    "id": "PH-004",
+    "sku": null,
+    "nome": "Óleo de Blindagem Antiumidade e Brilho nos Fios | Sequei Sem Frizz 60ml",
+    "linha": "Secar Sem Frizz",
+    "categoria": "finalizador",
+    "url": "https://lojaprohall.com.br/products/secar-sem-frizz-oleo-de-blindagem",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/oleo-finalizador-de-blindagem-secar-sem-frizz-60ml-prohall-prohall-oleo-capilar-7636804.png?v=1784202134",
+    "preco": 99.90,
+    "preco_promocional": 80.90,
+    "volume": "60 ml",
+    "peso_bruto_g": 100,
+    "peso_estimado": true,
+    "estoque_teste": 14,
+    "uso": null,
+    "descricao_curta": "Óleo finalizador que forma uma barreira ultrafina contra a umidade, reduz o frizz e dá brilho espelhado (Glass Finish).",
+    "descricao_completa": "Última etapa do protocolo Scalp Secar Sem Frizz. O óleo forma uma barreira cosmética ultrafina sobre os fios, protege contra a umidade, preserva o alinhamento, reduz frizz e volume sem pesar e entrega brilho e toque sedoso com efeito Glass Finish.",
+    "indicado_para": [
+      "todos os tipos de cabelo",
+      "liso que desmancha na umidade",
+      "frizz que volta em poucas horas",
+      "escova que dura pouco",
+      "pontas ressecadas"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Finaliza o protocolo Scalp Secar Sem Frizz",
+      "Protege contra umidade e frizz",
+      "Preserva o alinhamento",
+      "Reduz o volume sem pesar",
+      "Brilho espelhado",
+      "Toque sedoso e macio desde a primeira aplicação",
+      "Acabamento leve"
+    ],
+    "ativos_principais": [
+      "Blend de silicones (película protetora contra frizz e umidade)",
+      "Óleo de camelina (nutrição, maciez e brilho)",
+      "Vitamina E (ação antioxidante)",
+      "Pantenol (hidratação e condicionamento)"
+    ],
+    "modo_de_uso": [
+      "Aplique uma pequena quantidade nas palmas das mãos e espalhe bem.",
+      "Distribua no comprimento e nas pontas, com o cabelo seco ou úmido, evitando a raiz.",
+      "Finalize como preferir.",
+      "Pode ser usado após o protocolo completo ou sempre que quiser mais brilho, maciez e controle de frizz."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, longe de luz e calor.",
+      "Em caso de irritação, suspender o uso e buscar orientação médica.",
+      "Se atingir os olhos, enxaguar abundantemente com água."
+    ],
+    "duracao_resultado": null,
+    "rendimento": null,
+    "combina_com": ["PH-013", "PH-014"],
+    "perguntas_frequentes": []
+  },
+  {
+    "id": "PH-005",
+    "sku": null,
+    "nome": "Ativador de Cachos Day After: Revive a Definição | Raízes & Vibes",
+    "linha": "Raízes & Vibes",
+    "categoria": "finalizador",
+    "url": "https://lojaprohall.com.br/products/ativador-day-after-adaptativo-raizes-vibes",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/ativador-de-cachos-day-after-adaptativo-120ml-raizes-vibes-prohall-prohall-1477338.png?v=1780390639",
+    "preco": 54.90,
+    "preco_promocional": 42.90,
+    "volume": "120 ml",
+    "peso_bruto_g": 160,
+    "peso_estimado": true,
+    "estoque_teste": 9,
+    "uso": null,
+    "descricao_curta": "Ativador leve que revive a definição dos cachos entre as lavagens sem pesar.",
+    "descricao_completa": "Ativador de Cachos Definição e Nutrição Day After Adaptativo 120ml: revitaliza a definição dos cachos entre as lavagens, com fórmula leve que restaura o formato natural das curvaturas.",
+    "indicado_para": [
+      "todos os tipos de cabelo",
+      "cachos sem definição",
+      "curvatura ressecada",
+      "frizz e encolhimento",
+      "quem sofre com produtos que pesam nos fios"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Reativa a definição dos cachos no dia seguinte à lavagem",
+      "Reduz o frizz e ajuda a alinhar os fios",
+      "Hidrata sem deixar os cabelos pesados",
+      "Ajuda a manter o formato natural das curvaturas",
+      "Deixa os fios mais macios e com aparência renovada",
+      "Dá movimento e elasticidade aos cachos",
+      "Restaura o brilho e a maciez dos fios",
+      "Pode ser reaplicado quando necessário"
+    ],
+    "ativos_principais": [
+      "Ácido hialurônico",
+      "Azeite de oliva",
+      "Óleo de tâmara (nutrição e elasticidade)"
+    ],
+    "modo_de_uso": [
+      "Aplique o ativador no comprimento e nas pontas dos cabelos secos ou levemente umedecidos.",
+      "Amasse e modele as curvaturas com as mãos para reativar a definição.",
+      "Deixe secar naturalmente. Não enxágue e reaplique quando quiser."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, longe de luz e calor.",
+      "Suspender o uso em caso de irritação.",
+      "Evitar contato com os olhos; se ocorrer, enxaguar abundantemente com água."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 10 aplicações",
+    "combina_com": ["PH-003"],
+    "perguntas_frequentes": []
+  },
+  {
+    "id": "PH-006",
+    "sku": null,
+    "nome": "Óleo Finalizador Brilho Espelhado para Cabelo Opaco | Ambar Oil Elixir 60ml",
+    "linha": null,
+    "categoria": "finalizador",
+    "url": "https://lojaprohall.com.br/products/oleo-finalizador-ambar-60ml",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/oleo-finalizador-ambar-60ml-377767.jpg?v=1742474115",
+    "preco": 99.90,
+    "preco_promocional": 79.90,
+    "volume": "60 ml",
+    "peso_bruto_g": 100,
+    "peso_estimado": true,
+    "estoque_teste": 1,
+    "uso": "profissional",
+    "descricao_curta": "Óleo finalizador com Óleo de Buriti que sela a cutícula, controla o frizz e dá brilho espelhado com perfume persistente.",
+    "descricao_completa": "Óleo finalizador com Óleo de Buriti da Amazônia e blend de silicones. Proporciona hidratação, selagem da cutícula, brilho, controle de frizz, pontas protegidas e perfume persistente, sem deixar oleosidade. Acabamento de nível salão.",
+    "indicado_para": [
+      "todos os tipos de cabelo",
+      "cabelos opacos",
+      "cabelos sem perfume",
+      "pontas ressecadas",
+      "quem busca acabamento premium"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Hidratação profunda, com fios mais macios e cutícula selada",
+      "Proteção antioxidante contra danos externos",
+      "Controle do frizz, inclusive em dias úmidos",
+      "Brilho espelhado",
+      "Fórmula leve, sem pesar",
+      "Redução de pontas duplas",
+      "Fragrância duradoura"
+    ],
+    "ativos_principais": [
+      "Óleo de Buriti da Amazônia (rico em vitamina A e antioxidantes)",
+      "Blend de silicones (selagem e brilho)"
+    ],
+    "modo_de_uso": [
+      "Aplique uma pequena quantidade na palma da mão.",
+      "Espalhe do comprimento às pontas, evitando a raiz.",
+      "Finalize como desejar."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, protegido da luz e do calor.",
+      "Suspender o uso em caso de irritação.",
+      "Em contato com os olhos, enxaguar com água em abundância."
+    ],
+    "duracao_resultado": "Fragrância que dura horas (o site não informa tempo exato).",
+    "rendimento": "Até 100 aplicações",
+    "combina_com": ["PH-008"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Hidrata, controla o frizz, protege contra danos externos e dá brilho espelhado." },
+      { "pergunta": "Deixa oleosidade?", "resposta": "Não, a fórmula é leve." },
+      { "pergunta": "Controla frizz em dias úmidos?", "resposta": "Sim, segundo o fabricante." },
+      { "pergunta": "Protege a cor?", "resposta": "Cria uma barreira contra danos externos que ajuda a proteger a cor." },
+      { "pergunta": "Tem perfume?", "resposta": "Sim, uma fragrância envolvente." }
+    ]
+  },
+  {
+    "id": "PH-007",
+    "sku": null,
+    "nome": "Pó Descolorante Branco Ultra Clareador Abre até 9 tons 500g",
+    "linha": null,
+    "categoria": "outro",
+    "url": "https://lojaprohall.com.br/products/po-descolorante-branco-ultra-clareador-abre-ate-9-tons-500g",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/po-descolorante-branco-ultra-clareador-abre-ate-9-tons-500g-403295.jpg?v=1763081807",
+    "preco": 149.90,
+    "preco_promocional": 119.90,
+    "volume": "500 g",
+    "peso_bruto_g": 580,
+    "peso_estimado": true,
+    "estoque_teste": 7,
+    "uso": "profissional",
+    "descricao_curta": "Pó descolorante branco para técnicas de clareamento, com abertura de até 9 tons e loiro uniforme.",
+    "descricao_completa": "Pó descolorante para técnicas de clareamento e descoloração capilar. Abertura de até 9 tons, loiro uniforme e fórmula levemente perfumada. Apresentado como escolha para profissionais.",
+    "indicado_para": [
+      "todos os tipos de cabelo (liso, ondulado, cacheado e crespo)",
+      "cabelos quimicamente tratados"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Clareamento de até 9 tons",
+      "Sem tons amarelados",
+      "Preserva a elasticidade e reduz danos",
+      "Mistura homogênea e aplicação fácil",
+      "Compatível com todas as técnicas de descoloração"
+    ],
+    "ativos_principais": [],
+    "modo_de_uso": [
+      "Em recipiente não metálico, misture 1 medida do pó com 2 medidas de Água Oxigenada Prohall Cosmetic, no volume adequado à técnica.",
+      "Quando a mistura estiver cremosa e homogênea, aplique nas mechas com pincel.",
+      "Aguarde o tempo de ação conforme o clareamento desejado.",
+      "Enxágue com água morna e lave normalmente."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, ao abrigo de luz e calor.",
+      "Suspender o uso em caso de irritação.",
+      "Evitar contato com os olhos; se ocorrer, enxaguar abundantemente com água."
+    ],
+    "duracao_resultado": null,
+    "rendimento": null,
+    "combina_com": ["PH-015", "PH-008"],
+    "perguntas_frequentes": []
+  },
+  {
+    "id": "PH-008",
+    "sku": null,
+    "nome": "Fluido de Reconstrução Para Cabelo Elástico e Fragilizado | PRO.R 200ml",
+    "linha": "Pro.R",
+    "categoria": "tratamento",
+    "url": "https://lojaprohall.com.br/products/fluido-para-reconstrucao-capilar-pro-r-200ml",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/fluido-para-reconstrucao-capilar-pror-200ml-prohall-prohall-cosmetic-3862760.jpg?v=1775998811",
+    "preco": 89.90,
+    "preco_promocional": 64.90,
+    "volume": "200 ml",
+    "peso_bruto_g": 250,
+    "peso_estimado": true,
+    "estoque_teste": 11,
+    "uso": "ambos",
+    "descricao_curta": "Fluido em spray de reconstrução intensiva com Queratina Hidrolisada para cabelos elásticos, porosos e fragilizados.",
+    "descricao_completa": "Tratamento de reparação intensiva para cabelos danificados, porosos e fragilizados, com Queratina Hidrolisada e Óleo de Coco. Melhora a elasticidade, previne a quebra e devolve o brilho dos fios.",
+    "indicado_para": [
+      "cabelos em processo de quebra",
+      "fios elásticos quando molhados",
+      "cabelos com porosidade alta",
+      "danos severos por química"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Reconstrução capilar profunda, com reparo de danos e reposição de proteínas",
+      "Prevenção da quebra, com mais resistência e elasticidade",
+      "Hidratação profunda",
+      "Brilho e maciez",
+      "Fácil aplicação em spray"
+    ],
+    "ativos_principais": [
+      "Queratina Hidrolisada",
+      "Óleo de Coco"
+    ],
+    "modo_de_uso": [
+      "Lave os cabelos e mantenha-os úmidos.",
+      "Borrife o fluido por toda a extensão dos fios limpos e úmidos.",
+      "Deixe agir por 5 a 10 minutos.",
+      "Enxágue completamente e finalize como preferir."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, protegido da luz e do calor.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Evitar contato com os olhos; se ocorrer, enxaguar com bastante água."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 20 aplicações",
+    "combina_com": ["PH-007", "PH-015", "PH-010", "PH-006"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Tratamento de reparação intensiva para cabelos danificados, porosos e fragilizados." },
+      { "pergunta": "Quanto tempo deixar agir?", "resposta": "De 5 a 10 minutos, depois enxaguar." },
+      { "pergunta": "Pode usar em cabelo com química?", "resposta": "Sim, é indicado para fios fragilizados, inclusive com danos severos por química." },
+      { "pergunta": "Quais os ativos?", "resposta": "Queratina Hidrolisada e Óleo de Coco." },
+      { "pergunta": "Quanto rende?", "resposta": "Até 20 aplicações." }
+    ]
+  },
+  {
+    "id": "PH-009",
+    "sku": null,
+    "nome": "Shampoo Para Reparação de Danos e Fortalecimento dos Fios e da Fibra Capilar - Bruma Ametista",
+    "linha": "Bruma Ametista",
+    "categoria": "shampoo",
+    "url": "https://lojaprohall.com.br/products/shampoo-bruma-ametista",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/shampoo-limpeza-suave-e-cuidado-reparador-bruma-ametista-prohall-prohall-shampoo-5999861.png?v=1791209770",
+    "preco": 99.90,
+    "preco_promocional": 54.90,
+    "volume": null,
+    "peso_bruto_g": 350,
+    "peso_estimado": true,
+    "estoque_teste": 22,
+    "uso": "ambos",
+    "descricao_curta": "Shampoo de limpeza suave que inicia o cuidado reparador e fortalece a fibra capilar sem ressecar.",
+    "descricao_completa": "Shampoo de limpeza suave que inicia o cuidado reparador da fibra capilar já na lavagem. Limpa sem ressecar, auxilia no fortalecimento e preserva a hidratação natural, com foco em maciez, brilho e resistência. Fórmula vegana, cruelty-free, livre de parabenos e petrolatos.",
+    "indicado_para": [
+      "cabelos lisos, ondulados, cacheados e crespos",
+      "cabelos quimicamente tratados",
+      "uso diário ou conforme necessário"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Limpeza suave",
+      "Início do cuidado reparador",
+      "Auxilia no fortalecimento",
+      "Preserva a hidratação",
+      "Maciez e brilho",
+      "Proteção contra danos térmicos, químicos e ambientais",
+      "Aspecto mais saudável dos fios"
+    ],
+    "ativos_principais": [
+      "ReparAge® (proteínas e aminoácidos da queratina; repõe massa proteica)",
+      "Pantenol (hidratação, elasticidade e maciez)",
+      "Tamariliz (polissacarídeos e ácidos orgânicos; antioxidante e formador de filme)",
+      "Extrato de Algas Marinhas (nutrição e revitalização)"
+    ],
+    "modo_de_uso": [
+      "Aplique nos cabelos molhados e massageie o couro cabeludo e os fios até formar espuma.",
+      "Enxágue completamente e repita, se necessário.",
+      "Para melhores resultados, use em seguida o Condicionador Bruma Ametista."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Em contato com os olhos, enxaguar com água em abundância.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Manter fora do alcance de crianças.",
+      "Conservar em temperatura ambiente, longe da luz."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 25 aplicações",
+    "combina_com": ["PH-010"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Limpeza suave e início do cuidado reparador, com fortalecimento e preservação da hidratação." },
+      { "pergunta": "Pode usar todos os dias?", "resposta": "Sim, diariamente ou conforme a necessidade." },
+      { "pergunta": "Pode usar em cabelo com química?", "resposta": "Sim, é indicado para cabelos quimicamente tratados." },
+      { "pergunta": "Quais são os ativos?", "resposta": "ReparAge®, Pantenol, Tamariliz e Extrato de Algas Marinhas." },
+      { "pergunta": "A fórmula é vegana?", "resposta": "Sim, vegana, cruelty-free e livre de parabenos e petrolatos." }
+    ]
+  },
+  {
+    "id": "PH-010",
+    "sku": null,
+    "nome": "Condicionador Para Reparação de Danos e Fortalecimento dos Fios Mais Brilho e Maciez Diária - Bruma Ametista",
+    "linha": "Bruma Ametista",
+    "categoria": "condicionador",
+    "url": "https://lojaprohall.com.br/products/condicionador-bruma-ametista",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/condicionador-cuidado-reparador-e-fortalecimento-dos-fios-bruma-ametista-prohall-prohall-condicionador-4568521.png?v=1791209769",
+    "preco": 54.90,
+    "preco_promocional": null,
+    "volume": null,
+    "peso_bruto_g": 350,
+    "peso_estimado": true,
+    "estoque_teste": 20,
+    "uso": "ambos",
+    "descricao_curta": "Condicionador reparador que fortalece os fios, alinha as cutículas e reduz o frizz com maciez e brilho.",
+    "descricao_completa": "Cuidado reparador e fortalecimento dos fios: promove alinhamento, maciez, brilho e redução do frizz. Fórmula vegana, cruelty-free, livre de parabenos e de petrolatos.",
+    "indicado_para": [
+      "cabelos lisos, ondulados, cacheados e crespos",
+      "cabelos quimicamente tratados"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Integridade da fibra capilar",
+      "Fortalecimento",
+      "Alinhamento das cutículas",
+      "Maciez e brilho",
+      "Redução do frizz",
+      "Desembaraço fácil",
+      "Melhora da elasticidade e maleabilidade dos fios"
+    ],
+    "ativos_principais": [
+      "ReparAge® (reparação biomimética com proteínas e aminoácidos da queratina; repõe a massa proteica)",
+      "Pantenol (hidratação, elasticidade e maciez)",
+      "Tamariliz (polissacarídeos e ácidos orgânicos; antioxidante e formador de filme)",
+      "Extrato de Algas Marinhas (nutrição e revitalização)"
+    ],
+    "modo_de_uso": [
+      "Após lavar com shampoo, aplique no comprimento e nas pontas, evitando a raiz.",
+      "Massageie delicadamente e deixe agir por 2 a 3 minutos.",
+      "Enxágue abundantemente. Use com regularidade."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Em contato com os olhos, enxaguar com água em abundância.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Manter fora do alcance de crianças.",
+      "Conservar em temperatura ambiente, ao abrigo da luz."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 25 aplicações",
+    "combina_com": ["PH-009", "PH-008"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Auxilia na integridade da fibra, facilita o desembaraço e contribui para maciez, brilho e redução do frizz." },
+      { "pergunta": "Pode usar todos os dias?", "resposta": "Sim, diariamente ou conforme a necessidade." },
+      { "pergunta": "Pode usar em cabelo com química?", "resposta": "Sim, é indicado para cabelos quimicamente tratados." },
+      { "pergunta": "A fórmula é vegana?", "resposta": "Sim, vegana, cruelty-free e livre de parabenos e de petrolatos." }
+    ]
+  },
+  {
+    "id": "PH-011",
+    "sku": null,
+    "nome": "Condicionador Ultra Hidratante Para Encorpamento Dos Fios Reduz o Frizz e Desembaraça - Aura Radiante",
+    "linha": "Aura Radiante",
+    "categoria": "condicionador",
+    "url": "https://lojaprohall.com.br/products/condicionador-aura-radiante",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/condicionador-encorpamento-e-hidratacao-aura-radiante-prohall-prohall-condicionador-3476216.png?v=1791209770",
+    "preco": 99.90,
+    "preco_promocional": 54.90,
+    "volume": null,
+    "peso_bruto_g": 350,
+    "peso_estimado": true,
+    "estoque_teste": 16,
+    "uso": "ambos",
+    "descricao_curta": "Condicionador ultra-hidratante que desembaraça, alinha e dá sensação de fios mais encorpados.",
+    "descricao_completa": "Condicionador que hidrata, desembaraça e ajuda a alinhar os fios. Reduz a aspereza, promove maciez e dá sensação de mais corpo. Indicado para diferentes curvaturas e para cabelos finos, opacos, sensibilizados ou quimicamente tratados.",
+    "indicado_para": [
+      "cabelos lisos, ondulados, cacheados e crespos",
+      "cabelos finos e sem corpo",
+      "cabelos opacos",
+      "cabelos sensibilizados",
+      "cabelos quimicamente tratados"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Hidrata, desembaraça e auxilia no alinhamento dos fios",
+      "Maciez e sensação de fios mais encorpados",
+      "Reduz a aspereza",
+      "Fios mais disciplinados e maleáveis",
+      "Brilho e aparência saudável",
+      "Alinhamento imediato após a aplicação"
+    ],
+    "ativos_principais": [
+      "Colágeno (filme que auxilia na retenção de umidade)",
+      "Liss Repair (condicionante e hidratante; auxilia no alinhamento)",
+      "Pantenol (elasticidade e maciez)",
+      "Tamariliz (antioxidante e suavizante da cutícula)",
+      "Extrato de Algas Marinhas (nutrição e revitalização)"
+    ],
+    "modo_de_uso": [
+      "Após lavar com shampoo, aplique no comprimento e nas pontas, evitando a raiz.",
+      "Massageie delicadamente e deixe agir por 2 a 3 minutos.",
+      "Enxágue bem. Use regularmente."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Em contato com os olhos, enxaguar com água em abundância.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Manter fora do alcance de crianças.",
+      "Conservar em temperatura ambiente e ao abrigo da luz."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 25 aplicações",
+    "combina_com": ["PH-012"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Hidrata, desembaraça, alinha os fios, reduz a aspereza e dá sensação de mais volume e corpo." },
+      { "pergunta": "Como usar?", "resposta": "Aplique no comprimento e nas pontas após o shampoo, massageie, deixe agir de 2 a 3 minutos e enxágue." },
+      { "pergunta": "Pode usar todos os dias?", "resposta": "Sim, diariamente ou conforme a necessidade." },
+      { "pergunta": "Quais são os ativos?", "resposta": "Colágeno, Liss Repair, Pantenol, Tamariliz e Extrato de Algas Marinhas." }
+    ]
+  },
+  {
+    "id": "PH-012",
+    "sku": null,
+    "nome": "Shampoo de Encorpamento Para Fios Finos e Ralos Toque Sedoso e Ação Antifrizz - Aura Radiante",
+    "linha": "Aura Radiante",
+    "categoria": "shampoo",
+    "url": "https://lojaprohall.com.br/products/shampoo-aura-radiante",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/shampoo-encorpamento-e-limpeza-suave-aura-radiante-prohall-prohall-shampoo-5333038.png",
+    "preco": 99.90,
+    "preco_promocional": 54.90,
+    "volume": null,
+    "peso_bruto_g": 350,
+    "peso_estimado": true,
+    "estoque_teste": 19,
+    "uso": "ambos",
+    "descricao_curta": "Shampoo de encorpamento para fios finos e ralos que limpa sem ressecar e prepara a fibra para o tratamento.",
+    "descricao_completa": "Limpa os fios sem ressecá-los, dá sensação de mais corpo, auxilia na hidratação e prepara a fibra para o tratamento em sequência. Fórmula cruelty-free, livre de parabenos e de petrolatos.",
+    "indicado_para": [
+      "cabelos lisos, ondulados, cacheados e crespos",
+      "cabelos finos e sem corpo",
+      "cabelos opacos",
+      "cabelos sensibilizados",
+      "cabelos quimicamente tratados"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Limpeza suave",
+      "Sensação de cabelos mais encorpados",
+      "Hidratação da fibra capilar",
+      "Melhora a aparência de fios finos e sem corpo",
+      "Prepara os fios para o condicionador da linha",
+      "Maciez, brilho e resistência",
+      "Retenção de umidade (colágeno)"
+    ],
+    "ativos_principais": [
+      "Colágeno (filme que ajuda a reter umidade)",
+      "Pantenol (elasticidade e maciez)",
+      "Tamariliz (antioxidante, formador de filme e suavizante da cutícula)",
+      "Extrato de Algas Marinhas (nutrição e revitalização)"
+    ],
+    "modo_de_uso": [
+      "Aplique nos cabelos molhados e massageie o couro cabeludo e os fios até formar espuma.",
+      "Enxágue completamente. Repita se necessário.",
+      "Para melhores resultados, use em seguida o Condicionador Aura Radiante."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Em contato com os olhos, enxaguar bem com água.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Manter fora do alcance de crianças.",
+      "Conservar em temperatura ambiente e longe da luz."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 25 aplicações",
+    "combina_com": ["PH-011", "PH-001", "PH-002"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Limpeza suave, sensação de mais corpo, hidratação e preparo da fibra para o tratamento seguinte." },
+      { "pergunta": "Pode usar todos os dias?", "resposta": "Sim, diariamente ou conforme a necessidade." },
+      { "pergunta": "Quais são os ativos?", "resposta": "Colágeno, Pantenol, Tamariliz e Extrato de Algas Marinhas." },
+      { "pergunta": "Tem parabenos?", "resposta": "Não. A fórmula é livre de parabenos e de petrolatos." }
+    ]
+  },
+  {
+    "id": "PH-013",
+    "sku": null,
+    "nome": "Sérum de Vitrificação: Brilho Vidrado nos Fios | Secar sem Frizz",
+    "linha": "Secar Sem Frizz",
+    "categoria": "finalizador",
+    "url": "https://lojaprohall.com.br/products/secar-sem-frizz-serum-vitrificacao",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/serum-de-vitrificacao-secar-sem-frizz-200ml-prohall-prohall-serum-9987661.png?v=1784202128",
+    "preco": 99.90,
+    "preco_promocional": 89.90,
+    "volume": "200 ml",
+    "peso_bruto_g": 250,
+    "peso_estimado": true,
+    "estoque_teste": 13,
+    "uso": null,
+    "descricao_curta": "Sérum leave-in que sela as cutículas e dá brilho espelhado imediato com efeito Glass Hair.",
+    "descricao_completa": "Sérum que proporciona brilho espelhado imediato, efeito Glass Hair e acabamento liso, polido e leve. Sela as cutículas, reduz frizz e fios arrepiados, melhora a penteabilidade e forma uma barreira contra a umidade.",
+    "indicado_para": [
+      "todos os tipos de cabelo",
+      "quem quer abandonar o secador",
+      "fios que armam na secagem natural",
+      "cabelos com frizz",
+      "rotinas sem tempo para escova"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Brilho espelhado imediato",
+      "Efeito Glass Hair",
+      "Selagem das cutículas",
+      "Redução do frizz",
+      "Melhor penteabilidade",
+      "Toque sedoso sem aspecto oleoso",
+      "Barreira contra a umidade",
+      "Acabamento alinhado prolongado"
+    ],
+    "ativos_principais": [
+      "Blend de silicones (película leve, alinha cutículas e controla o frizz)",
+      "Pantenol (hidratante e condicionante)",
+      "Ácido lático (condiciona a fibra e equilibra o pH)"
+    ],
+    "modo_de_uso": [
+      "Cabelos úmidos: aplique de 1 a 3 acionamentos na palma da mão.",
+      "Espalhe e aplique no comprimento e nas pontas, sem tocar a raiz.",
+      "Distribua bem e não enxágue.",
+      "Finalize com escova, secador ou chapinha.",
+      "Cabelos secos: aplique 1 acionamento na palma, espalhe e distribua no comprimento e nas pontas."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Armazenar em local fresco, longe de luz e calor.",
+      "Suspender o uso em caso de irritação.",
+      "Evitar contato com os olhos; se ocorrer, enxaguar com água abundante."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 100 usos",
+    "combina_com": ["PH-014", "PH-004"],
+    "perguntas_frequentes": []
+  },
+  {
+    "id": "PH-014",
+    "sku": null,
+    "nome": "Máscara de Blindagem Antifrizz: Seca Alinhado Sem Calor | Secar sem Frizz",
+    "linha": "Secar Sem Frizz",
+    "categoria": "mascara",
+    "url": "https://lojaprohall.com.br/products/secar-sem-frizz-mascara-antifrizz",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/mascara-antifrizz-secar-sem-frizz-250g-prohall-prohall-mascara-5969939.png?v=1784202134",
+    "preco": 68.90,
+    "preco_promocional": null,
+    "volume": "250 g",
+    "peso_bruto_g": 300,
+    "peso_estimado": true,
+    "estoque_teste": 10,
+    "uso": null,
+    "descricao_curta": "Máscara de hidratação profunda que nutre, sela as cutículas e alinha os fios para secar sem frizz.",
+    "descricao_completa": "Desenvolvida para hidratar profundamente, nutrir e auxiliar no alinhamento dos fios, com brilho e maciez. Auxilia na selagem das cutículas e na redução do frizz em fios porosos, ressecados ou opacos.",
+    "indicado_para": [
+      "todos os tipos de cabelo",
+      "fios porosos, ressecados e opacos",
+      "quem quer abandonar o secador",
+      "fios que armam na secagem natural",
+      "cabelos com frizz",
+      "rotinas sem tempo para escova"
+    ],
+    "nao_indicado_para": [],
+    "beneficios": [
+      "Hidratação profunda dos fios",
+      "Nutrição e condicionamento intensivo",
+      "Alinhamento e disciplina dos fios",
+      "Brilho intenso e toque macio",
+      "Selagem das cutículas",
+      "Redução do frizz e do ressecamento",
+      "Melhora a aparência de fios porosos e opacos",
+      "Fortalece e protege a fibra capilar"
+    ],
+    "ativos_principais": [
+      "Ácido lático (condiciona, alinha a fibra e ajuda no equilíbrio do pH)",
+      "Óleo de coco (nutrição e maciez)",
+      "Pantenol (hidratação e alinhamento)",
+      "Ácido hialurônico (retém água; hidratação duradoura)",
+      "Proteína de trigo (película protetora)",
+      "Amino Pro 200 (complexo de aminoácidos para a integridade da fibra)"
+    ],
+    "modo_de_uso": [
+      "Após lavar com o Shampoo Secar Sem Frizz, aplique no comprimento e nas pontas, sem tocar a raiz.",
+      "Massageie suavemente, mecha a mecha.",
+      "Deixe agir por alguns minutos.",
+      "Enxágue completamente."
+    ],
+    "cuidados_e_avisos": [
+      "Uso externo.",
+      "Manter fora do alcance de crianças.",
+      "Guardar em local fresco, protegido da luz e do calor.",
+      "Em caso de irritação, suspender o uso e procurar orientação médica.",
+      "Evitar contato com os olhos; se ocorrer, enxaguar abundantemente."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Até 60 usos",
+    "combina_com": ["PH-013", "PH-004"],
+    "perguntas_frequentes": []
+  },
+  {
+    "id": "PH-015",
+    "sku": null,
+    "nome": "Água Oxigenada OX 30 Volumes Cream 900ml: Clareamento Uniforme e Seguro",
+    "linha": null,
+    "categoria": "outro",
+    "url": "https://lojaprohall.com.br/products/agua-oxigenada-ox-30-volumes-cream-900ml",
+    "imagem_url": "https://lojaprohall.com.br/cdn/shop/files/agua-oxigenada-ox-30-volumes-cream-900ml-311627.jpg?v=1742474261",
+    "preco": 74.90,
+    "preco_promocional": 59.90,
+    "volume": "900 ml",
+    "peso_bruto_g": 970,
+    "peso_estimado": true,
+    "estoque_teste": 3,
+    "uso": "profissional",
+    "descricao_curta": "Loção estabilizadora cremosa de 30 volumes para descoloração e coloração com clareamento uniforme e controlado.",
+    "descricao_completa": "Loção estabilizadora de 30 volumes para processos de descoloração e coloração. Proporciona clareamento uniforme e controlado, com cuidado para a fibra capilar. Uso em salão, por cabeleireiro habilitado.",
+    "indicado_para": [
+      "coloração e mechas",
+      "clareamento uniforme, inclusive para quem tem clareamento desigual",
+      "pessoas que sentem ardor na aplicação",
+      "todos os tipos de cabelo, inclusive quimicamente tratados",
+      "tons de loiro escuro a loiro claríssimo"
+    ],
+    "nao_indicado_para": [
+      "cílios e sobrancelhas",
+      "couro cabeludo lesionado"
+    ],
+    "beneficios": [
+      "Clareamento mais rápido, com menor impacto na saúde capilar",
+      "Tom mais uniforme, com loiro mais homogêneo",
+      "Menos danos químicos à fibra",
+      "Ação antioxidante contra radicais livres, ajudando a prevenir o ressecamento",
+      "Oxidação controlada, com resultados mais previsíveis",
+      "Compatível com diferentes técnicas de descoloração e coloração"
+    ],
+    "ativos_principais": [
+      "Óleo de Macadâmia (hidratação, proteção contra ressecamento, controle de frizz e redução de pontas duplas)",
+      "Extrato de Algas (reduz danos do clareamento; suavidade e equilíbrio da cor)",
+      "Blend de Agentes Estabilizadores (estabiliza a oxidação)"
+    ],
+    "modo_de_uso": [
+      "Use luvas e misture a OX na proporção indicada no procedimento escolhido.",
+      "Aplique nos fios conforme a técnica desejada.",
+      "Aguarde o tempo de ação indicado para o procedimento.",
+      "Enxágue completamente."
+    ],
+    "cuidados_e_avisos": [
+      "Faça a prova de toque antes do uso.",
+      "Não aplique em cílios, sobrancelhas ou couro cabeludo lesionado.",
+      "Evite contato com os olhos; em caso de contato, lave imediatamente com bastante água.",
+      "Armazene em local fresco e longe da luz direta.",
+      "Uso externo. Mantenha fora do alcance de crianças."
+    ],
+    "duracao_resultado": null,
+    "rendimento": "Cerca de 3 meses para cabelos médios e longos (especificações da página); a tabela comparativa indica até 15 aplicações.",
+    "combina_com": ["PH-007", "PH-008"],
+    "perguntas_frequentes": [
+      { "pergunta": "Para que serve?", "resposta": "Loção estabilizadora para descoloração e coloração, com clareamento seguro e uniforme." },
+      { "pergunta": "Até que tom clareia?", "resposta": "De loiro escuro a loiro claríssimo." },
+      { "pergunta": "Como usar?", "resposta": "Use luvas, misture conforme o procedimento, aplique com a técnica adequada, aguarde o tempo de ação e enxágue bem." },
+      { "pergunta": "Pode usar em cabelo quimicamente tratado?", "resposta": "Sim, segundo a página." },
+      { "pergunta": "Quais são os ativos?", "resposta": "Óleo de Macadâmia, Extrato de Algas e Blend de Agentes Estabilizadores." }
+    ]
+  }
+]

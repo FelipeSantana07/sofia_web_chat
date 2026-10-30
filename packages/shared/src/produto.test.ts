@@ -43,6 +43,11 @@ describe("produtoSchema", () => {
     expect(r.success).toBe(true);
   });
 
+  it("aceita volume e uso null quando o site não informa", () => {
+    expect(produtoSchema.safeParse(produtoValido({ volume: null, uso: null })).success).toBe(true);
+    expect(produtoSchema.safeParse(produtoValido({ volume: "" })).success).toBe(false);
+  });
+
   it("rejeita id fora do formato PH-000", () => {
     expect(produtoSchema.safeParse(produtoValido({ id: "P-1" })).success).toBe(false);
   });

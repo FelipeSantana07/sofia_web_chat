@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { validarCatalogo } from "@sofia/shared";
+import { validarCatalogo, verificarVariedade } from "@sofia/shared";
 
 // Uso: pnpm validate:catalogo [caminho]  (padrão: data/produtos.json na raiz do repositório)
 const padrao = fileURLToPath(new URL("../../data/produtos.json", import.meta.url));
@@ -30,3 +30,10 @@ if (!resultado.ok) {
 }
 
 console.log(`Catálogo válido: ${resultado.produtos.length} produto(s) em ${arquivo}.`);
+
+const variedade = verificarVariedade(resultado.produtos);
+console.log("Variedade mínima (Parte 1):");
+for (const m of variedade) {
+  console.log(`  ${m.ok ? "ok  " : "FALTA"} ${m.descricao}: ${m.atual} (mínimo ${m.minimo})`);
+}
+if (variedade.some((m) => !m.ok)) process.exit(1);
