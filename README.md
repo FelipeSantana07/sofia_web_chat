@@ -115,3 +115,6 @@ A preencher na T-34.
 - T-15 · `uso` segue a classificação por produto do JSON, não o bloco "USO PROFISSIONAL" das páginas — o bloco aparece até em produto de uso em casa (perfume capilar PH-003), então é genérico.
 - T-15 · Nomes mantidos exatamente como no site, inclusive "para o dia a diah" (PH-003) e "Sequei Sem Frizz" (PH-004) — conferidos na página em 29/10/2026; a regra 4.1 pede o nome exato.
 - T-16 · Preços conferidos no site em 29/10/2026 e quatro promocionais atualizados (PH-002 R$ 197,90 → R$ 139,90; PH-004 R$ 80,90 → R$ 34,90; PH-005 R$ 42,90 → R$ 44,90; PH-013 R$ 89,90 → R$ 54,90) — a regra pede os preços do dia da cópia com a data anotada, e os do JSON inicial já não batiam com o site.
+- T-17 · Os tipos que atravessam server e web (`PerfilCliente`, `Pedido`, `StatusPedido`) ficam em `packages/shared`; o `EstadoSessao` fica no server porque guarda o `Carrinho` do domínio — o web não precisa do carrinho cru, só de uma visão dele, que vem nas respostas.
+- T-17 · `Pedido` tem só `id` e `status` por ora — itens, entrega e totais entram na T-25, que estende o tipo, para não definir duas vezes o formato do pedido.
+- T-17 · As sessões ficam em memória, sem expiração, e o id é validado (`[A-Za-z0-9_-]`, até 100 caracteres) porque vem do cliente — é um teste local sem banco, conforme a Parte 4; o reinício do servidor zera as conversas.

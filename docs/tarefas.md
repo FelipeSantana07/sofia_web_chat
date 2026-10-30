@@ -38,11 +38,11 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 - [x] T-14 · Schema do produto — commit: 8b5c532
 - [x] T-15 · Cadastro dos 15 produtos — commit: e218926
-- [x] T-16 · Combinações e data dos preços — commit: —
+- [x] T-16 · Combinações e data dos preços — commit: 4f0dd4c
 
 **Fase 4 · Ferramentas** · branch `feat/ferramentas`
 
-- [ ] T-17 · Estado da sessão — commit: —
+- [x] T-17 · Estado da sessão — commit: —
 - [ ] T-18 · Ferramentas de catálogo e perfil — commit: —
 - [ ] T-19 · Ferramentas de carrinho, cupom e frete — commit: —
 - [ ] T-20 · Registro e despacho das ferramentas — commit: —
