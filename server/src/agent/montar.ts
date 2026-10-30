@@ -8,13 +8,12 @@ import type { Registro } from "./registro-log.js";
 
 /** Monta a Sofia com o Gemini, as ferramentas registradas e o prompt de prompts/sofia.md. Usado pelo servidor e pela CLI. */
 export function montarSofia({
-  apiKey,
-  modelo,
   catalogo,
   registro,
+  ...config
 }: ConfigGemini & { catalogo: Catalogo; registro?: Registro }): Agente {
   return criarAgente({
-    modelo: criarModeloGemini({ apiKey, modelo }),
+    modelo: criarModeloGemini(config),
     despachante: criarDespachante(),
     catalogo,
     promptSistema: montarPromptSistema(catalogo.produtos),

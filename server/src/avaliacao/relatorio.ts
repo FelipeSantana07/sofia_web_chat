@@ -11,10 +11,29 @@ export interface DadosRelatorio {
   modelo: string;
   /** Data e hora da execução, já formatada. */
   quando: string;
+  /** Ajustes do modelo usados na execução (temperatura, pensamento), já formatados. */
+  configuracao?: string;
   resultados: ResultadoRoteiro[];
 }
 
 const passou = (r: ResultadoRoteiro) => r.verificacoes.every((v) => v.ok);
+
+const segundos = (ms: number) => `${(ms / 1000).toFixed(1)} s`;
+
+function mediana(valores: number[]): number {
+  const ordenados = [...valores].sort((a, b) => a - b);
+  const meio = Math.floor(ordenados.length / 2);
+  return ordenados.length % 2 ? ordenados[meio]! : (ordenados[meio - 1]! + ordenados[meio]!) / 2;
+}
+
+/** Mediana e máximo dos tempos dos turnos, para comparar execuções. */
+export function resumirTempos(resultados: ResultadoRoteiro[]): { primeiroTexto: [number, number]; total: [number, number] } | null {
+  const turnos = resultados.flatMap((r) => r.conversa.turnos);
+  const primeiros = turnos.flatMap((t) => (t.primeiroTextoMs === null ? [] : [t.primeiroTextoMs]));
+  const totais = turnos.map((t) => t.duracaoMs);
+  if (primeiros.length === 0) return null;
+  return { primeiroTexto: [mediana(primeiros), Math.max(...primeiros)], total: [mediana(totais), Math.max(...totais)] };
+}
 
 const resumir = (valor: unknown, max = 220) => {
   const texto = JSON.stringify(valor) ?? "";
@@ -41,7 +60,8 @@ function secao(r: ResultadoRoteiro, varias: boolean): string {
       linhas.push(`- \`${f.nome}(${resumir(f.argumentos, 160)})\` → ${desfecho}`);
     }
     if (t.ferramentas.length > 0) linhas.push("");
-    linhas.push(`**Sofia** (${(t.duracaoMs / 1000).toFixed(1)} s):`, "", citar(t.sofia || "(sem texto)"), "");
+    const tempo = t.primeiroTextoMs === null ? segundos(t.duracaoMs) : `primeiro texto em ${segundos(t.primeiroTextoMs)} · total ${segundos(t.duracaoMs)}`;
+    linhas.push(`**Sofia** (${tempo}):`, "", citar(t.sofia || "(sem texto)"), "");
     if (t.erro) linhas.push(`_Erro no turno: ${t.erro}_`, "");
   });
 
@@ -52,8 +72,9 @@ function secao(r: ResultadoRoteiro, varias: boolean): string {
 }
 
 /** Relatório em markdown: resumo no topo, depois cada conversa com ferramentas e verificações. */
-export function gerarRelatorio({ modelo, quando, resultados }: DadosRelatorio): string {
+export function gerarRelatorio({ modelo, quando, configuracao, resultados }: DadosRelatorio): string {
   const aprovados = resultados.filter(passou).length;
+  const tempos = resumirTempos(resultados);
   const varias = resultados.some((r) => r.execucao > 1);
   const linhas = [
     "# Conversas-teste da Sofia",
@@ -61,7 +82,13 @@ export function gerarRelatorio({ modelo, quando, resultados }: DadosRelatorio): 
     "Gerado por `pnpm conversas` (roteiros em `server/src/avaliacao/roteiros.ts`). Cada roteiro roda numa conversa nova, contra o Gemini real, com o mesmo agente, prompt e ferramentas do servidor.",
     "",
     `- **Quando:** ${quando}`,
-    `- **Modelo:** ${modelo}`,
+    `- **Modelo:** ${modelo}${configuracao ? ` (${configuracao})` : ""}`,
+    ...(tempos
+      ? [
+          `- **Tempo até o primeiro texto:** mediana ${segundos(tempos.primeiroTexto[0])}, máximo ${segundos(tempos.primeiroTexto[1])}`,
+          `- **Resposta completa:** mediana ${segundos(tempos.total[0])}, máximo ${segundos(tempos.total[1])}`,
+        ]
+      : []),
     `- **Resultado:** ${aprovados} de ${resultados.length} roteiro(s) com todas as verificações ok`,
     "",
     "| Roteiro | Resultado | O que falhou |",

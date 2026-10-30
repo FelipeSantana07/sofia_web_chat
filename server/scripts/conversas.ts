@@ -9,13 +9,14 @@ import { gerarRelatorio, type ResultadoRoteiro } from "../src/avaliacao/relatori
 import { ROTEIROS } from "../src/avaliacao/roteiros.js";
 import type { Roteiro, TurnoRegistrado } from "../src/avaliacao/tipos.js";
 import { carregarCatalogo } from "../src/catalogo/catalogo.js";
-import { lerConfigGemini, ouEncerrar } from "../src/config.js";
+import { descreverAjustes, lerConfigGemini, ouEncerrar } from "../src/config.js";
 import { criarStoreSessoes } from "../src/sessao/store.js";
 import { criarDespachante } from "../src/tools/registro.js";
 
 const CAMINHO_RELATORIO = fileURLToPath(new URL("../../docs/conversas-teste.md", import.meta.url));
 
-const { apiKey, modelo } = ouEncerrar(() => lerConfigGemini());
+const config = ouEncerrar(() => lerConfigGemini());
+const { modelo } = config;
 
 const args = process.argv.slice(2);
 const iVezes = args.indexOf("--vezes");
@@ -38,15 +39,17 @@ const escolhidos = ids.length > 0 ? ROTEIROS.filter((r) => ids.includes(r.id)) :
 async function rodar(roteiro: Roteiro): Promise<TurnoRegistrado[]> {
   // Catálogo novo e só em memória: cada roteiro parte do estoque inicial e não mexe no data/estoque.json.
   const catalogo = carregarCatalogo(undefined, null);
-  const agente = montarSofia({ apiKey, modelo, catalogo, registro: criarRegistroArquivo() });
+  const agente = montarSofia({ ...config, catalogo, registro: criarRegistroArquivo() });
   const sessao = criarStoreSessoes().obterOuCriar();
   const turnos: TurnoRegistrado[] = [];
 
   for (const mensagem of roteiro.mensagens) {
     const inicio = Date.now();
-    const turno: TurnoRegistrado = { cliente: mensagem, sofia: "", ferramentas: [], duracaoMs: 0 };
+    const turno: TurnoRegistrado = { cliente: mensagem, sofia: "", ferramentas: [], primeiroTextoMs: null, duracaoMs: 0 };
     for await (const evento of agente.responder(sessao, mensagem)) {
-      if (evento.tipo === "ferramenta") {
+      if (evento.tipo === "texto") {
+        turno.primeiroTextoMs ??= Date.now() - inicio;
+      } else if (evento.tipo === "ferramenta") {
         const { nome, argumentos, resultado, duracaoMs } = evento;
         turno.ferramentas.push({ nome, argumentos, resultado, duracaoMs });
       } else if (evento.tipo === "fim") {
@@ -76,6 +79,6 @@ for (const roteiro of escolhidos) {
 }
 
 const quando = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
-writeFileSync(CAMINHO_RELATORIO, gerarRelatorio({ modelo, quando, resultados }));
+writeFileSync(CAMINHO_RELATORIO, gerarRelatorio({ modelo, quando, configuracao: descreverAjustes(config), resultados }));
 const aprovados = resultados.filter((r) => r.verificacoes.every((v) => v.ok)).length;
 console.log(`\n${aprovados} de ${resultados.length} ok. Relatório: ${CAMINHO_RELATORIO}`);

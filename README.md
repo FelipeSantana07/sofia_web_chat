@@ -22,6 +22,8 @@ cp .env.example .env
 | --- | --- | --- |
 | `GEMINI_API_KEY` | Chave da API do Gemini | — |
 | `GEMINI_MODEL` | Modelo usado pela Sofia (obrigatório; o `.env.example` traz `gemini-3.8-flash`) | — |
+| `GEMINI_TEMPERATURE` | Opcional. Temperatura do modelo (0 a 2); o `.env.example` traz `0.3` | padrão do modelo |
+| `GEMINI_THINKING_LEVEL` | Opcional. Nível de pensamento: `MINIMAL`, `LOW`, `MEDIUM` ou `HIGH`; o `.env.example` traz `LOW` | padrão do modelo |
 | `PORT` | Porta do servidor | `3000` |
 
 ```bash

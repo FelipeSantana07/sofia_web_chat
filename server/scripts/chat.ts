@@ -5,7 +5,7 @@ import type { EventoAgente } from "../src/agent/agente.js";
 import { montarSofia } from "../src/agent/montar.js";
 import { criarRegistroArquivo } from "../src/agent/registro-log.js";
 import { carregarCatalogo } from "../src/catalogo/catalogo.js";
-import { lerConfigGemini, ouEncerrar } from "../src/config.js";
+import { descreverAjustes, lerConfigGemini, ouEncerrar } from "../src/config.js";
 import { pagarPedido } from "../src/pedidos/servico.js";
 import { criarStoreSessoes } from "../src/sessao/store.js";
 import { criarDespachante } from "../src/tools/registro.js";
@@ -18,9 +18,10 @@ const rosa = pintar("35");
 const vermelho = pintar("31");
 const negrito = pintar("1");
 
-const { apiKey, modelo } = ouEncerrar(() => lerConfigGemini());
+const config = ouEncerrar(() => lerConfigGemini());
+const { modelo } = config;
 const catalogo = carregarCatalogo();
-const agente = montarSofia({ apiKey, modelo, catalogo, registro: criarRegistroArquivo() });
+const agente = montarSofia({ ...config, catalogo, registro: criarRegistroArquivo() });
 const store = criarStoreSessoes();
 const despachante = criarDespachante();
 let sessao = store.obterOuCriar();
@@ -47,7 +48,7 @@ function mostrarCarrinho(): void {
   console.log();
 }
 
-console.log(negrito(`Sofia · ${modelo} · ${catalogo.produtos.length} produtos`));
+console.log(negrito(`Sofia · ${modelo} (${descreverAjustes(config)}) · ${catalogo.produtos.length} produtos`));
 console.log(cinza("Comandos: /carrinho mostra o carrinho · /pagar simula o pagamento do último pedido · /nova começa outra conversa · /sair encerra\n"));
 
 const rl = createInterface({ input: process.stdin, output: process.stdout, terminal: interativo });

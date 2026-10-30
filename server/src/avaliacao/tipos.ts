@@ -34,6 +34,9 @@ export interface TurnoRegistrado {
   ferramentas: ChamadaRegistrada[];
   /** Mensagem do evento de erro, se o turno falhou. */
   erro?: string;
+  /** Da mensagem da cliente até o primeiro pedaço de texto da Sofia (o que ela sente com streaming); null se não veio texto. */
+  primeiroTextoMs: number | null;
+  /** Da mensagem da cliente até o fim da resposta. */
   duracaoMs: number;
 }
 

@@ -57,6 +57,9 @@ export function resumirProduto(p: Produto, catalogo: Catalogo) {
     ...(promocao ? { preco_cheio: dinheiro(catalogo.paraCarrinho(p).precoCentavos) } : {}),
     em_promocao: promocao,
     descricao_curta: p.descricao_curta,
+    // Indicações e benefícios bastam para justificar a recomendação sem uma rodada extra de detalhar_produto.
+    indicado_para: p.indicado_para,
+    beneficios: p.beneficios,
     // Só aparece quando o estoque de teste é realmente baixo (gatilho permitido, especificação 8.3).
     ...(p.estoque_teste <= LIMITE_ESTOQUE_BAIXO ? { estoque_baixo: true } : {}),
     imagem_url: p.imagem_url,

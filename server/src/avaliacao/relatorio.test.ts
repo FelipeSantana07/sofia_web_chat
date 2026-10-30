@@ -11,6 +11,7 @@ function resultado(id: string, ok: boolean, execucao = 1): ResultadoRoteiro {
           cliente: "Meu CEP é 123",
           sofia: "Esse CEP é inválido.\nPode conferir?",
           ferramentas: [{ nome: "calcular_frete", argumentos: { cep: "123" }, resultado: { ok: false, erro: "CEP inválido" }, duracaoMs: 2 }],
+          primeiroTextoMs: 1500,
           duracaoMs: 2300,
         },
       ],
@@ -40,8 +41,15 @@ describe("gerarRelatorio", () => {
     expect(md).toContain("## ❌ Roteiro b (`b`)");
     expect(md).toContain("**1. Cliente:** Meu CEP é 123");
     expect(md).toContain('- `calcular_frete({"cep":"123"})` → erro: CEP inválido');
-    expect(md).toContain("**Sofia** (2.3 s):\n\n> Esse CEP é inválido.\n> Pode conferir?");
+    expect(md).toContain("**Sofia** (primeiro texto em 1.5 s · total 2.3 s):\n\n> Esse CEP é inválido.\n> Pode conferir?");
     expect(md).toContain("- ❌ a Sofia diz algo como /CEP/ — não apareceu | nas falas");
+  });
+
+  it("resume os tempos e mostra a configuração do modelo", () => {
+    const comConfig = gerarRelatorio({ modelo: "m", quando: "q", configuracao: "temperatura 0.3", resultados: [resultado("a", true)] });
+    expect(comConfig).toContain("- **Modelo:** m (temperatura 0.3)");
+    expect(comConfig).toContain("- **Tempo até o primeiro texto:** mediana 1.5 s, máximo 1.5 s");
+    expect(comConfig).toContain("- **Resposta completa:** mediana 2.3 s, máximo 2.3 s");
   });
 
   it("numera as execuções quando um roteiro roda mais de uma vez", () => {

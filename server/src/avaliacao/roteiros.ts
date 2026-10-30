@@ -119,11 +119,13 @@ export const ROTEIROS: Roteiro[] = [
   {
     id: "estoque-baixo",
     titulo: "Estoque baixo e insuficiente",
-    objetivo: "Pedido acima do estoque é recusado pela ferramenta; a Sofia informa quantas unidades há, sem escassez falsa.",
+    objetivo:
+      "Pedido acima do estoque: a Sofia informa quantas unidades há (pela ferramenta) e nunca oferece mais do que isso, sem escassez falsa.",
     mensagens: ["Quero o kit para engrossar fios finos (PH-002). Me vê 5 unidades."],
     espera: {
-      erroEm: ["adicionar_ao_carrinho"],
       textoContem: [/\b(2|duas) unidades\b/i],
+      // Nunca promete as 5: ou a ferramenta recusou, ou ela já sabia do estoque.
+      textoNaoContem: [/(adicion|separ|coloc|reserv)\w*[^.!?\n]{0,30}\b(5|cinco) unidades/i],
     },
   },
   {

@@ -70,7 +70,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 **Fase 8 · Avaliação** · branch `test/conversas`
 
 - [x] T-32 · Conversas-teste — commit: 0f4faf0
-- [ ] T-33 · Ajustes do prompt — commit: —
+- [x] T-33 · Ajustes do prompt — commit: —
 
 **Fase 9 · Entrega** · branch `docs/entrega`
 

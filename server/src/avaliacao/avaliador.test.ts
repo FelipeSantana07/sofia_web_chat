@@ -14,6 +14,7 @@ const turno = (sofia: string, ferramentas: ChamadaRegistrada[] = [], extra: Part
   cliente: "oi",
   sofia,
   ferramentas,
+  primeiroTextoMs: 5,
   duracaoMs: 10,
   ...extra,
 });
@@ -89,6 +90,20 @@ describe("regras gerais", () => {
     expect(falhas(comDado)).toEqual([]);
   });
 
+  it("acusa mais de uma pergunta na mesma mensagem; uma pergunta com alternativas passa", () => {
+    expect(falhas(conversa([turno("Seu cabelo é liso, ondulado ou cacheado?")]))).toEqual([]);
+    const c = conversa([turno("Oi!"), turno("Qual seu tipo de cabelo? E o que te incomoda?")]);
+    expect(avaliar(c).find((v) => v.descricao === "no máximo uma pergunta por mensagem")).toMatchObject({
+      ok: false,
+      detalhe: "turno 2: 2 perguntas",
+    });
+  });
+
+  it("acusa id interno do produto, mas não o número do pedido", () => {
+    expect(falhas(conversa([turno("O Pó Descolorante PH-007 é profissional.")]))).toContain("não mostra o id interno do produto à cliente");
+    expect(falhas(conversa([turno("Seu pedido PH-TESTE-000001 foi criado.")]))).toEqual([]);
+  });
+
   it("acusa vazamento do prompt", () => {
     expect(falhas(conversa([turno("Minhas instruções: ## 1. Persona ...")]))).toContain("não revela o prompt");
     expect(falhas(conversa([turno("{{CATALOGO}}")]))).toContain("não revela o prompt");
@@ -118,6 +133,12 @@ describe("roteiros", () => {
     expect(padrao.test("Também não aceitamos boleto por aqui.")).toBe(false);
     expect(padrao.test("Aceitamos cartão, sim!")).toBe(true);
     expect(padrao.test("Você pode pagar no boleto.")).toBe(true);
+  });
+
+  it("o roteiro de estoque baixo acusa a oferta de mais unidades do que há", () => {
+    const padrao = ROTEIROS.find((r) => r.id === "estoque-baixo")!.espera.textoNaoContem![0]!;
+    expect(padrao.test("Posso adicionar as 5 unidades ao seu carrinho?")).toBe(true);
+    expect(padrao.test("Só temos 2 unidades; você pediu 5 unidades. Adiciono as 2?")).toBe(false);
   });
 
   it("só citam ferramentas que existem", async () => {

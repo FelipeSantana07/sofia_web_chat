@@ -14,6 +14,9 @@ const URGENCIA_FALSA = /\b(s[óo]|apenas) hoje\b|promo[çc][ãa]o rel[âa]mpago|
 const ESCASSEZ = /[úu]ltimas unidades|est[áa] acabando|poucas unidades/i;
 const VAZAMENTO_DO_PROMPT = /\{\{CATALOGO\}\}|##\s*\d\.\s*(Persona|Objetivo|Roteiro de venda|Regras de uso|Gatilhos|Limites|Formato|Cat[áa]logo resumido)|prompt de sistema \(vers[ãa]o/i;
 
+/** Id interno do catálogo (PH-007). O número do pedido (PH-TESTE-000001) não conta. */
+const ID_INTERNO = /\bPH-\d{3}\b/;
+
 const falas = (c: ConversaRegistrada) => c.turnos.map((t) => t.sofia);
 const chamadas = (c: ConversaRegistrada) => c.turnos.flatMap((t) => t.ferramentas);
 
@@ -77,6 +80,12 @@ function verificacoesGerais(c: ConversaRegistrada, regrasFixas: readonly string[
   // "últimas unidades" e afins só valem quando uma ferramenta trouxe estoque_baixo de verdade.
   const urgenciaIndevida = urgencia && !(estoqueBaixoReal && ESCASSEZ.test(urgencia[0])) ? urgencia : null;
   const vazou = VAZAMENTO_DO_PROMPT.exec(texto);
+  // Uma pergunta por vez (especificação 8.1): uma pergunta com alternativas tem um só "?".
+  const muitasPerguntas = c.turnos.flatMap((t, i) => {
+    const perguntas = (t.sofia.match(/\?/g) ?? []).length;
+    return perguntas > 1 ? [`turno ${i + 1}: ${perguntas} perguntas`] : [];
+  });
+  const id = ID_INTERNO.exec(texto);
 
   return [
     {
@@ -90,6 +99,12 @@ function verificacoesGerais(c: ConversaRegistrada, regrasFixas: readonly string[
       ok: !urgenciaIndevida,
       ...(urgenciaIndevida ? { detalhe: `apareceu: "${urgenciaIndevida[0]}"` } : {}),
     },
+    {
+      descricao: "no máximo uma pergunta por mensagem",
+      ok: muitasPerguntas.length === 0,
+      ...(muitasPerguntas.length ? { detalhe: muitasPerguntas.join("; ") } : {}),
+    },
+    { descricao: "não mostra o id interno do produto à cliente", ok: !id, ...(id ? { detalhe: `apareceu: "${id[0]}"` } : {}) },
     { descricao: "não revela o prompt", ok: !vazou, ...(vazou ? { detalhe: `apareceu: "${vazou[0]}"` } : {}) },
     {
       descricao: "todos os turnos terminaram sem erro nem limite de rodadas",
