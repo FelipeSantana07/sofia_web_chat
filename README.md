@@ -118,3 +118,9 @@ A preencher na T-34.
 - T-17 · Os tipos que atravessam server e web (`PerfilCliente`, `Pedido`, `StatusPedido`) ficam em `packages/shared`; o `EstadoSessao` fica no server porque guarda o `Carrinho` do domínio — o web não precisa do carrinho cru, só de uma visão dele, que vem nas respostas.
 - T-17 · `Pedido` tem só `id` e `status` por ora — itens, entrega e totais entram na T-25, que estende o tipo, para não definir duas vezes o formato do pedido.
 - T-17 · As sessões ficam em memória, sem expiração, e o id é validado (`[A-Za-z0-9_-]`, até 100 caracteres) porque vem do cliente — é um teste local sem banco, conforme a Parte 4; o reinício do servidor zera as conversas.
+- T-18 · A busca por `termo` ignora acentos, caixa e palavras genéricas (de, para, cabelo…), compara pelo radical de 6 letras e ordena por quantas palavras casam — assim "cabelo ressecado" acha "ressecamento" sem um motor de busca para 15 produtos.
+- T-18 · Filtro `uso` inclui os produtos de uso `ambos` e deixa de fora os de `uso: null`, avisando quantos ficaram de fora — a ficha não informa o uso deles e a Sofia não deve afirmar.
+- T-18 · Campo `null` da ficha volta como "sem informação", listado em `campos_sem_informacao`; produto profissional ou de uso desconhecido traz `aviso_uso` — o sinal explícito evita que o modelo preencha a lacuna, e cobre a regra 8.4 de avisar sobre uso profissional.
+- T-18 · O peso do produto não é exposto ao modelo — é dado interno do cálculo de frete, e a Sofia não deve falar em peso estimado.
+- T-18/T-19 · Valores monetários voltam como `{ centavos, texto }` (ex.: `R$ 279,40`) — o modelo copia o texto pronto e não formata nem soma.
+- T-18/T-19 · Erros de validação dos argumentos voltam como `{ ok: false, erro, campos }` em português, com mensagens próprias em vez do locale `pt` do zod ("Demasiado pequeno" é português de Portugal) — a Sofia se corrige na chamada seguinte.

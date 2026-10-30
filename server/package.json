@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@google/genai": "^2.32.0",
-    "@sofia/shared": "workspace:*"
+    "@sofia/shared": "workspace:*",
+    "zod": "^4.6.7"
   }
 }
