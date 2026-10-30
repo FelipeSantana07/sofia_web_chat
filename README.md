@@ -74,3 +74,4 @@ A preencher na T-34.
 - T-06 · Meio centavo arredonda para cima (arredondamento comercial) e o percentual é calculado em inteiros (pontos-base) — evita erro de ponto flutuante nas etapas de cupom e desconto PIX.
 - T-06 · `formatarBRL` monta a string à mão, sem `Intl` — o `Intl` insere espaço não separável após "R$", e a saída precisa ser exatamente `R$ 279,40`.
 - T-06 · Valores negativos ou não inteiros em centavos lançam `RangeError` — dinheiro inválido deve falhar alto, e as ferramentas convertem o erro em mensagem amigável.
+- T-07 · CEP fora de todas as faixas (inclui 00000-000 a 00999-999) devolve erro amigável, sem exceção — o resultado é `{ ok, zona | erro }` para as ferramentas repassarem a mensagem à cliente.
