@@ -57,18 +57,24 @@ Estruture em blocos claros e versionados:
 
 | Ferramenta | O que faz | Quando a IA chama |
 | --- | --- | --- |
-| `buscar_produtos` | Filtra o catálogo por necessidade, categoria ou preço | Antes de qualquer recomendação |
-| `detalhes_produto` | Retorna a ficha completa de um produto | Ao responder dúvidas específicas |
-| `produtos_complementares` | Retorna o que combina com um produto (`combina_com` e kits) | Depois de cada recomendação aceita |
+| `buscar_produtos(termo?, categoria?, uso?)` | Lista resumida do catálogo (id, nome, preço, uma linha de descrição), filtrando por termo, categoria ou uso | Antes de qualquer recomendação |
+| `detalhar_produto(id)` | Retorna a ficha completa de um produto (do JSON) | Ao responder dúvidas específicas |
+| `produtos_complementares(id)` | Retorna o que combina com um produto (`combina_com` e kits) | Depois de cada recomendação aceita |
 | `atualizar_perfil` | Grava o que a cliente contou sobre si | A cada informação nova |
-| `calcular_frete` | Aplica a tabela fixa a partir do CEP e do carrinho; devolve as opções Econômica e Expressa e quanto falta para o frete grátis | Quando a cliente informar o CEP ou antes do checkout |
-| `adicionar_ao_carrinho` / `remover_do_carrinho` | Altera o carrinho respeitando estoque e o limite de 10 unidades | Quando a cliente confirmar |
-| `aplicar_cupom` | Valida e aplica o PROHALL10 | Quando a cliente informar um código |
-| `ver_carrinho` | Retorna itens, subtotal, cupom, frete, desconto PIX e total | Antes do checkout |
-| `finalizar_pedido` | Cria o pedido falso com os dados da cliente (mesmo pedido do formulário) | Quando a cliente quiser fechar |
-| `gerar_pix` | Gera o QR Code e o "copia e cola" falsos, com validade de 15 min | Após o pedido, ou quando o PIX expirar |
+| `calcular_frete(cep)` | Aplica a tabela fixa ao CEP usando o peso e a base do carrinho da sessão; devolve zona, opções Econômica e Expressa com prazos e quanto falta para o frete grátis | Quando a cliente informar o CEP ou antes do checkout |
+| `adicionar_ao_carrinho(id, quantidade)` / `remover_do_carrinho(id, quantidade?)` | Altera o carrinho respeitando estoque e o limite de 10 unidades; remover sem quantidade tira o item todo; devolve o carrinho atualizado | Quando a cliente confirmar |
+| `aplicar_cupom(codigo)` | Valida e aplica o PROHALL10 | Quando a cliente informar um código |
+| `ver_carrinho()` | Retorna itens, subtotal, cupom, base e peso cobrado; com o CEP informado, também frete, desconto PIX e total | Antes do checkout |
+| `finalizar_pedido(nome, email, cep, endereco, numero, complemento?, modalidade_frete)` | Cria o pedido falso com status `aguardando_pagamento` e devolve resumo e totais (mesmo pedido do formulário) | Quando a cliente quiser fechar |
+| `gerar_pix(pedido_id)` | Gera o QR Code e o "copia e cola" falsos, com validade de 15 min | Após o pedido, ou quando o PIX expirar |
+| `consultar_pedido(pedido_id)` | Devolve o status do pedido (`aguardando_pagamento` ou `pago`) e do PIX (`ativo` ou `expirado`) | Para confirmar o pagamento ou checar se o PIX expirou |
 
 Preços, totais e frete são sempre calculados no backend, nunca pelo modelo.
+
+- **Base:** a Parte 4 da especificação lista as ferramentas mínimas. `produtos_complementares` e `atualizar_perfil` são extras deste projeto, para as etapas 1 (entender a cliente) e 4 (combinar) do fluxo de venda.
+- **Estado:** carrinho, perfil e pedido ficam no backend, em memória, por sessão de conversa.
+- **Erros de validação** (id inexistente, quantidade negativa, CEP com letra…) voltam para a IA como resposta da função, sem exceção, para ela se corrigir.
+- **Catálogo no prompt:** um resumo sem preço e sem estoque (id, nome, categoria, uso e para quem é indicado), gerado do `data/produtos.json` ao subir o servidor, entra no prompt de sistema; preço, estoque e ficha completa vêm só das ferramentas.
 
 ### Limites (guardrails)
 

@@ -150,6 +150,31 @@ Nesse caso a IA pode lembrar: "faltam R$ 29,00 para o frete sair grátis". Este 
 - Máximo de **10 unidades por item**.
 - **Pagamento:** só PIX (falso). Se a cliente pedir cartão ou boleto, a IA explica que nesta versão só há PIX.
 
+## Parte 4 · Ferramentas da IA (function calling) · obrigatório
+
+**Princípio:** a IA conversa e decide; o código calcula e guarda. Preço, frete, totais, estoque e PIX vêm sempre das funções. Se a IA fizer conta "de cabeça" ou inventar um valor, perde muitos pontos.
+
+Ferramentas mínimas (os nomes são livres, a ideia é esta):
+
+| Ferramenta | O que faz |
+| --- | --- |
+| `buscar_produtos(termo?, categoria?, uso?)` | Lista resumida: id, nome, preço, uma linha de descrição |
+| `detalhar_produto(id)` | Ficha completa do produto (do JSON) |
+| `adicionar_ao_carrinho(id, quantidade)` | Valida id e estoque, devolve o carrinho atualizado |
+| `remover_do_carrinho(id, quantidade?)` | Remove tudo ou parte |
+| `ver_carrinho()` | Itens, subtotal, cupom, base, peso cobrado |
+| `aplicar_cupom(codigo)` | Valida o cupom pelas regras da seção 6 |
+| `calcular_frete(cep)` | Usa o peso e a base do carrinho atual; devolve zona, opções, prazos e quanto falta para o frete grátis |
+| `finalizar_pedido(nome, email, cep, endereco, numero, complemento?, modalidade_frete)` | Cria o pedido com status `aguardando_pagamento` e devolve resumo e totais |
+| `gerar_pix(pedido_id)` | Gera o PIX falso (seção 9) |
+| `consultar_pedido(pedido_id)` | Devolve o status do pedido |
+
+Observações:
+
+- O estado (carrinho, pedido) fica no backend, por sessão de conversa. Pode ser em memória: não precisa de banco.
+- Valide os argumentos que a IA manda (id inexistente, quantidade negativa, CEP com letra…). Erro de validação volta para a IA como resposta da função, para ela se corrigir.
+- 15 produtos cabem no contexto: você pode colocar um resumo do catálogo no prompt de sistema e usar `detalhar_produto` para a ficha completa, ou fazer tudo via ferramentas. Explique sua escolha no README.
+
 ## Parte 5 · Comportamento da vendedora (estilo Sofia)
 
 ### 8.1 Persona

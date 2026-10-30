@@ -87,7 +87,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 | 3 · Catálogo | `feat/catalogo` | produtos.json com os 15 produtos + schema zod que valida o arquivo | Trabalho mais manual; pode correr em paralelo à fase 2 |
 | 4 · Ferramentas | `feat/ferramentas` | As ferramentas com zod e o estado da sessão (perfil, carrinho, pedido) | Junta domínio e catálogo |
 | 5 · Agente | `feat/agente` | prompts/sofia.md, loop de function calling, logs, rota /chat com streaming | Núcleo do projeto; já com dados e cálculos confiáveis |
-| 6 · Checkout e PIX | `feat/checkout-pix` | finalizar_pedido, PIX falso, QR Code, expiração em 15 min, "Simular pagamento" | Depende do pedido e dos totais |
+| 6 · Checkout e PIX | `feat/checkout-pix` | finalizar_pedido, PIX falso, QR Code, expiração em 15 min, "Simular pagamento", consultar_pedido | Depende do pedido e dos totais |
 | 7 · Interface | `feat/web` | Chat, cards de produto, carrinho, checkout, PIX, painel de debug | Por último: prioridade menor no escopo do teste |
 | 8 · Avaliação | `test/conversas` | Conversas-teste (limites, injection, CEP inválido) e ajuste do prompt | Refino com tudo funcionando |
 | 9 · Entrega | `docs/entrega` | README final e vídeo | Fechamento |
@@ -244,8 +244,8 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 
 #### T-18 · Ferramentas de catálogo e perfil
 
-- **Objetivo:** buscar_produtos, detalhes_produto, produtos_complementares, atualizar_perfil.
-- **Critério de aceite:** Argumentos validados com zod; campos null retornam sinal explícito de "sem informação"; testes.
+- **Objetivo:** buscar_produtos, detalhar_produto, produtos_complementares, atualizar_perfil.
+- **Critério de aceite:** Argumentos validados com zod; buscar_produtos filtra por termo, categoria e uso e devolve lista resumida (id, nome, preço, uma linha de descrição); campos null retornam sinal explícito de "sem informação"; testes.
 - **Depende de:** T-15, T-17
 - **Branch:** `feat/ferramentas`
 - **Commit sugerido:** `feat(tools): ferramentas de catálogo e perfil`
@@ -253,7 +253,7 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 #### T-19 · Ferramentas de carrinho, cupom e frete
 
 - **Objetivo:** adicionar/remover_do_carrinho, aplicar_cupom, ver_carrinho, calcular_frete.
-- **Critério de aceite:** Chamam só o domínio; erros amigáveis (CEP inválido, estoque insuficiente, cupom inválido); frete devolve as duas modalidades e quanto falta para o grátis.
+- **Critério de aceite:** Chamam só o domínio; erros amigáveis (CEP inválido, estoque insuficiente, cupom inválido); adicionar e remover devolvem o carrinho atualizado, e remover aceita quantidade parcial; ver_carrinho inclui base e peso cobrado; calcular_frete recebe só o CEP, usa o carrinho da sessão e devolve zona, as duas modalidades com prazos e quanto falta para o grátis.
 - **Depende de:** T-13, T-17
 - **Branch:** `feat/ferramentas`
 - **Commit sugerido:** `feat(tools): ferramentas de carrinho, cupom e frete`
@@ -261,7 +261,7 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 #### T-20 · Registro e despacho das ferramentas
 
 - **Objetivo:** Ligar as ferramentas ao formato do Gemini.
-- **Critério de aceite:** Cada schema zod vira a declaração de função do Gemini; dispatcher executa pelo nome; testes do despacho.
+- **Critério de aceite:** Cada schema zod vira a declaração de função do Gemini; dispatcher executa pelo nome; erro de validação volta à IA como resposta da função, sem exceção; testes do despacho.
 - **Depende de:** T-05, T-18, T-19
 - **Branch:** `feat/ferramentas`
 - **Commit sugerido:** `feat(tools): registro e despacho das ferramentas`
@@ -271,7 +271,7 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 #### T-21 · Prompt da Sofia
 
 - **Objetivo:** Escrever prompts/sofia.md.
-- **Critério de aceite:** Blocos de persona, fluxo de venda, gatilhos permitidos, limites e regras de uso das ferramentas, conforme a Parte 5.
+- **Critério de aceite:** Blocos de persona, fluxo de venda, gatilhos permitidos, limites e regras de uso das ferramentas, conforme a Parte 5; resumo do catálogo sem preço e sem estoque gerado do produtos.json e injetado no prompt; escolha explicada no README.
 - **Depende de:** T-20
 - **Branch:** `feat/agente`
 - **Commit sugerido:** `feat(agent): prompt de sistema da Sofia`
@@ -305,14 +305,14 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 #### T-25 · Pedido pela conversa e pelo formulário
 
 - **Objetivo:** finalizar_pedido e rota do checkout.
-- **Critério de aceite:** Os dois caminhos geram o mesmo pedido (ex.: PH-TESTE-000123) com itens, cupom, frete, desconto PIX e total.
+- **Critério de aceite:** finalizar_pedido(nome, email, cep, endereco, numero, complemento?, modalidade_frete) cria o pedido com status aguardando_pagamento e devolve resumo e totais; os dois caminhos geram o mesmo pedido (ex.: PH-TESTE-000123) com itens, cupom, frete, desconto PIX e total.
 - **Depende de:** T-19, T-23
 - **Branch:** `feat/checkout-pix`
 - **Commit sugerido:** `feat(checkout): pedido pela conversa e pelo formulário`
 
 #### T-26 · PIX falso
 
-- **Objetivo:** gerar_pix com QR Code e copia e cola.
+- **Objetivo:** gerar_pix(pedido_id) com QR Code e copia e cola.
 - **Critério de aceite:** Texto tipo PIX-TESTE|PROHALL|<pedido>|<valor>|NAO-PAGAVEL; nunca BR Code/EMV; validade de 15 min; status expirado e possibilidade de gerar outro.
 - **Depende de:** T-25
 - **Branch:** `feat/checkout-pix`
@@ -320,8 +320,8 @@ A fase 3 pode correr em paralelo à fase 2. A T-24 (CLI) permite conversar com a
 
 #### T-27 · Simular pagamento
 
-- **Objetivo:** Fechar o ciclo do pedido.
-- **Critério de aceite:** Rota muda o status para pago e a Sofia envia a confirmação no chat.
+- **Objetivo:** Fechar o ciclo do pedido, com consultar_pedido.
+- **Critério de aceite:** Rota muda o status para pago e a Sofia envia a confirmação no chat; consultar_pedido(pedido_id) devolve o status do pedido e do PIX.
 - **Depende de:** T-26
 - **Branch:** `feat/checkout-pix`
 - **Commit sugerido:** `feat(pix): simulação de pagamento`
