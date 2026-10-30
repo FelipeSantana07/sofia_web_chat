@@ -25,7 +25,7 @@ cp .env.example .env
 | `PORT` | Porta do servidor | `3000` |
 
 ```bash
-pnpm dev    # sobe server e web juntos
+pnpm dev    # sobe server (3000) e web (5173) juntos; abra http://localhost:5173
 pnpm test   # roda os testes (Vitest)
 pnpm gemini:teste   # chamada simples ao Gemini (modo mock sem chave)
 pnpm gemini:ferramentas   # spike de function calling (exige chave real)
@@ -34,7 +34,7 @@ pnpm chat   # conversa com a Sofia no terminal, mostrando as ferramentas; /pagar
 pnpm estoque:repor [n]   # soma n unidades (padrão 10) ao estoque de todos os produtos
 ```
 
-O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
+A interface abre em `http://localhost:5173`; o Vite encaminha `/api` para o servidor (se mudar a `PORT`, rode o web com `SERVER_PORT` igual). O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
 
 - `POST /api/chat` com `{ "mensagem": "...", "sessaoId": "opcional" }` responde em Server-Sent Events: `sessao` (id da conversa, reenviado nas mensagens seguintes), `texto` (pedaços da resposta), `ferramenta` (nome, argumentos e resultado de cada chamada), `fim` (texto completo) e `erro`.
 - `GET /api/saude` responde `{ "ok": true }`.

@@ -62,7 +62,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 **Fase 7 · Interface** · branch `feat/web`
 
-- [ ] T-28 · Chat com streaming — commit: —
+- [x] T-28 · Chat com streaming — commit: —
 - [ ] T-29 · Cards de produto e carrinho — commit: —
 - [ ] T-30 · Checkout e tela do PIX — commit: —
 - [ ] T-31 · Painel de debug — commit: —
