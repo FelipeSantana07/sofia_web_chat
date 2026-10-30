@@ -77,3 +77,4 @@ A preencher na T-34.
 - T-07 · CEP fora de todas as faixas (inclui 00000-000 a 00999-999) devolve erro amigável, sem exceção — o resultado é `{ ok, zona | erro }` para as ferramentas repassarem a mensagem à cliente.
 - T-08 · Acima de 5 kg a faixa é `F4` com `kgExcedentes` (em vez de uma faixa "F5") — o frete é F4 + adicional por kg, então o excedente fica explícito para a T-09.
 - T-09 · Tabelas 5.3 e 5.4 ficam como constantes em centavos em `frete.ts`, com prazo em dias úteis (mín/máx) — a tabela é fixa por enunciado e não precisa de arquivo externo; `calcularFrete` não aplica frete grátis (T-10).
+- T-10 · `faltaParaGratisCentavos` é `null` na Expressa e `0` quando o frete já é grátis — a Expressa nunca é grátis, então não existe "quanto falta"; assim a IA não oferece um gatilho que não existe.
