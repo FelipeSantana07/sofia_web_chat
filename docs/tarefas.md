@@ -16,7 +16,7 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 
 - [x] T-01 · Estrutura do monorepo — commit: —
 - [x] T-02 · TypeScript, Vitest e scripts — commit: —
-- [ ] T-03 · Contexto, README e ambiente — commit: —
+- [x] T-03 · Contexto, README e ambiente — commit: —
 
 **Fase 1 · Teste do Gemini** · branch `spike/gemini`
 
