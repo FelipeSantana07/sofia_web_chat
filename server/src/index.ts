@@ -1,6 +1,14 @@
+import { lerConfigGemini, montarSofia } from "./agent/montar.js";
+import { criarRegistroArquivo } from "./agent/registro-log.js";
+import { criarApp } from "./app.js";
+import { carregarCatalogo } from "./catalogo/catalogo.js";
+import { criarStoreSessoes } from "./sessao/store.js";
+
+const { apiKey, modelo } = lerConfigGemini();
+const catalogo = carregarCatalogo();
+const agente = montarSofia({ apiKey, modelo, catalogo, registro: criarRegistroArquivo() });
+const app = criarApp({ agente, store: criarStoreSessoes(), logger: true });
+
 const porta = Number(process.env.PORT ?? 3000);
-
-console.log(`[server] stub ativo (porta ${porta}); Fastify entra nas tarefas do agente`);
-
-// Mantém o processo vivo para o `pnpm dev` (substituído pelo Fastify depois).
-setInterval(() => {}, 1 << 30);
+await app.listen({ port: porta, host: "127.0.0.1" });
+app.log.info(`Sofia no ar com ${modelo} e ${catalogo.produtos.length} produtos.`);

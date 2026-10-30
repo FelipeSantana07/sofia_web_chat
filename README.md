@@ -32,6 +32,12 @@ pnpm gemini:ferramentas   # spike de function calling (exige chave real)
 pnpm validate:catalogo   # valida data/produtos.json contra o schema
 ```
 
+O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
+
+- `POST /api/chat` com `{ "mensagem": "...", "sessaoId": "opcional" }` responde em Server-Sent Events: `sessao` (id da conversa, reenviado nas mensagens seguintes), `texto` (pedaços da resposta), `ferramenta` (nome, argumentos e resultado de cada chamada), `fim` (texto completo) e `erro`.
+- `GET /api/saude` responde `{ "ok": true }`.
+- Cada mensagem e cada chamada de ferramenta ficam registradas em `logs/conversas.jsonl`.
+
 ## Estrutura
 
 ```
@@ -136,3 +142,6 @@ A preencher na T-34.
 - T-22 · O histórico fica na sessão e o turno só é gravado quando termina: se o modelo falhar no meio, a cliente recebe um erro amigável e o histórico não fica pela metade (as mudanças que as ferramentas já fizeram no carrinho continuam valendo e aparecem no próximo `ver_carrinho`).
 - T-22 · Log em JSON Lines (`logs/conversas.jsonl`, ignorado pelo Git): mensagem da cliente, cada chamada de ferramenta com argumentos, resultado e duração, a resposta da Sofia e erros — mostra o raciocínio da venda sem depender de banco.
 - T-22 · O agente depende de uma interface mínima de modelo (`ModeloChat`), com o adaptador do Gemini à parte — os testes rodam o loop inteiro com um modelo roteirizado, sem chamar a API.
+- T-23 · `POST /api/chat` responde em Server-Sent Events sobre o próprio POST (`text/event-stream`), com um evento por acontecimento do agente — o front lê com `fetch` e um leitor de stream; um `EventSource` exigiria GET e a mensagem na URL.
+- T-23 · Uma resposta por vez por sessão (a segunda mensagem simultânea recebe 409) e o turno vai até o fim mesmo se a cliente fechar a conexão — duas respostas paralelas embaralhariam histórico e carrinho, e um turno cortado deixaria o carrinho alterado sem registro no histórico.
+- T-23 · O servidor escuta só em `127.0.0.1` e encerra no start se `GEMINI_API_KEY` faltar — é um teste local, e falhar cedo é mais claro que falhar na primeira mensagem.

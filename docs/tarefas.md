@@ -50,8 +50,8 @@ Backlog de desenvolvimento em ordem. Fonte da verdade para o que fazer e para o 
 **Fase 5 · Agente** · branch `feat/agente`
 
 - [x] T-21 · Prompt da Sofia — commit: 36edf0e
-- [x] T-22 · Loop de function calling — commit: —
-- [ ] T-23 · Rota /chat com streaming — commit: —
+- [x] T-22 · Loop de function calling — commit: 9bd3aa4
+- [x] T-23 · Rota /chat com streaming — commit: —
 - [ ] T-24 · CLI de conversa — commit: —
 
 **Fase 6 · Checkout e PIX** · branch `feat/checkout-pix`
