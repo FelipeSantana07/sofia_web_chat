@@ -30,6 +30,7 @@ pnpm test   # roda os testes (Vitest)
 pnpm gemini:teste   # chamada simples ao Gemini (modo mock sem chave)
 pnpm gemini:ferramentas   # spike de function calling (exige chave real)
 pnpm validate:catalogo   # valida data/produtos.json contra o schema
+pnpm chat   # conversa com a Sofia no terminal, mostrando as ferramentas (exige chave real)
 ```
 
 O servidor sobe em `http://127.0.0.1:3000` (porta de `PORT`):
@@ -145,3 +146,4 @@ A preencher na T-34.
 - T-23 · `POST /api/chat` responde em Server-Sent Events sobre o próprio POST (`text/event-stream`), com um evento por acontecimento do agente — o front lê com `fetch` e um leitor de stream; um `EventSource` exigiria GET e a mensagem na URL.
 - T-23 · Uma resposta por vez por sessão (a segunda mensagem simultânea recebe 409) e o turno vai até o fim mesmo se a cliente fechar a conexão — duas respostas paralelas embaralhariam histórico e carrinho, e um turno cortado deixaria o carrinho alterado sem registro no histórico.
 - T-23 · O servidor escuta só em `127.0.0.1` e encerra no start se `GEMINI_API_KEY` faltar — é um teste local, e falhar cedo é mais claro que falhar na primeira mensagem.
+- T-24 · `pnpm chat` usa o mesmo agente, prompt, ferramentas e log do servidor, sem HTTP, e mostra cada ferramenta com argumentos, resultado e duração; aceita mensagens por pipe (uma por linha) além do modo interativo — permite conversar com a Sofia antes da interface e rodar roteiros de teste inteiros (T-32) com um comando.

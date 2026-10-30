@@ -8,7 +8,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "gemini:teste": "tsx --env-file-if-exists=../.env scripts/teste-gemini.ts",
     "gemini:ferramentas": "tsx --env-file-if-exists=../.env scripts/teste-function-calling.ts",
-    "validate:catalogo": "tsx scripts/validar-catalogo.ts"
+    "validate:catalogo": "tsx scripts/validar-catalogo.ts",
+    "chat": "tsx --env-file-if-exists=../.env scripts/chat.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

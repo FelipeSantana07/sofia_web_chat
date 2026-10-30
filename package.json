@@ -12,7 +12,8 @@
     "typecheck": "pnpm -r typecheck",
     "gemini:teste": "pnpm --filter @sofia/server gemini:teste",
     "gemini:ferramentas": "pnpm --filter @sofia/server gemini:ferramentas",
-    "validate:catalogo": "pnpm --filter @sofia/server validate:catalogo"
+    "validate:catalogo": "pnpm --filter @sofia/server validate:catalogo",
+    "chat": "pnpm --filter @sofia/server chat"
   },
   "devDependencies": {
     "typescript": "^7.0.2",
